@@ -230,8 +230,8 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                                 //   echo  '<form method=post action="" ><input type="submit" value="Feedcam'."'s".' Store" name="database" style="height: 35px; width: 180px; font-size:13px;color:#00BFFF;" /><img src="http://www.essentialsql.com/wp-content/uploads/2014/05/database-parts.jpg" height="42" width="60"></img></form>';
                              $url = new moodle_url('');
                                echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','feedcam'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => '')).'</td><td>';
-                               echo  html_writer::link($url, '<img src = "http://www.essentialsql.com/wp-content/uploads/2014/05/database-parts.jpg" class = "databaseimage" id="databaseimage" />');
-
+                               echo  html_writer::link($url, '<img src = "pix/database.png" class = "databaseimage" id="databaseimage" />');
+                               //http://www.grace-fp7.eu/sites/default/files/imagecache/Article-popup/article-images/Database_iStock_000020783950XSmall_0.jpg
                             }
                            echo '</td><tr></table>' ;
                       // echo html_writer::end_tag('div');
