@@ -31,16 +31,16 @@ playButton.addEventListener("click", function() {
    // alert("paly");
     video.play();
     audio.play();
-
     // Update the button text to 'Pause'
-    playButton.innerHTML = "Pause";
+    playButton.value = "Pause";
+   // get_string('pausewatch','feedcam');
     
   } else {
     // Pause the video
     video.pause();
     audio.pause();
     // Update the button text to 'Play'
-    playButton.innerHTML = "Play";
+    playButton.value = "Play";
   }
 });
 
@@ -55,7 +55,7 @@ muteButton.addEventListener("click", function() {
     audio.muted=true;
 
     // Update the button text
-    muteButton.innerHTML = "Unmute";
+    muteButton.value = "Unmute";
   } 
   
     else {
@@ -64,7 +64,7 @@ muteButton.addEventListener("click", function() {
     audio.muted=false;
 
     // Update the button text
-    muteButton.innerHTML = "Mute";
+    muteButton.value = "Mute";
   }
 });
 

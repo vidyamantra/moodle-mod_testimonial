@@ -1,4 +1,26 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * FeedCam module core interaction API
+ *
+ * @package    mod_feedcam
+ * @copyright  2014 Krishna Pratap Singh {@link krishna@vidyamantra.com}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 /**
  * Define the complete feedcam structure for backup, with file and id annotations
@@ -16,7 +38,6 @@ class backup_feedcam_activity_structure_step extends backup_activity_structure_s
             'introformat', 'timecreated', 'timemodified', 'completionrecord', 'completionwatch'));
  
     //    $videos = new backup_nested_element('video');
-
         $video = new backup_nested_element('videos', array('id'), array(
                                                 'user_id',
                                                 'name',
@@ -36,12 +57,10 @@ class backup_feedcam_activity_structure_step extends backup_activity_structure_s
         $feedcam->add_child($watching);
        // $watchings->add_child($watching);
  
-      
-        
         // Define sources
         $feedcam->set_source_table('feedcam', array('id' => backup::VAR_ACTIVITYID));
 
-          $video->set_source_sql('
+        $video->set_source_sql('
                 SELECT *
                   FROM {videos}
                  WHERE feedcam_id = ?',
@@ -49,13 +68,13 @@ class backup_feedcam_activity_structure_step extends backup_activity_structure_s
         
          if ($userinfo) {
               $watching->set_source_table('feedcam_watching', array('feedcam_id' => backup::VAR_PARENTID));
-        }
+          }
  
         // Define id annotations
-      //   $watching->annotate_ids('user', 'user_id');
+        //   $watching->annotate_ids('user', 'user_id');
  
         // Define file annotations
-          $watching->annotate_ids('user', 'user_id');
+         $watching->annotate_ids('user', 'user_id');
          $feedcam->annotate_files('mod_feedcam', 'intro', null); // This file area does not have an itemid
  
         // Return the root element (feedcam), wrapped into standard activity structure

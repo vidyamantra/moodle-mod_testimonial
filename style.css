@@ -1,14 +1,14 @@
 #page-mod-feedcam-view #record {
-    height: 32px; width: 140px; color:#36AE79;
+    height: 35px; width: 200px; color:#36AE79;
 }
 #page-mod-feedcam-view #stop {
-height: 35px; width: 150px; color:red;
+height: 35px; width: 150px;
 }
 #page-mod-feedcam-view #delete {
-height: 35px; width: 150px; color:red;
+height: 35px; width: 150px;
 }
 #page-mod-feedcam-view #store {
-height: 35px; width: 160px; font-size:13px;color:#00BFFF;
+height: 40px; width: 200px; font-size:13px;color:#00BFFF;margin-left: 0%;
 }
 #page-mod-feedcam-view .databaseimage {
  height:42px; width:60px;
@@ -30,7 +30,7 @@ text-align:justify;font-size:12px;color: #333333;font-family: Century Gothic, sa
 margin-left:0px;margin-top:15px;text-align: center; border-right:1px solid #0070a8;height:500px;width:890px;
 }
 #page-mod-feedcam-view  #container{
-padding:1em 1em; width: 600px; height: 200px;margin-top: 70px;
+padding:1em 1em; width: 600px; height: 200px;margin-top: 30px;
 }
 #page-mod-feedcam-view  #preview{
 border:1px solid #0070a8;height: 430px; width: 580px;
@@ -47,5 +47,23 @@ height: 40px; width: 180px;
 }
 
 #page-mod-feedcam-view  #storetable{
-overflow: scroll; width: 500px; height: 600px;margin-left:35%;
+overflow: scroll; width: 500px; height: 600px;margin-left:15%;
 }
+
+.watch{
+height: 30px; width: 150px;
+}
+
+.watch2{
+height: 30px; width: 90px;
+}
+
+.watchbar{
+height: 20px; width: 220px;
+}
+
+.videowatch{
+border: 1px solid rgb(15, 158, 238); height: 500px; width: 660px;
+}
+
+

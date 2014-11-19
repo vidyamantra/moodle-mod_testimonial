@@ -38,7 +38,7 @@ Installation
 
 1. Unpack the "moodle-mod_feedcam.zip" and rename that unzipped folder to "feedcam" and place this folder into '/mod/' directory of moodle.
    
-2. The file structure for topicsrev would be something like. 
+2. The file structure for feedcam would be something like. 
 	[site-root]/mod/feedcam
 
 3. Now login to your Moodle site and go to Administration -> Site administration -> Notification, you will see a Notification for course format to be installed. Click “Upgrade Moodle Database now” button to continue for the installation procedure.    

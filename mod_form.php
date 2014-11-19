@@ -49,11 +49,15 @@ class mod_feedcam_mod_form extends moodleform_mod {
 
         // Adding the standard "name" field
         $mform->addElement('text', 'name', get_string('feedcamname', 'feedcam'), array('size'=>'64'));
+      
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
-        } else {
+         }
+         
+        else {
             $mform->setType('name', PARAM_CLEAN);
-        }
+         }
+         
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('name', 'feedcamname', 'feedcam');
@@ -64,17 +68,17 @@ class mod_feedcam_mod_form extends moodleform_mod {
         //-------------------------------------------------------------------------------
         // Adding the rest of feedcam settings, spreeading all them into this fieldset
         // or adding more fieldsets ('header' elements) if needed for better logic
-        $mform->addElement('static', 'label1', 'feedcamsetting1', 'Your feedcam fields go here. Replace me!');
+       // $mform->addElement('static', 'label1', 'feedcamsetting1', 'Your feedcam fields go here. Replace me!');
 
-        $mform->addElement('header', 'feedcamfieldset', get_string('feedcamfieldset', 'feedcam'));
-        $mform->addElement('static', 'label2', 'feedcamsetting2', 'Your feedcam fields go here. Replace me!');
+      //  $mform->addElement('header', 'feedcamfieldset', get_string('feedcamfieldset', 'feedcam'));
+      //  $mform->addElement('static', 'label2', 'feedcamsetting2', 'Your feedcam fields go here. Replace me!');
 
         
         //-------------------------------------------------------------------------------
         // add standard elements, common to all modules
         $this->standard_coursemodule_elements();
         
-              $select=$mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="25" ');
+           //     $select=$mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="25" ');
                //  $select = html_select::make(array('1' => 'Value 1', '2' => 'Value 2'), 'choice1', '2'));
         //-------------------------------------------------------------------------------
         // add standard buttons, common to all modules

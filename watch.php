@@ -13,6 +13,9 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
+
+//echo '<link href="style.css" type="text/css" rel="stylesheet"></link>';
+
 global $DB,$USER,$PAGE;
 //require_once(dirname(__FILE__).'/lib.php');
 
@@ -84,7 +87,7 @@ $id2='';$url2='';$feedcamid='';
                }
             }
            
-               echo "<font color='green'><b><div align='center'>you are watching : ".$name." .wav </b><br/><br/></font>";
+               echo "<font color='green'><b><div align='center'>you are watching : ".$name." </b><br/><br/></font>";
              //  echo "<video src='$url' id='player' style='border: 1px solid rgb(15, 158, 238); height: 500px; width: 700px;' autoplay></video></div><br/><br/>";
              //  echo "<audio autoplay src='$url2'></audio>"; 
                
@@ -116,29 +119,54 @@ $id2='';$url2='';$feedcamid='';
             //  echo '<script type="text/javascript" charset="utf-8" src="/mod/feedcam/js/need.js"></script>';
            // $PAGE->requires->js('/mod/feedcam/js/need.js'); 
              
-               echo '<script src="http://localhost/moodle27d/mod/feedcam/js/need.js"> </script>';
-            	
+             echo '<script src="js/need.js"> </script>';
+            echo '<link href="style.css" type="text/css" rel="stylesheet"></link>';
            
                 
-             echo '<div id="video-container">';
+          //   echo '<div id="video-container">';
+                    echo html_writer::start_tag('div', array('id' => 'video-container'));
                       //  <!-- Video -->
                          
-                      echo "<audio src='$url2'  id='audio' autoplay></audio>";
-                       echo "<video src='$url' id='video' style='border: 1px solid rgb(15, 158, 238); height: 500px; width: 700px;' autoplay></video></div><br/><br/>";
+                     //  echo "<audio src='$url2'  id='audio' autoplay></audio>";
+                      echo html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch','autoplay'=>'autoplay'));echo html_writer::end_tag('audio');
+                      echo html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch','autoplay'=>'autoplay'));echo html_writer::end_tag('video');
+                     //  echo "<video src='$url' id='video' style='border: 1px solid rgb(15, 158, 238); height: 500px; width: 700px;' autoplay></video></div><br/><br/>";
+                    echo html_writer::end_tag('div').'<br>';
+                          
+                    echo html_writer::start_tag('div', array('id' => 'buttonbar'));
                        
-                        echo "<A HREF='javascript:history.go(0)'><input type=button value='REPLAY' name='home' style='height: 30px; width: 150px;' /></A><button type='button' id='full-screen' style='height: 30px; width: 150px;'>Full-Screen</button><a href='javascript:window.close()'><button id='edit' name='database' style='height: 30px; width: 150px;'>Close this Window</button></a></a><br><br>";
-  
-                         
-                       echo '</video>';
-                         echo '<!-- Video Controls -->';
-                         echo '<div id="video-controls">';
-                         echo '<button type="button" id="play-pause" style="height: 30px; width: 100px;">Play</button>';
-                         echo '<input type="range" id="seek-bar" value="0"><br>';
-                         echo '<button type="button" id="mute" style="height: 30px; width: 100px;">Mute</button>';
-                         echo '<input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1"><br>';
+                        echo "<A HREF='javascript:history.go(0)'>";
+                          echo html_writer::empty_tag('input', array('type' => 'button','name'=>'home', 'value' => get_string('replaywatch','feedcam'),'id'=>'replaywatch', 'class'=>'watch'));
+                        echo "</A>";
                         
-                       echo '</div>';
-                     echo '</div>';
+                        
+                       // echo "<button type='button' id='full-screen' style='height: 30px; width: 150px;'>Full-Screen</button>";
+                       echo html_writer::empty_tag('input', array('type' => 'button','value' => get_string('fullscreenwatch','feedcam'),'id'=>'full-screen', 'class'=>'watch'));
+                     
+                       echo "<a href='javascript:window.close()'>";
+                         echo html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('closewindowwatch','feedcam'),'id'=>'edit', 'class'=>'watch'));
+                       // echo "<button id='edit' name='database' style='height: 30px; width: 150px;'>Close this Window</button>";
+                       echo "</a>";
+                        
+                   echo html_writer::end_tag('div').'<br>';
+                         
+                     //  echo '</video>';
+                         echo '<!-- Video Controls -->';
+                         echo html_writer::start_tag('div', array('id' => 'video-controls'));
+                        // echo '<div id="video-controls">';
+                          echo html_writer::empty_tag('input', array('type' => 'button', 'value' => 'Pause','id'=>'play-pause', 'class'=>'watch2'));
+                          echo html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar')).'<br>';
+                          echo html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('mutewatch','feedcam'),'id'=>'mute', 'class'=>'watch2'));
+                          echo html_writer::empty_tag('input', array('type' => 'range', 'id'=>'volume-bar', 'class'=>'watchbar', 'min'=>'0', 'max'=>'1','step'=>'0.1', 'value'=>'1'));
+                          
+                        // echo '<button type="button" id="play-pause" style="height: 30px; width: 100px;">Pause</button>';
+                       //  echo '<input type="range" id="seek-bar" value="0"><br>';
+                        // echo '<button type="button" id="mute" style="height: 30px; width: 100px;">Mute</button>';
+                       //  echo '<input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1"><br>';
+                      
+                         echo html_writer::end_tag('div');
+                      
+                   //  echo '</div>';
                      
                      
                      
