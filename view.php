@@ -83,14 +83,25 @@ $PAGE->set_context($context);
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
 
-$heading = $OUTPUT->heading(format_string($feedcam->name), 2, null);
 // Output starts here                         
 echo $OUTPUT->header();
 
+
+
+$heading = $OUTPUT->heading(format_string($feedcam->name), 2, null);
+
+print_r($feedcam);
+
+
 if ($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
-    echo $OUTPUT->box(format_module_intro('feedcam', $feedcam, $cm->id), 'generalbox mod_introbox', 'feedcamintro');
+    $question= $OUTPUT->box(format_module_intro('feedcam', $feedcam, $cm->id), 'generalbox mod_introbox', 'feedcamintro');
+   
 }
 
+$studenttime = $feedcam->studenttime;
+
+echo $question.'<br/>';
+echo $studenttime;
 // Replace the following lines with you own code
 
 $PAGE->requires->js('/mod/feedcam/js/record.js');
@@ -192,7 +203,6 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                             
                        
                      //  echo '<tr><td>';
-                      echo html_writer::start_tag('div', array('id' => 'video-container'));
                         
                            // echo ' for live Camera';  
                           echo html_writer::start_tag('video', array('id' => 'preview','class'=>'videopreview','controls'=> 'controls'));echo html_writer::end_tag('video');
@@ -336,7 +346,38 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                }
            }
  
-  
+           
+           
+           
+           
+           
+           
+           
+      $admins = get_admins();
+     $isadmin = false;
+      foreach($admins as $admin) {
+       if ($USER->id == $admin->id) {
+           $isadmin = true;
+            break;
+          }
+       }
+       
+      if ($isadmin) {
+          echo "you are an admin".$isadmin;    
+       } 
+       
+     else { 
+        echo "you are not an admin".$isadmin;
+      }  
+       
+       
+       
+       
+       
+       
+       
+       
+       
        
        
       // $DB->get_record_sql('SELECT * FROM {videos} WHERE firstname = ? AND lastname = ?', array('Martin', 'Dougiamas'));
@@ -363,7 +404,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
             
             
             echo "<table style='margin-left:15%;'><tr><td>";
-            echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}")).'</td>';
+            echo html_writer::tag('form',html_writer::empty_tag('input', 
+                    array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')),
+                    array('method' => 'post', 'action' => "view.php?id={$cm->id}")).'</td>';
        
           //  echo "<div align=center><a href='view.php?id={$cm->id}'><input type=button value='Back to Video Capture' name='home' style='height: 40px; width: 180px;' /></a> | ";
           

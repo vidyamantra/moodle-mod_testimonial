@@ -4,18 +4,14 @@
                 // PostBlob method uses XHR2 and FormData to submit 
                 // recorded blob to the PHP server
                 
-              //  print('<?php echo $id; ?>');
                 function PostBlob(blob, fileType, fileName){
                     
-                    
-                   // 785482354.wav;
                     
                     var fileex = fileName;
                     var strArr = fileex.split(".");
                     if(strArr[1] == "webm"){
                          container.innerHTML = '';
                     }
-                    //(new RegExp('word')).test(fileName);
 
                     function loadvalue() {
                         document.getElementbyId()
@@ -26,7 +22,6 @@
                     var formData = new FormData();
                     formData.append(fileType + '-filename', fileName);
                     formData.append(fileType + '-blob', blob);
-                 //   formData.append(fileType + '<?php echo $id; ?>', cmid);
 
                        //create array of multiple recent files
                         if(typeof filesarr == 'undefined'){
@@ -37,12 +32,6 @@
                         count++;
                         
                     // progress-bar
-                //    var texInput = document.createElement('input');
-                //    texInput.type = 'text';
-               //     textInput.id = 'textbox';
-               //     texInput.innerHTML = count;
-               //     container.appendChild(textInput);
-                    
                     var hr = document.createElement('hr');
                     container.appendChild(hr);
                     var strong = document.createElement('strong');
@@ -52,7 +41,6 @@
                     var progress = document.createElement('progress');
                     container.appendChild(progress);
 
-                      //alert(window.uniqueId);
                     // POST the Blob using XHR2
                 xhr('save.php?cmid='+window.uniqueId, formData, progress, percentage, function(fileURL) {
                         

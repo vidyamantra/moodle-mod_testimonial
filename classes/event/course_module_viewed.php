@@ -18,13 +18,13 @@
  * The mod_feedcam course module viewed event.
  *
  * @package mod_feedcam
- * @copyright 2013 Adrian Greeve <adrian@moodle.com>
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
 namespace mod_feedcam\event;
 defined('MOODLE_INTERNAL') || die();
-
 /**
  * The mod_feedcam course module viewed event class.
  *
@@ -34,7 +34,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_viewed extends \core\event\course_module_viewed {
-
     /**
      * Init method.
      */

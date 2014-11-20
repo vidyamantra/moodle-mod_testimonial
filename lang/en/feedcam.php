@@ -37,7 +37,7 @@ $string['modulename_help'] = '<b>FeedCam</b> is newly generated plugin for moodl
                                                    FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users. You can delete your recently 
                                                   recorded lecture as well as multiple deletion feature for previously recorded lectures. This is one of the poweful plugin that can automatically upload the lectures on server side therefore local space does not required much.';
 $string['feedcamfieldset'] = 'Custom example fieldset';
-$string['feedcamname'] = 'feedcam name';
+$string['feedcamname'] = 'Testimonial Name';
 $string['feedcamname_help'] = 'This is the content of the help tooltip associated with the feedcamname field. Markdown syntax is supported.';
 $string['feedcam'] = 'feedcam';
 $string['pluginadministration'] = 'feedcam administration';
@@ -76,5 +76,7 @@ $string['pausewatch'] = "Pause";
 $string['mutewatch'] = "Mute";
 $string['pausewatch'] = "Pause";
 $string['selectfile']= "<font color='red'> Please Select the File!!! </font>";
+$string['additional']= "Additional setting";
+$string['studenttime']= " Student's duration for deletion ";
+$string['teacherdelete']= " Teacher can delete ";
 
-echo "&nbsp";

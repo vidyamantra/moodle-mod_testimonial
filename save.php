@@ -15,6 +15,9 @@ require_once(dirname(__FILE__).'/lib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
 global $DB,$USER;
 
+
+//
+//}
 /*
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
 $n  = optional_param('n', 0, PARAM_INT);  // feedcam instance ID - it should be named as the first character of the module
@@ -51,6 +54,11 @@ if ($id) {
 
 $context = context_module::instance($cm->id);
 
+ if ($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
+      $question= $feedcam->intro;
+   }
+
+
 foreach(array('video', 'audio') as $type) {
     
     if (isset($_FILES["${type}-blob"])) {
@@ -83,10 +91,15 @@ foreach(array('video', 'audio') as $type) {
           
      //   }
         
+        
+       date_default_timezone_set("Asia/Calcutta");
+        
          $record = new stdClass();
                $record->feedcam_id=$feedcam->id;
                $record->user_id = $USER->id;
                $record->name = $filename;
+               $record->question = $question;
+               $record->datetime = date("F j, Y, g:i a");
               // $record->url = '';
                $lastinsertid = $DB->insert_record('videos', $record, false);
         

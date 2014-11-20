@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * FeedCam module core interaction API
+ * The mod_feedcam course module viewed event.
  *
- * @package    mod_feedcam
- * @copyright  2014 Krishna Pratap Singh {@link krishna@vidyamantra.com}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package mod_feedcam
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 /* 
  * To change this license header, choose License Headers in Project Properties.

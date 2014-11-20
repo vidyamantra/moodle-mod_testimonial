@@ -15,12 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_feedcam video submitted event.
+ * The mod_feedcam course module viewed event.
  *
- * @package    mod_feedcam
- * @copyright  2013 Adrian Greeve <adrian@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package mod_feedcam
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 
 namespace mod_feedcam\event;
 
@@ -37,12 +38,11 @@ defined('MOODLE_INTERNAL') || die();
  * }
  *
  * @package    mod_feedcam
- * @since      Moodle 2.6
+ * @since      Moodle 2.7
  * @copyright  2013 Adrian Greeve <adrian@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class video_submitted extends \core\event\base {
-
     /**
      * Returns description of what happened.
      *
@@ -68,7 +68,6 @@ class video_submitted extends \core\event\base {
 
         return $legacylogdata;
     }
-
     /**
      * Return localised event name.
      *
@@ -98,7 +97,6 @@ class video_submitted extends \core\event\base {
         $this->data['objecttable'] = 'feedcam';
     
     }
-
     /**
      * Custom validation.
      *
@@ -109,7 +107,4 @@ class video_submitted extends \core\event\base {
         parent::validate_data();
 
     }
-    
-    
-    
 }

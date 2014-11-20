@@ -63,7 +63,31 @@ class mod_feedcam_mod_form extends moodleform_mod {
         $mform->addHelpButton('name', 'feedcamname', 'feedcam');
 
         // Adding the standard "intro" and "introformat" fields
-        $this->add_intro_editor();
+         $this->add_intro_editor();
+         
+      
+        //-------------------------------------------------------------------------------
+        // Adding the "additional" fieldset, where all the additional settings are showed   
+         
+         $mform->addElement('header', 'additional', get_string('additional', 'feedcam'));
+        // Adding the standard "select" field
+         
+         $hours=array();
+         $hours[0]="Time in hours";
+         for($counthr=1;$counthr<=24;$counthr++){
+             
+             $hours[$counthr]="$counthr";
+         }
+            $options = $hours;
+            
+            
+            $select =$mform->addElement('select', 'studenttime', get_string('studenttime', 'feedcam'), $options);
+            // This will select the time in hours.
+           // $select->setSelected('0');
+            
+         $mform->addElement('checkbox', 'teacherdelete', get_string('teacherdelete', 'feedcam'));
+        
+        
 
         //-------------------------------------------------------------------------------
         // Adding the rest of feedcam settings, spreeading all them into this fieldset
