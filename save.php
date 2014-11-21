@@ -45,6 +45,7 @@ exit();
 */
 
 $id = optional_param('cmid', 0, PARAM_INT);
+
 //$id= $_GET['cmid'];
 if ($id) {
     $cm         = get_coursemodule_from_id('feedcam', $id, 0, false, MUST_EXIST);
@@ -54,13 +55,21 @@ if ($id) {
 
 $context = context_module::instance($cm->id);
 
- if ($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
-      $question= $feedcam->intro;
-   }
+if($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
+    $question= $feedcam->intro;
+ }
 
-
+ $videotitle= optional_param('vtitle', null, PARAM_RAW);
+ if(strcmp($videotitle, '[object HTMLInputElement]')==0){
+    $videotitle="Untitled testimonial";
+ }
+   
+ $result=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
+  $replycount=(int)floor($result/2);     
+  echo $replycount;
+   
+  
 foreach(array('video', 'audio') as $type) {
-    
     if (isset($_FILES["${type}-blob"])) {
     
      
@@ -90,6 +99,28 @@ foreach(array('video', 'audio') as $type) {
         //   $mediaid= $j;
           
      //   }
+      //  echo $feedcam->id;
+      //  echo $USER->id;
+     //   echo $question.'<br><br>';
+      //  exit();
+
+       // print_r($DB->count_records('videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id))); 
+       // exit;
+        
+       // $countsql='SELECT replycount FROM {videos} WHERE feedcam_id AND user_id = ? AND  question = ? ';
+        
+       
+         
+         
+       
+   
+       
+       //  else{
+       //      $countsql='SELECT replycount FROM {videos} WHERE feedcam_id AND user_id = ? AND  question = ? ';    
+       //      $replycount = (int) $DB->get_fieldset_sql($countsql, array($feedcam->id, $USER->id, $question));
+       //      $replycount++;
+       //   }
+
         
         
        date_default_timezone_set("Asia/Calcutta");
@@ -98,8 +129,10 @@ foreach(array('video', 'audio') as $type) {
                $record->feedcam_id=$feedcam->id;
                $record->user_id = $USER->id;
                $record->name = $filename;
+               $record->videotitle = $videotitle;
                $record->question = $question;
                $record->datetime = date("F j, Y, g:i a");
+               $record->replycount = $replycount;
               // $record->url = '';
                $lastinsertid = $DB->insert_record('videos', $record, false);
         

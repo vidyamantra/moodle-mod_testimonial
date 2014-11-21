@@ -1578,4 +1578,13 @@ function bytesToSize(bytes) {
           } // End of function
   
   
-  
+  function saveVideoTitle(val){ 
+     // alert("The input value has changed. The new value is: " + val); 
+     alert(val);
+      if(val){
+        window.videotitle=val;
+      }
+      else{
+         window.videotitle="Untitled Testimonial";
+     }
+  }

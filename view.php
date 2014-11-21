@@ -88,20 +88,31 @@ echo $OUTPUT->header();
 
 
 
-$heading = $OUTPUT->heading(format_string($feedcam->name), 2, null);
+$heading = $OUTPUT->heading(format_string($feedcam->name), 3, null);
+echo $heading;
+//echo html_writer::empty_tag('hr');
+
+if ($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
+    $question= $OUTPUT->box(format_module_intro('feedcam', $feedcam, $cm->id), 'generalbox mod_introbox', 'feedcamintro'); 
+}
+echo $question;
+
+echo $OUTPUT->heading(get_string('heading', 'feedcam'), 4, null);
+echo html_writer::empty_tag('hr');
+
+
 
 print_r($feedcam);
 
 
-if ($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
-    $question= $OUTPUT->box(format_module_intro('feedcam', $feedcam, $cm->id), 'generalbox mod_introbox', 'feedcamintro');
-   
-}
+
 
 $studenttime = $feedcam->studenttime;
+$teacherdelete = $feedcam->teacherdelete;
 
-echo $question.'<br/>';
+//echo $question;
 echo $studenttime;
+echo $teacherdelete;
 // Replace the following lines with you own code
 
 $PAGE->requires->js('/mod/feedcam/js/record.js');
@@ -178,8 +189,8 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
              
            //html_writer::start_tag('fieldset',  array('class' => 'field'));
            //  html_writer::tag('legend', get_string('feedcamlegend', 'feedcam'), array('id' => 'feedcamlegend','class' => 'field'));
-                       echo "<fieldset><legend><font size='4'><b>".get_string('heading', 'feedcam')."</b></font></legend>";
-                          
+                     //  echo "<fieldset><legend><font size='4'><b>".get_string('heading', 'feedcam')."</b></font></legend>";
+                        //   echo get_string('heading', 'feedcam');
                             //  echo '<div class="page">';
                                      
                             // echo '</div></br>';
@@ -192,6 +203,15 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                           //  echo '<script src="http://localhost/moodle27d/mod/feedcam/js/need.js"> </script>';
                      //  $PAGE->requires->js('/mod/feedcam/js/need.js');
                      echo html_writer::start_tag('div', array('id' => 'video-container'));
+                     
+                     
+                         echo get_string('videotitle','feedcam');
+                         echo html_writer::empty_tag('input', array('type' => 'text','name'=>'videotitle','id'=>'videotitle', 'class'=>'titlebutton', 'onchange'=>'saveVideoTitle(this.value)'));
+                                                       // echo '<input type="text" name="txt" value="Hello" onchange="myFunction(this.value)">';
+
+                                                        
+                                 // echo '<script></script>';
+                                 
                      
                             if (has_capability('mod/feedcam:godatabase', $context)) {
                                 //   echo  '<form method=post action="" ><input type="submit" value="Feedcam'."'s".' Store" name="database" style="height: 35px; width: 180px; font-size:13px;color:#00BFFF;" /><img src="http://www.essentialsql.com/wp-content/uploads/2014/05/database-parts.jpg" height="42" width="60"></img></form>';
@@ -216,7 +236,8 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                         
                              echo get_string('clickon', 'feedcam');
                             if (has_capability('mod/feedcam:record', $context)) {
-                              echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'record', 'value' => get_string('record','feedcam'),'id'=>'record', 'class'=>'recordbutton' )).' || ';
+                              //  echo '<script>if(window.videotitle){'.$disablerec="enabled".'}else{'.$disablerec="disabled".'}</script>';
+                              echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'record', 'value' => get_string('record','feedcam'),'id'=>'record', 'class'=>'recordbutton')).' || ';
                              }
                         //  echo get_string('livecamera', 'feedcam').'</td><td>';
                           
@@ -239,7 +260,6 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                
                    //   echo '</form>';
                  //     echo '</table>';
-                  echo '</fieldset>'; 
                     //       echo html_writer::end_tag('fieldset');
            // echo '</section>';
             
@@ -247,7 +267,7 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
              
             // echo $id;
            //  exit();
-             
+       //  echo '<script>window.uniqueId ='.$id.' </script>';    
          echo '<script>window.uniqueId ='.$id.' </script>';
 	$PAGE->requires->js('/mod/feedcam/js/record2.js');		
            
@@ -264,8 +284,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
  
     
     //  echo '<fieldset><legend><font color="black"  size="4"><b style="font-family:  "Hoefler Text", Georgia, "Times New Roman", serif;">RECORDINGS </b></font> </legend>';
-    echo html_writer::tag('h3', $heading);
-    
+   
+       
     
          echo html_writer::start_tag('div', array('class' => 'page'));
                        echo html_writer::start_tag('div', array('id'=>'firstdiv','class' => 'page')).'<br/>';
@@ -281,7 +301,6 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
           if(isset($postdelete))  {   
           
               if(isset($_POST['videoarr'])){
-                  
                    $names=$_POST['videoarr'];
                 
                   foreach($names as $value){
@@ -381,7 +400,14 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
        
        
       // $DB->get_record_sql('SELECT * FROM {videos} WHERE firstname = ? AND lastname = ?', array('Martin', 'Dougiamas'));
-  $query= $DB->get_records_sql('SELECT * FROM {videos}');
+   if($isadmin){
+      $query= $DB->get_records_sql('SELECT * FROM {videos}');
+   
+   }
+   else{
+       
+        $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE user_id=$USER->id ");  
+   }
      
       //  $query= mysqli_query($conn,"SELECT * FROM videos "); // db 
         
@@ -400,6 +426,14 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
           }
             
         else { 
+            
+             echo get_string('totaltestimonials', 'feedcam');
+             $totaltesti=  floor(sizeof($query)/2);
+             echo $totaltesti;
+             echo $OUTPUT->heading($totaltesti, 5, null);
+             echo html_writer::empty_tag('hr');
+            // echo html_writer::start_tag('div', array('class'=>'itemidprint','value'=>"$totaltesti")); echo html_writer::end_tag('div');
+             
             
             
             
@@ -420,8 +454,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
               
                
                echo html_writer::start_tag('form', array('method' => 'post', 'action' => ''));
-               echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','feedcam'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
-              
+               
+               if($isadmin && $teacherdelete){
+                  echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','feedcam'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
+               }
              //  echo '<form action="" method=post><input type="submit" value="Delete Videos" name="delete" title="Delete" style="height: 40px; width: 180px;" />';
                echo '</div></td>';
             }

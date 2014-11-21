@@ -74,17 +74,13 @@ class mod_feedcam_mod_form extends moodleform_mod {
          
          $hours=array();
          $hours[0]="Time in hours";
-         for($counthr=1;$counthr<=24;$counthr++){
-             
+          for($counthr=1;$counthr<=24;$counthr++){
              $hours[$counthr]="$counthr";
-         }
-            $options = $hours;
+          }
+          $options = $hours;
             
-            
-            $select =$mform->addElement('select', 'studenttime', get_string('studenttime', 'feedcam'), $options);
+         $select =$mform->addElement('select', 'studenttime', get_string('studenttime', 'feedcam'), $options);
             // This will select the time in hours.
-           // $select->setSelected('0');
-            
          $mform->addElement('checkbox', 'teacherdelete', get_string('teacherdelete', 'feedcam'));
         
         

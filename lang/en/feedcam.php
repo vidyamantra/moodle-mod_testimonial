@@ -62,7 +62,7 @@ $string['firstpara']= "<b>FeedCam</b> is newly generated plugin for moodle. This
                                                    FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users. You can delete your recently 
                                                   recorded lecture as well as multiple deletion feature for previously recorded lectures. This is one of the poweful plugin that can automatically upload the lectures on server side therefore local space does not required much.";
 $string['clickon'] = "Click on <html>&rarr;</html>";
-$string['heading'] = "RECORDING";
+$string['heading'] = "Testimonial submissions";
 $string['feedcamlegend'] = "FEED CAM";
 $string['curruptprint'] = "Sorry, Currupted media and did not store on server";
 $string['deleteprint']= " Successfully Deleted ";
@@ -79,4 +79,8 @@ $string['selectfile']= "<font color='red'> Please Select the File!!! </font>";
 $string['additional']= "Additional setting";
 $string['studenttime']= " Student's duration for deletion ";
 $string['teacherdelete']= " Teacher can delete ";
+$string['totaltestimonials']= " Total testimonials <html>&nbsp&nbsp</html> ";
+$string['videotitle']= " Testimonial title ";
+$string['videotitle']= " Testimonial title ";
+$string['videotitle']= " Testimonial title ";
 

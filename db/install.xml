@@ -31,9 +31,11 @@
         <FIELD NAME="feedcam_id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="id from feedcam table"/>
         <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="name" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="videotitle" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="url" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="question" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="datetime" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="replycount" TYPE="int" LENGTH="5" NOTNULL="false" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
