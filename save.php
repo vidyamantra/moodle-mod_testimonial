@@ -58,6 +58,9 @@ $context = context_module::instance($cm->id);
 if($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
     $question= $feedcam->intro;
  }
+ else{
+    $question = " Sorry no question/dscription "; 
+ }
 
  $videotitle= optional_param('vtitle', null, PARAM_RAW);
  if(strcmp($videotitle, '[object HTMLInputElement]')==0){
@@ -66,9 +69,8 @@ if($feedcam->intro) { // Conditions to show the intro can change to look for own
    
  $result=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
   $replycount=(int)floor($result/2);     
-  echo $replycount;
+  //echo $replycount;
    
-  
 foreach(array('video', 'audio') as $type) {
     if (isset($_FILES["${type}-blob"])) {
     
@@ -131,7 +133,7 @@ foreach(array('video', 'audio') as $type) {
                $record->name = $filename;
                $record->videotitle = $videotitle;
                $record->question = $question;
-               $record->datetime = date("F j, Y, g:i a");
+               $record->datetime = time();
                $record->replycount = $replycount;
               // $record->url = '';
                $lastinsertid = $DB->insert_record('videos', $record, false);

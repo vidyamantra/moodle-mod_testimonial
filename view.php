@@ -111,8 +111,8 @@ $studenttime = $feedcam->studenttime;
 $teacherdelete = $feedcam->teacherdelete;
 
 //echo $question;
-echo $studenttime;
-echo $teacherdelete;
+//echo $studenttime;
+//echo $teacherdelete;
 // Replace the following lines with you own code
 
 $PAGE->requires->js('/mod/feedcam/js/record.js');
@@ -458,6 +458,18 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                if($isadmin && $teacherdelete){
                   echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','feedcam'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
                }
+             
+               
+               
+               
+              // echo "<meta http-equiv='refresh' content='5; URL=$currentpage'>";
+                    //  header("Refresh: 3;url=$currentpage");
+              // exit();
+               if(!$isadmin && $studenttime==0){
+                      echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','feedcam'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
+               }
+              
+               
              //  echo '<form action="" method=post><input type="submit" value="Delete Videos" name="delete" title="Delete" style="height: 40px; width: 180px;" />';
                echo '</div></td>';
             }
@@ -467,14 +479,17 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
             echo html_writer::start_tag('div', array('id'=>'storetable'));
             echo "<table cellpadding=30 cellspacing=2 bordercolor=green border=1>";
             echo "<tr><th>Id</th><th>Name</th><th>Delete</th></tr>";
-            
+            date_default_timezone_set("Asia/Calcutta");
            // while($row=$DB->get_records_list($query)){   //db
         foreach ($query as $value) { 
-                $vid= $value->id;
-                $feedcamid= $value->feedcam_id;
-                $userid= $value->user_id;
-                $name=$value->name;
-                $urll=$value->url;
+                $vid = $value->id;
+                $feedcamid = $value->feedcam_id;
+                $userid = $value->user_id;
+                $name = $value->name;
+                $videotitle = $value->videotitle;
+                $datetime = $value->datetime;
+                $replycount = $value->replycount;
+                $urll = $value->url;
 
                
                 $videoids=$vid.'/'.$name;
@@ -498,11 +513,34 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
               //      $link->url = new moodle_url("javascript:create_window('watch.php?id=$vid&cmid=$id')", array('id' => 2, 'action' => 'browse')); // required, but you can use a string instead
               //      $link->text = "$name"; // Required
               //      echo $OUTPUT->link($link);   
-                echo "<a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$name</a>";
-                echo "<br /></td><td><input type=checkbox name=videoarr[] value='$videoids' /></td></tr>";
-            }
+                echo "<a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$name</a><br /></td>";
+                
+               
+             //  echo $datetime."datetime<br/>";
+               
+               $timelimit= $datetime+(int)$studenttime*60*60;
+               $expire = date("Y-m-d H:i:s", $timelimit);
+               $current = date("Y-m-d H:i:s");
+               
+             //  echo $expire.'expp<br/>';
+             //  echo $current.'cur';
+               
+                
+                 if(($expire > $current) && !$isadmin){  
+                     echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td>";
+                 }
+                 
+                 $metaexpire=$expire+60;
+                 $page = $_SERVER['PHP_SELF'];
+                 $sec = "3600";
+                       echo "<meta http-equiv='refresh' content= '$sec' URL='$page'>";
+                       echo "<meta http-equiv='expires' content='$expire' />";
+          
+                       
+                       
+              }
             
-             echo "</table>";
+             echo "</tr></table>";
             echo html_writer::end_tag('div'); 
           echo html_writer::end_tag('form');  
             
