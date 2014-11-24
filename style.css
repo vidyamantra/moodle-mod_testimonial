@@ -52,7 +52,7 @@ height: 40px; width: 180px;
 }
 
 #page-mod-feedcam-view  #storetable{
-overflow: auto; width: 600px; height: 500px;margin-left:10%;
+overflow: auto; width: 700px; height: 500px;margin-left:10%;
 }
 
 .watch{
@@ -93,11 +93,12 @@ border: 1px solid rgb(15, 158, 238); height: 500px; width: 660px;
 	background-color:#FFFFFF;
 }
 #page-mod-feedcam-view  table.datatable td {
-	border-width: 1px;
+	border-width: 0px;
+        border-bottom-width: 1px;
 	padding: 10px;
 	border-style: solid;
 	border-color: #a9c6c9;
-        column-width: 200px ;
+        column-width: 250px ;
 }
 
 

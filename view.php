@@ -321,9 +321,12 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                                
                                $aitemname=  trim(strrev($cropeditem).'wav');
                                
+                                $sql='SELECT videotitle FROM {videos} WHERE id = ?';    
+                                $vtitle = $DB->get_field_sql($sql, array((int)$itemid));
+                               
                                
                               echo html_writer::start_tag('div', array('class'=>'itemidprint'));
-                                  echo $itemid.' |';
+                                  echo $vtitle.' |';
                               echo html_writer::end_tag('div');  
                                
                         // echo "<div  style='float:right;'><font color='#A80707'><b>".$itemid." |  </font></b></div>";
@@ -442,10 +445,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
             
             
             
-            echo "<table style='margin-left:15%;'><tr><td>";
-            echo html_writer::tag('form',html_writer::empty_tag('input', 
-                    array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')),
-                    array('method' => 'post', 'action' => "view.php?id={$cm->id}")).'</td>';
+            echo "<table style='margin-left:15%;'><tr>";
+            
        
           //  echo "<div align=center><a href='view.php?id={$cm->id}'><input type=button value='Back to Video Capture' name='home' style='height: 40px; width: 180px;' /></a> | ";
           
@@ -499,12 +500,17 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                        echo '<th width="50">S No.</th>';
                     
                      if($isadmin){
-                    echo '<th width="180">Student Name</th>';
+                       echo '<th width="180">Student Name</th>';
                      }
                      
-                    echo '<th width="200">Title of Testimonial</th>';
-                    echo '<th>Date/Time</th>';
+                    echo '<th width="250">Title of Testimonial</th>';
+                    echo '<th width="180">Date/Time</th>';
+                  //  if(!$isadmin){
+                //      echo '<th width="180">Remaing Time</th>';
+                 //   }
+                   if($isadmin && $teacherdelete){ 
                     echo '<th>Select</th>';
+                   }
                     echo '</tr>';
             
            // echo "<table cellpadding=30 cellspacing=2 style='border-spacing:2em;'>";
@@ -547,9 +553,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                 
                 
                 if($vid%2!=0 ){
-                    
                     echo "<tr onMouseover=$mouseover onMouseout=$mouseout>";
-                  echo "<td >$sno</td>";
+                    echo "<td >$sno</td>";
                   $sno++;
                 }
               //  $link = new action_link();
@@ -560,9 +565,13 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                  $username = $DB->get_field_sql($sql, array($userid));
                 
                 if($vid%2 !=0 ){
-                  echo "<td>$username</td>";
-                  echo "<td >$videotitle</td>";
-                  echo "<td><a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$name</a><br /></td>";
+                  if($isadmin){   
+                    echo "<td>$username</td>";
+                   }
+                  //echo "<td >$videotitle</td>";
+                  echo "<td><a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$videotitle</a><br /></td>";
+                  $datetimeformat=date("Y-m-d H:i:s", $datetime);
+                  echo "<td>$datetimeformat</td>";
                 }
                
              //  echo $datetime."datetime<br/>";
@@ -572,22 +581,33 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                   
                     if($isadmin && $teacherdelete){
                         if($vid%2!=0){
-                         echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td></tr>"; 
-                         }
+                          echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td></tr>"; 
+                        }
                      }
                
                      if(!$isadmin  && $vid%2!=0){ 
                          
-                      $timelimit= $datetime+(int)$studenttime*60*60;
+                      $timelimit= $datetime+$studenttime*60*60;
                       $expire = date("Y-m-d H:i:s", $timelimit);
                       $current = date("Y-m-d H:i:s");
    
-                      echo $expire.'expp<br/>';
-                      echo $current.'cur';
-                     
+                     // echo $expire.'expp<br/>';
+                     // echo $current.'cur';
 
                         if(($expire > $current)){  
+                            
+                            
+                            $url = new moodle_url('');
+                              // echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','feedcam'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
+                               echo  html_writer::link($url, html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/delete'), 'alt'=>$strdelete, 'class'=>'iconsmall')));
+                               
+                            
+                            
+                            // echo link(new moodle_url($url, array('delete'=>$user->id, 'sesskey'=>sesskey())), html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/delete'), 'alt'=>$strdelete, 'class'=>'iconsmall')), array('title'=>$strdelete));
+                            
+                            
                              echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td></tr>";
+                             
                          }
 
                             $metaexpire=$expire+60;
@@ -599,10 +619,14 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                                   
                        //  echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td>";         
 
-                     }   
+                   }   
               }
+               echo "</table>";
+              echo html_writer::tag('form',html_writer::empty_tag('input', 
+                    array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')),
+                    array('method' => 'post', 'action' => "view.php?id={$cm->id}")).'</td></tr>';
             
-             echo "</table>";
+            
             echo html_writer::end_tag('div'); 
           echo html_writer::end_tag('form');  
             

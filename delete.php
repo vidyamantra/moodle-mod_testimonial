@@ -49,7 +49,7 @@ if (isset($_POST['delete-file'])) {
  //   $fileName = 'uploads/'.$_POST['delete-file'];
    // echo($_POST['delete-file']);
    
-    print_r(sizeof($files));
+   // print_r(sizeof($files));
     
     foreach ($files as $value) {
         
