@@ -95,6 +95,9 @@ echo $heading;
 if ($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
     $question= $OUTPUT->box(format_module_intro('feedcam', $feedcam, $cm->id), 'generalbox mod_introbox', 'feedcamintro'); 
 }
+ else{
+    $question = " Sorry no question/dscription "; 
+ }
 echo $question;
 
 echo $OUTPUT->heading(get_string('heading', 'feedcam'), 4, null);
@@ -308,9 +311,16 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                       $idarr=array();
                      if(isset($value)){
                               
-                               $idarr = (explode('/',$value,2));
+                               $idarr = (explode('/',$value,4));
                                $itemid=$idarr[0];
                                $itemname=$idarr[1];
+                               $aitemid=$idarr[0]+1;
+                               
+                               $revitem= strrev($itemname);
+                               $cropeditem= substr($revitem,4);
+                               
+                               $aitemname=  trim(strrev($cropeditem).'wav');
+                               
                                
                               echo html_writer::start_tag('div', array('class'=>'itemidprint'));
                                   echo $itemid.' |';
@@ -321,11 +331,13 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                                
                             if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$itemid)))){  
 
-                                 $DB->delete_records('videos', array ('id'=> $itemid));
+                                   $DB->delete_records('videos', array ('id'=> $itemid));
+                                   $DB->delete_records('videos', array ('id'=> $aitemid));
+                                 //  $DB->delete_records('videos', array ('id'=> $itemid+1));
                                  
-                                 echo html_writer::start_tag('div', array('class'=>'curruptprint'));
+                                   echo html_writer::start_tag('div', array('class'=>'curruptprint'));
                                    echo get_string('curruptprint', 'feedcam');
-                                  echo html_writer::end_tag('div');  
+                                    echo html_writer::end_tag('div');  
                                   
                               //   echo "<div><font color='#A80707'>Sorry, Currupted media and did not store on server<font></div>";
                                  // mysqli_query($conn,"DELETE FROM mdl_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
@@ -336,8 +348,12 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                              else{
                                      fileDeletion($itemid,$itemname,$context->id);
                                      fileDeletion($itemid,".",$context->id);
+                                     fileDeletion($aitemid,$aitemname,$context->id);
+                                     fileDeletion($aitemid,".",$context->id);
 
                                         $vid=$DB->delete_records('videos', array ('id'=> $itemid));
+                                        $aid=$DB->delete_records('videos', array ('id'=> $aitemid));
+                                      //  $DB->delete_records('videos', array ('id'=> $itemid+1));
                               }
                          //  if(!file_exists('uploads/'.$value)){
                         //        echo "Sorry Video had been currupted and did not stored on server<br /><br/>";
@@ -367,13 +383,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
  
            
            
-           
-           
-           
-           
-           
       $admins = get_admins();
-     $isadmin = false;
+      $isadmin = false;
       foreach($admins as $admin) {
        if ($USER->id == $admin->id) {
            $isadmin = true;
@@ -381,19 +392,13 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
           }
        }
        
-      if ($isadmin) {
-          echo "you are an admin".$isadmin;    
-       } 
+      //if ($isadmin) {
+    //      echo "you are an admin".$isadmin;    
+    //   } 
        
-     else { 
-        echo "you are not an admin".$isadmin;
-      }  
-       
-       
-       
-       
-       
-       
+    // else { 
+     //   echo "you are not an admin".$isadmin;
+   //   }  
        
        
        
@@ -402,10 +407,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
       // $DB->get_record_sql('SELECT * FROM {videos} WHERE firstname = ? AND lastname = ?', array('Martin', 'Dougiamas'));
    if($isadmin){
       $query= $DB->get_records_sql('SELECT * FROM {videos}');
-   
    }
    else{
-       
         $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE user_id=$USER->id ");  
    }
      
@@ -433,6 +436,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
              echo $OUTPUT->heading($totaltesti, 5, null);
              echo html_writer::empty_tag('hr');
             // echo html_writer::start_tag('div', array('class'=>'itemidprint','value'=>"$totaltesti")); echo html_writer::end_tag('div');
+             
+             
              
             
             
@@ -473,13 +478,40 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
              //  echo '<form action="" method=post><input type="submit" value="Delete Videos" name="delete" title="Delete" style="height: 40px; width: 180px;" />';
                echo '</div></td>';
             }
+       
             
             echo '</tr></table><br/>';
             
+            
+                  //  <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+                 //           <td>Item 1A</td><td>Item 1B</td><td>Item 1C</td>
+                  //  </tr>
+                  //  </table>
+                                        
+                                        
+                                        
+            
             echo html_writer::start_tag('div', array('id'=>'storetable'));
-            echo "<table cellpadding=30 cellspacing=2 bordercolor=green border=1>";
-            echo "<tr><th>Id</th><th>Name</th><th>Delete</th></tr>";
+            
+             echo '<table class="datatable">';
+                    echo '<tr>';
+                    
+                       echo '<th width="50">S No.</th>';
+                    
+                     if($isadmin){
+                    echo '<th width="180">Student Name</th>';
+                     }
+                     
+                    echo '<th width="200">Title of Testimonial</th>';
+                    echo '<th>Date/Time</th>';
+                    echo '<th>Select</th>';
+                    echo '</tr>';
+            
+           // echo "<table cellpadding=30 cellspacing=2 style='border-spacing:2em;'>";
+           // echo "<tr><th>Id</th><th>Name</th><th>Delete</th></tr>";
+          
             date_default_timezone_set("Asia/Calcutta");
+            $sno=1;
            // while($row=$DB->get_records_list($query)){   //db
         foreach ($query as $value) { 
                 $vid = $value->id;
@@ -494,6 +526,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                
                 $videoids=$vid.'/'.$name;
                
+                
+                
+               
                // $url=get_feedcam_doc_url($vid);
                //echo($url);
                
@@ -507,40 +542,67 @@ if(((isset($postdatabse)) || (isset($postdelete))  || !isset($postback)) && ($_S
                     
                // echo "<tr><td>$id</td><td><a href=\"javascript:create_window('watch.php?id=$id','500','800')\>$name</a><br /></td><td><input type=checkbox name=name[] value='$name' /></td></tr>";     
                // echo "<tr><td>$id</td><td><a href='watch.php?id=$id'>$name</a><br /></td><td><input type=checkbox name=name[] value='$name' /></td></tr>";
-                echo "<tr><td>$vid</td><td>";
+               $mouseover="style.backgroundColor='#f5f5f5'";
+                $mouseout="style.backgroundColor='#FFFFFF'";
                 
+                
+                if($vid%2!=0 ){
+                    
+                    echo "<tr onMouseover=$mouseover onMouseout=$mouseout>";
+                  echo "<td >$sno</td>";
+                  $sno++;
+                }
               //  $link = new action_link();
               //      $link->url = new moodle_url("javascript:create_window('watch.php?id=$vid&cmid=$id')", array('id' => 2, 'action' => 'browse')); // required, but you can use a string instead
               //      $link->text = "$name"; // Required
               //      echo $OUTPUT->link($link);   
-                echo "<a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$name</a><br /></td>";
+                  $sql='SELECT username FROM {user} WHERE id = ?';    
+                 $username = $DB->get_field_sql($sql, array($userid));
                 
+                if($vid%2 !=0 ){
+                  echo "<td>$username</td>";
+                  echo "<td >$videotitle</td>";
+                  echo "<td><a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$name</a><br /></td>";
+                }
                
              //  echo $datetime."datetime<br/>";
-               
-               $timelimit= $datetime+(int)$studenttime*60*60;
-               $expire = date("Y-m-d H:i:s", $timelimit);
-               $current = date("Y-m-d H:i:s");
-               
-             //  echo $expire.'expp<br/>';
-             //  echo $current.'cur';
-               
                 
-                 if(($expire > $current) && !$isadmin){  
-                     echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td>";
-                 }
-                 
-                 $metaexpire=$expire+60;
-                 $page = $_SERVER['PHP_SELF'];
-                 $sec = "3600";
-                       echo "<meta http-equiv='refresh' content= '$sec' URL='$page'>";
-                       echo "<meta http-equiv='expires' content='$expire' />";
-          
-                       
-                       
+                     
+
+                  
+                    if($isadmin && $teacherdelete){
+                        if($vid%2!=0){
+                         echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td></tr>"; 
+                         }
+                     }
+               
+                     if(!$isadmin  && $vid%2!=0){ 
+                         
+                      $timelimit= $datetime+(int)$studenttime*60*60;
+                      $expire = date("Y-m-d H:i:s", $timelimit);
+                      $current = date("Y-m-d H:i:s");
+   
+                      echo $expire.'expp<br/>';
+                      echo $current.'cur';
+                     
+
+                        if(($expire > $current)){  
+                             echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td></tr>";
+                         }
+
+                            $metaexpire=$expire+60;
+                            $page = $_SERVER['PHP_SELF'];
+                            $sec = "3600";
+                                  echo "<meta http-equiv='refresh' content= '$sec' URL='$page'>";
+                                  echo "<meta http-equiv='expires' content='$expire' />";
+                                  
+                                  
+                       //  echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td>";         
+
+                     }   
               }
             
-             echo "</tr></table>";
+             echo "</table>";
             echo html_writer::end_tag('div'); 
           echo html_writer::end_tag('form');  
             
