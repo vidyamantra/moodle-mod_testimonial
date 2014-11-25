@@ -44,7 +44,7 @@
                     // POST the Blob using XHR2
                 xhr('save.php?cmid='+window.uniqueId+'&vtitle='+window.videotitle, formData, progress, percentage, function(fileURL) {
                         
-                        alert(fileURL);
+                       // alert(fileURL);
                         
                         container.appendChild(document.createElement('hr'));
                         var mediaElement = document.createElement(fileType);

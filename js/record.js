@@ -1580,11 +1580,23 @@ function bytesToSize(bytes) {
   
   function saveVideoTitle(val){ 
      // alert("The input value has changed. The new value is: " + val); 
-     alert(val);
+     
       if(val){
         window.videotitle=val;
       }
       else{
          window.videotitle="Untitled Testimonial";
+     }
+  }
+  
+  
+   function getvideoid(val2){ 
+      alert("The input value has changed. The new value is: " + val2); 
+     
+      if(val2){
+        window.getvideoid=val2;
+      }
+      else{
+         window.vgetvideoid="Error";
      }
   }

@@ -75,7 +75,7 @@ border: 1px solid rgb(15, 158, 238); height: 500px; width: 660px;
 
 #page-mod-feedcam-view  table.datatable {
 	font-family: verdana,arial,sans-serif;
-	font-size:12px;
+	font-size:13px;
 	color:#333333;
 	border-width: 1px;
 	border-color: #999999;
@@ -84,13 +84,17 @@ border: 1px solid rgb(15, 158, 238); height: 500px; width: 660px;
 }
 #page-mod-feedcam-view  table.datatable th {
 	background-color:#fafafa;
-	border-width: 1px;
+	border-width: 0px;
+        border-bottom-width: 1px;
 	padding: 10px;
 	border-style: solid;
 	border-color: #a9c6c9;
+        width: auto;
+        
 }
 #page-mod-feedcam-view  table.datatable tr {
 	background-color:#FFFFFF;
+        width: auto;
 }
 #page-mod-feedcam-view  table.datatable td {
 	border-width: 0px;
@@ -99,6 +103,8 @@ border: 1px solid rgb(15, 158, 238); height: 500px; width: 660px;
 	border-style: solid;
 	border-color: #a9c6c9;
         column-width: 250px ;
+        width: auto;
+        
 }
 
 

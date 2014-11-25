@@ -65,7 +65,7 @@ $string['clickon'] = "Click on <html>&rarr;</html>";
 $string['heading'] = "Testimonial submissions";
 $string['feedcamlegend'] = "FEED CAM";
 $string['curruptprint'] = "Sorry, Currupted media and did not store on server";
-$string['deleteprint']= " Successfully Deleted ";
+$string['deleteprint']= "<font color='green'> Successfully Deleted </font>";
 $string['existprint']= " No Video File Exist";
 $string['deletemultiple'] = "Delete A/V Files";
 $string['storeheader'] = " RECORDINGS ";
