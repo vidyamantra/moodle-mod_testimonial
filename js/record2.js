@@ -14,10 +14,9 @@
                     }
 
                     function loadvalue() {
-                        document.getElementbyId()
+                        document.getElementbyId();
                     }
                     
-                   
                     // FormData
                     var formData = new FormData();
                     formData.append(fileType + '-filename', fileName);
@@ -33,14 +32,26 @@
                         
                     // progress-bar
                     var hr = document.createElement('hr');
-                    container.appendChild(hr);
+                     if(strArr[1] != "wav"){
+                       container.appendChild(hr);
+                     }
                     var strong = document.createElement('strong');
                     strong.id = 'percentage';
-                    strong.innerHTML = fileType+' | ' + fileName+' saved \xBB ';
+                    if(strArr[1] != "wav"){
+                       if(window.videotitle=="[object HTMLInputElement]"){
+                            strong.innerHTML = 'Untitled testimonial saved \xBB ';
+                          }
+                       else{
+                           strong.innerHTML = window.videotitle+' saved \xBB ';
+                        }
+                     
+                    }
                     container.appendChild(strong);
                     var progress = document.createElement('progress');
-                    container.appendChild(progress);
-
+                    if(strArr[1] != "wav"){
+                        container.appendChild(progress);
+                     }
+                   
                     // POST the Blob using XHR2
                 xhr('save.php?cmid='+window.uniqueId+'&vtitle='+window.videotitle, formData, progress, percentage, function(fileURL) {
                         
@@ -48,7 +59,6 @@
                         
                         container.appendChild(document.createElement('hr'));
                         var mediaElement = document.createElement(fileType);
-                        
                        // var source = document.createElement('source');
                         var href = location.href.substr(0, location.href.lastIndexOf('/') + 1);
                         source.src = href + fileURL;
@@ -59,7 +69,7 @@
                         
                         mediaElement.appendChild(source);
                         
-                       mediaElement.controls = true;
+                        mediaElement.controls = true;
                         container.appendChild(mediaElement);
                         mediaElement.play();
 
@@ -200,7 +210,12 @@
                         };
                         
                         request.upload.onload = function() {
-                            percentage.innerHTML = 'video | '+fileName+'.webm saved \xBB ';
+                            if(window.videotitle=="[object HTMLInputElement]"){
+                               percentage.innerHTML = 'Untitled testimonial saved \xBB ';
+                           }
+                           else{
+                               percentage.innerHTML = window.videotitle+' saved \xBB ';
+                           }
                         };
                     }
                     

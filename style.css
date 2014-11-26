@@ -25,7 +25,7 @@ height: 40px; width: 200px; font-size:13px;color:#00BFFF;margin-left: 0%;
  height: 40px; width: 180px;color:red;
 }
 #page-mod-feedcam-view #firstdiv{
-    border-bottom:2px solid #0070a8; height:110px; width:900px;
+    border-bottom:1px solid #0070a8; height:0px; width:1200px;
 }
 
 #page-mod-feedcam-view  #firstpara{
@@ -41,14 +41,14 @@ padding:1em 1em; width: 600px; height: 200px;margin-top: 30px;
 border:1px solid #0070a8;height: 430px; width: 580px;
 }
 #page-mod-feedcam-view  .itemidprint{
-color:#A80707; font-weight:300;float:right;
+color:green; font-weight:300;float:right;
 }
 #page-mod-feedcam-view  .curruptprint{
 color:#A80707;
 }
 
 #page-mod-feedcam-view  #deletemul{
-height: 40px; width: 180px;
+height: 35px; width: 70px;margin-left:59%;
 }
 
 #page-mod-feedcam-view  #storetable{
