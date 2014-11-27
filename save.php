@@ -69,7 +69,11 @@ if($feedcam->intro) { // Conditions to show the intro can change to look for own
    
  $result=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
   $replycount=(int)floor($result/2);     
-  //echo $replycount;
+  echo $replycount;
+  
+  $rowscount=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id));
+  //$replycount=(int)floor($result2/2);     
+  echo $rowscount;
    
 foreach(array('video', 'audio') as $type) {
     if (isset($_FILES["${type}-blob"])) {
@@ -134,7 +138,6 @@ foreach(array('video', 'audio') as $type) {
                $record->videotitle = $videotitle;
                $record->question = $question;
                $record->datetime = time();
-               $record->replycount = $replycount;
               // $record->url = '';
                $lastinsertid = $DB->insert_record('videos', $record, false);
         
@@ -207,6 +210,8 @@ foreach(array('video', 'audio') as $type) {
               
                 $update->id = $midint;
                 $update->url = $url1;
+                $update->replycount = $replycount;
+                $update->rowscount = $rowscount;
                 
                 $lastupdate=$DB->update_record('videos', $update);
                 

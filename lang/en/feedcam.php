@@ -81,6 +81,6 @@ $string['additional']= "Additional setting";
 $string['studenttime']= " Student's duration for deletion ";
 $string['teacherdelete']= " Teacher can delete ";
 $string['totaltestimonials']= " Total testimonials <html>&nbsp&nbsp</html> ";
-$string['totalstudents']= " Total students <html>&nbsp&nbsp</html> ";
+$string['totalstudents']= " Student statistics ";
 $string['videotitle']= "Testimonial title ";
 

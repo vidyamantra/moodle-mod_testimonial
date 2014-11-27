@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/feedcam/db" VERSION="20141121" COMMENT="XMLDB file for Moodle mod/feedcam"
+<XMLDB PATH="mod/feedcam/db" VERSION="20141127" COMMENT="XMLDB file for Moodle mod/feedcam"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -36,6 +36,7 @@
         <FIELD NAME="question" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="datetime" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="replycount" TYPE="int" LENGTH="5" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="rowscount" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
