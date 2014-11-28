@@ -304,6 +304,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
    
        
      echo $OUTPUT->heading(get_string('subheading', 'feedcam'), 4, null);
+     
+        $page = optional_param('page', 0, PARAM_INT); 
      // echo html_writer::empty_tag('hr');
       
        //  echo html_writer::start_tag('div', array('class' => 'page'));
@@ -359,6 +361,22 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                             //   }
                         // echo "<div  style='float:right;'><font color='#A80707'><b>".$itemid." |  </font></b></div>";
                                
+                          /*        
+                                    $session['lastid']=$aitemid;
+                                            echo $session['lastid'];
+
+                                      $sql='SELECT rowscount FROM {videos} WHERE id = ?';    
+                                      $lastrowcount = $DB->get_records_sql($sql, array($session['lastid']));
+
+                                     //   print_r($$lastrowcount);
+                                        foreach($lastrowcount as $value){
+                                            $lastrownum=$value->rowscount; 
+                                             echo $value->rowscount;  
+                                        }
+                                       //  $lastrowcount->rowscount;  
+                                    
+                               */     
+                                    
                                
                             if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$itemid)))){  
 
@@ -401,6 +419,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                         //     }
                                  
                        }
+                       
+                   
+                    // echo $lastreplycount->replycount; 
+                       
                }
                
               // if(isset($postdelete)){
@@ -410,7 +432,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              //  }
                   // if(isset($getvidname)){
                        
-                     echo "<meta http-equiv='refresh' content='5; url=view.php?id={$cm->id}'>";
+                     echo "<meta http-equiv='refresh' content='5; url=view.php?id={$cm->id}&page=$page'>";
                  //  }
               }
               
@@ -434,39 +456,49 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
        
        
        
-   $page = optional_param('page', 0, PARAM_INT); 
+
       // $DB->get_record_sql('SELECT * FROM {videos} WHERE firstname = ? AND lastname = ?', array('Martin', 'Dougiamas'));
    if($isadmin){
        
-       $initial=20;
-       $pagestart= ($page*20)+1;
-       $endpage= $pagestart+19;;
+      // $remainingsno=10-$_SESSION['sno'];
+     //  echo $remainingsno;
+      
+       $initial=10;
        
+       $pagestart= ($page*10)+1;
+       $endpage= $pagestart+10-1;
+       
+     //  echo "start".$pagestart;
+     //  echo "end".$endpage;
        
      //  $countrows=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id));
        
        
-       if(isset($page)){
+       if(isset($page) && $page>0){
          //  echo "SELECT * FROM {videos} WHERE COUNT(feedcam_id) >$pagestart AND  COUNT(feedcam_id)< $endpage";
-           $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE rowscount >$pagestart AND  rowscount< $endpage");
+           $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage");
+           $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
           // $page++;
          //  echo "<meta http-equiv='refresh' content='5; url=view.php?id={$cm->id}'>";
-       }
+         }
        else{
-           $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE rowscount ==0 AND  rowscount<=$initial");
+           
+           $query= $DB->get_records_sql("SELECT * FROM {videos}  WHERE rowscount<=$endpage");
+           $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
        }
            
        
    }
    else{
-        $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE user_id=$USER->id ");  
+        $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE user_id=$USER->id ");
+        $queryall=$query;
    }
      
       //  $query= mysqli_query($conn,"SELECT * FROM videos "); // db 
         
     //     if (mysqli_num_rows($query) == 0){  
     //db
-        if(!$query){
+        if(!$query || !$queryall){
             
             echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
             
@@ -474,6 +506,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                 echo html_writer::start_tag('div', array('class'=>'itemidprint'));
                          echo get_string('existprint', 'feedcam');
                   echo html_writer::end_tag('div');
+                  
+                   echo $OUTPUT->paging_bar(50, $page, 10, "view.php?id={$cm->id}&page=$page");
             
           //  echo "<div style='float:right;'><font color='#A80707'><b>No Video File Exist</font></b></div>";
           }
@@ -505,7 +539,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
            //  echo get_string('totaltestimonials', 'feedcam');
              $stattable[]=get_string('totaltestimonials', 'feedcam');
               
-             $totaltesti=  floor(sizeof($query)/2);
+             $totaltesti=  floor(sizeof($queryall)/2);
                   $stattable[]= $totaltesti;
             // echo $OUTPUT->heading($totaltesti, 6, null);
           //   echo html_writer::empty_tag('hr');
@@ -530,19 +564,30 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              
              
              foreach($totalstudent as $value){
-                 $sql2='SELECT DISTINCT replycount FROM {videos} WHERE user_id = ?';
+                 $sql2='SELECT * FROM {videos} WHERE user_id = ?';
                  $sql3='SELECT username FROM {user} WHERE id = ?';
                 
+                 
+                 $totalreplyperstu = $DB->get_records_sql($sql2, array($value->user_id));
                  $usernameper = $DB->get_records_sql($sql3, array($value->user_id));
-                 $totalreplyperstu = max($DB->get_records_sql($sql2, array($value->user_id)));
+                 
+                 
+               //  print_r( $totalreplyperstu);
+                 
                  
                  foreach ($usernameper as $value) {
                     // echo $value->username;
                      $lastcol1=$value->username;
                  }
-             
+                 
+                 $loopcount=0;
+                 foreach ($totalreplyperstu as $value) {
+                      $loopcount++;
+                 }
+                 
+             //echo "loop".$loopcount;
                 // echo $totalreplyperstu->replycount+1;
-                  $lastcol2=$totalreplyperstu->replycount+1;
+                  $lastcol2=$loopcount/2;
                   
                   $percentperstu= round(($lastcol2*100)/$totaltesti);
                   
@@ -551,23 +596,24 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                   
                   $row= $row.$lastcol1." | ".$lastcol2." | ".$percentperstu.'%'.' , ';
                   
+                
+                  
              }
              $stattable[]=$row;
              
          }
          
-         
-             $stattable[]=get_string('totaltestimonials', 'feedcam');
+             $table->data[] =$stattable;
+             $stattable=array();
+             $stattable[]=get_string('testimonialstore', 'feedcam');
+             $stattable[]='';
               
-             $totaltesti=  floor(sizeof($query)/2);
-                  $stattable[]= $totaltesti;
+            $table->data[] =$stattable;
          
-              $table->data[] =$stattable;
+             
           echo html_writer::table($table);
           
-          if($isadmin){
-           echo $OUTPUT->paging_bar(50, $page, 10, "view.php?id={$cm->id}&page=$page");
-          }
+         
         //  $pagingbar = paging_bar::make(120, 3, 20, 'http://domain.com/index.php');
 // Optionally : $pagingbar->pagevar = 'mypage';
        //   echo $OUTPUT->paging_bar($pagingbar);
@@ -585,33 +631,6 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             // echo '';
            echo html_writer::start_tag('form', array('method' => 'post', 'action' => ''));
            
-            if (has_capability('mod/feedcam:deletemultiple', $context)) {
-             //  echo '<td>';
-           //   echo html_writer::tag('form',
-            //          html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deleteselected','feedcam'),'id'=>'deleteselected')),
-            //          array('method' => 'post', 'action' => ""));
-              
-               
-               
-               
-               if($isadmin && $teacherdelete){
-                  echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','feedcam'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
-               }
-             
-               
-               
-               
-              // echo "<meta http-equiv='refresh' content='5; URL=$currentpage'>";
-                    //  header("Refresh: 3;url=$currentpage");
-              // exit();
-             //  if(!$isadmin && $studenttime==0){
-             //         echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','feedcam'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
-             //  }
-              
-               
-             //  echo '<form action="" method=post><input type="submit" value="Delete Videos" name="delete" title="Delete" style="height: 40px; width: 180px;" />';
-             //  echo '</div></td>';
-            }
        
             
            // echo '</tr></table><br/>';
@@ -715,16 +734,56 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              
           
             date_default_timezone_set("Asia/Calcutta");
+            
+            
+            
+            
+            $sno=0;
+            
+            foreach ($queryall as $value) { 
+                $vid = $value->id;
+                $rowscount = $value->rowscount;
+                if($vid%2!=0){
+                    $sno++;
+                }
+                
+            $update = new stdclass;
+                  $update->id = $vid;
+                  $update->rowscount = $sno;
+            $lastupdate=$DB->update_record('videos', $update);
+               
+                
+            }
+            
    
             
            // while($row=$DB->get_records_list($query)){   //db
-         if(isset($page)){
             
+        // if(!isset($page) || $page==0){
+          //if($page==0)  {
+          //  $sno=0;
+         //  }
+       //      unset($_SESSION['sno']); 
+            
+      //      $_SESSION['sno']=$sno;
            //  $sno=$_SESSION['sno'];
-         }   
-         else{
-             $sno=1;
-         }
+       //      $_SESSION['page']=$page;
+       //  }   
+         
+       //  else if($page>$_SESSION['page']) {
+           //  echo  $_SESSION['page'].'prev';
+          //  echo "crr".$page;
+      //      $sno=$_SESSION['sno']+1;
+             
+      //       $_SESSION['page']=$page;
+      //   }
+      //   else if($page<$_SESSION['page']){
+             
+             
+       //      $sno=$_SESSION['sno']-1;
+             
+        //     $_SESSION['page']=$page;
+        // }
             // $_SESSION['page']=1;
             
             
@@ -741,6 +800,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                 $datetime = $value->datetime;
                 $replycount = $value->replycount;
                 $urll = $value->url;
+                $rowscount = $value->rowscount;
                 
 
                
@@ -762,25 +822,46 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                     
                // echo "<tr><td>$id</td><td><a href=\"javascript:create_window('watch.php?id=$id','500','800')\>$name</a><br /></td><td><input type=checkbox name=name[] value='$name' /></td></tr>";     
                // echo "<tr><td>$id</td><td><a href='watch.php?id=$id'>$name</a><br /></td><td><input type=checkbox name=name[] value='$name' /></td></tr>";
-               
+             //  if($vid%2!=0){
+            //       $sno++;
+            //   }
                 
+               
+              // if($page==0){
+             //    $update = new stdclass;
+            //           $update->id = $vid;
+            //           $update->rowscount = $sno;
+            //     $lastupdate=$DB->update_record('videos', $update);
+               
+             // }
                 
                 if($vid%2!=0 ){
                    // echo "<tr onMouseover=$mouseover onMouseout=$mouseout>";
                     $mouseover="style.backgroundColor='#f5f5f5'";
                     $mouseout="style.backgroundColor='#FFFFFF'";
                 
-              $table->rowclasses = "onMouseover=$mouseover onMouseout=$mouseout";
+                   $table->rowclasses = "onMouseover=$mouseover onMouseout=$mouseout";
                    // echo "<td >$sno</td>";
-              
+                   
+               //    $update = new stdclass;
+                //       $update->id = $vid;
+               //        $update->rowscount = $sno;
+               //    $lastupdate=$DB->update_record('videos', $update);
+                   
+                   
+                //    $_SESSION['sno']=$sno;
+                  //  echo $_SESSION['sno'];
                  
-                    $dataarr[]=$sno;
-                    $sno++;
-                    
-                    $_SESSION['sno']=$sno;
-                    
+                    //$dataarr[]=$sno;
+                   $dataarr[]=$rowscount;
+                  //  $sno++;
                    
                 }
+                
+                
+                
+                
+                
               //  $link = new action_link();
               //      $link->url = new moodle_url("javascript:create_window('watch.php?id=$vid&cmid=$id')", array('id' => 2, 'action' => 'browse')); // required, but you can use a string instead
               //      $link->text = "$name"; // Required
@@ -906,17 +987,36 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                  
              }
              
+             $dataarr=array();
+             
+             $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]='Select all';
+             $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall', 'value' => get_string('backbutton','feedcam'),'id'=>'checkall'));
+             $table->data[] =$dataarr;
+             
              
               echo html_writer::table($table);
              //  echo "</table>";
               
             
-            echo html_writer::end_tag('div');
             
+           if (has_capability('mod/feedcam:deletemultiple', $context)) {
+               if($isadmin && $teacherdelete){
+                  echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','feedcam'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
+               }
+             
+            } 
+            
+          if($isadmin){
+            echo $OUTPUT->paging_bar(50, $page, 10, "view.php?id={$cm->id}&page=$page");
+          }
+          
+         echo html_writer::end_tag('div');
+          
+         
             echo html_writer::tag('form',html_writer::empty_tag('input', 
                     array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')),
                     array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
-            
+             
             
           echo html_writer::end_tag('form');  
         

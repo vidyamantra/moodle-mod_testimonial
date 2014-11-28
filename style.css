@@ -19,7 +19,7 @@ height: 40px; width: 200px; font-size:13px;color:#00BFFF;margin-left: 0%;
  height:42px; width:60px;
 }
 #page-mod-feedcam-view  #backbutton {
- height: 40px; width: 180px;
+margin-left:30%; height: 40px; width: 180px;
 }
 #page-mod-feedcam-view #deleteselected {
  height: 40px; width: 180px;color:red;
@@ -48,11 +48,11 @@ color:#A80707;
 }
 
 #page-mod-feedcam-view  #deletemul{
-height: 35px; width: 70px;margin-left:59%;
+height: 35px; width: 70px;margin-left:90%;
 }
 
 #page-mod-feedcam-view  #storetable{
-overflow: auto; width: 700px; height: 500px;margin-left:10%;
+ width: 700px; height: 600px;margin-left:10%;
 }
 
 .watch{

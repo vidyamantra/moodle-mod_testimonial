@@ -83,4 +83,5 @@ $string['teacherdelete']= " Teacher can delete ";
 $string['totaltestimonials']= " Total testimonials <html>&nbsp&nbsp</html> ";
 $string['totalstudents']= " Student statistics ";
 $string['videotitle']= "Testimonial title ";
+$string['testimonialstore']= "<b> Testimonials store <b>";
 
