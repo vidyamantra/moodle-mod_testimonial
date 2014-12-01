@@ -32,9 +32,9 @@
                         
                     // progress-bar
                     var hr = document.createElement('hr');
-                     if(strArr[1] != "wav"){
-                       container.appendChild(hr);
-                     }
+                    // if(strArr[1] != "wav"){
+                   //    container.appendChild(hr);
+                  //   }
                     var strong = document.createElement('strong');
                     strong.id = 'percentage';
                     if(strArr[1] != "wav"){
@@ -55,9 +55,9 @@
                     // POST the Blob using XHR2
                 xhr('save.php?cmid='+window.uniqueId+'&vtitle='+window.videotitle, formData, progress, percentage, function(fileURL) {
                         
-                        alert(fileURL);
+                       // alert(fileURL);
                         
-                        container.appendChild(document.createElement('hr'));
+                     //   container.appendChild(document.createElement('hr'));
                         var mediaElement = document.createElement(fileType);
                        // var source = document.createElement('source');
                         var href = location.href.substr(0, location.href.lastIndexOf('/') + 1);
@@ -212,6 +212,7 @@
                         request.upload.onload = function() {
                             if(window.videotitle=="[object HTMLInputElement]"){
                                percentage.innerHTML = 'Untitled testimonial saved \xBB ';
+                               
                            }
                            else{
                                percentage.innerHTML = window.videotitle+' saved \xBB ';

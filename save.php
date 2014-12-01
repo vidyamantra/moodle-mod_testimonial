@@ -69,11 +69,11 @@ if($feedcam->intro) { // Conditions to show the intro can change to look for own
    
  $result=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
   $replycount=(int)floor($result/2);     
-  echo $replycount;
+ // echo $replycount;
   
   $rowscount=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id));
   //$replycount=(int)floor($result2/2);     
-  echo $rowscount;
+ // echo $rowscount;
    
 foreach(array('video', 'audio') as $type) {
     if (isset($_FILES["${type}-blob"])) {

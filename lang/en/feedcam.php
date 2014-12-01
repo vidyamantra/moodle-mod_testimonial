@@ -54,9 +54,10 @@ $string['eventvideocreated'] = 'Recorded video has been submitted';
 $string['eventvideorevealed'] = 'Recorded video has been watched';
 $string['record'] = "Record ";
 $string['stop'] = "Stop ";
-$string['deletefiles'] = "Delete Files";
-$string['store'] = " Back to Lacture's Store ";
-$string['backbutton'] = " New Recording ";
+$string['deletefiles'] = "Del Recent files";
+$string['store'] = " Back to Testimonials Store ";
+$string['backbutton'] = " Record Testimonials ";
+$string['backbutton2'] = " Make new testimonial ";
 $string['deleteselected'] = "Delete Selected";
 $string['firstpara']= "<b>FeedCam</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video lectures.
                                                    FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users. You can delete your recently 
@@ -65,9 +66,9 @@ $string['clickon'] = "Click on <html>&rarr;</html>";
 $string['recheading'] = "Testimonial recording";
 $string['subheading'] = "Testimonial submissions";
 $string['feedcamlegend'] = "FEED CAM";
-$string['curruptprint'] = "Sorry, Currupted media and did not store on server";
+$string['curruptprint'] = "Sorry, Currupted Testimonial and did not store on server";
 $string['deleteprint']= "<font color='green'> Successfully Deleted </font>";
-$string['existprint']= " No Video File Exist";
+$string['existprint']= " No Testimonial File Exist";
 $string['deletemultiple'] = "Delete ";
 $string['storeheader'] = " RECORDINGS ";
 $string['replaywatch'] = "RE-PLAY";
@@ -80,8 +81,16 @@ $string['selectfile']= "<font color='red'> Please Select the File!!! </font>";
 $string['additional']= "Additional setting";
 $string['studenttime']= " Student's duration for deletion ";
 $string['teacherdelete']= " Teacher can delete ";
-$string['totaltestimonials']= " Total testimonials <html>&nbsp&nbsp</html> ";
+$string['totaltestimonials']= " Total testimonials  ";
 $string['totalstudents']= " Student statistics ";
 $string['videotitle']= "Testimonial title ";
 $string['testimonialstore']= "<b> Testimonials store <b>";
+$string['selectall']= "<b> check/uncheck all : <b>";
+$string['newtestitext']= " For new testimonial ";
+$string['studentimetext']= " Bounded time for deletion ";
+$string['testirecording']="<b> Testimonial recording </b>";
+$string['uploading']=" Uploading process ";
+$string['successdelrecent']=" Successfully deleted all consecutive recent files ";
+$string['refreshhint']="<font size='2px' color='grey'> * Refresh page after deleting recent files </font>";
+
 

@@ -43,6 +43,7 @@ if (isset($_POST['delete-file'])) {
     
    // $files=$_POST['delete-file'];
     $fiesstr= $_POST['delete-file'];
+    //print_r($fiesstr);
     $files=explode(',',$_POST['delete-file']);
     
     
@@ -92,11 +93,11 @@ if (isset($_POST['delete-file'])) {
                     // mysqli_query($conn,"DELETE FROM mdl_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
                      // $DB->delete_records("mdl_videos", array('name'=>$withvideoext));
                      // $DB->delete_records("mdl_videos", array('name'=>$withaudioext));
-                     echo "$file, ";
+                    // echo "$file, ";
                  //   $DB->delete_records("videos", array(sql_compare_text("name")=>$value));
              }
     }
     
-    echo "has been successfully deleted !!";
+    echo get_string('successdelrecent','feedcam'); 
   }
 ?>

@@ -205,63 +205,118 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                           //  echo '<script src="http://localhost/moodle27d/mod/feedcam/js/need.js"> </script>';
                      //  $PAGE->requires->js('/mod/feedcam/js/need.js');
     
-                 echo $OUTPUT->heading(get_string('recheading', 'feedcam'), 4, null);
-                 
-                  echo html_writer::start_tag('div', array('id'=>'firstdiv','class' => 'page')); echo html_writer::end_tag('div').'<br/>';
-                       
-                   echo get_string('videotitle','feedcam');
-                         echo html_writer::empty_tag('input', array('type' => 'text','name'=>'videotitle','id'=>'videotitle', 'class'=>'titlebutton', 'onchange'=>'saveVideoTitle(this.value)'));
-                              
-                      echo html_writer::empty_tag('hr');
-                     echo html_writer::start_tag('div', array('id' => 'video-container'));
-                     
-                     
-                                                // echo '<input type="text" name="txt" value="Hello" onchange="myFunction(this.value)">';
+            $table = new html_table();
+            
+                 $table->align=array();
+                 $table->rowclasses = array();
+                 $table->size=array();
+                 //$table->data = array();
 
-                                                        
-                                 // echo '<script></script>';
-                                 
-                     
-                            if (has_capability('mod/feedcam:godatabase', $context)) {
-                                //   echo  '<form method=post action="" ><input type="submit" value="Feedcam'."'s".' Store" name="database" style="height: 35px; width: 180px; font-size:13px;color:#00BFFF;" /><img src="http://www.essentialsql.com/wp-content/uploads/2014/05/database-parts.jpg" height="42" width="60"></img></form>';
-                                $url = new moodle_url('');
-                               echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','feedcam'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
-                               //echo  html_writer::link($url, '<img src = "pix/database.png" class = "databaseimage" id="databaseimage" />');
-                               //http://www.grace-fp7.eu/sites/default/files/imagecache/Article-popup/article-images/Database_iStock_000020783950XSmall_0.jpg
-                            }
-                            
+                          $table->size[] = '150px';
+                          $table->align[] = 'left';
+
+                          $table->size[] = '300px';
+                          $table->align[] = 'left';
+                          
+                          $table->size[] = '100px';
+                          $table->align[] = 'left';
+
+
+                   //    $table->data[] =$dataarr; 
+                   $OUTPUT->heading(get_string('recheading', 'feedcam'), 4, null);
+                     $recpaneltable=array();
+                //  echo html_writer::start_tag('div', array('id'=>'firstdiv','class' => 'page')); echo html_writer::end_tag('div').'<br/>';
                        
-                     //  echo '<tr><td>';
+                      $recpaneltable[]= get_string('videotitle','feedcam');
+                         //echo html_writer::empty_tag('input', array('type' => 'text','name'=>'videotitle','id'=>'videotitle', 'class'=>'titlebutton', 'onchange'=>'saveVideoTitle(this.value)'));
+                       $recpaneltable[]= html_writer::empty_tag('input', array('type' => 'text','name'=>'videotitle','id'=>'videotitle', 'class'=>'titlebutton', 'onchange'=>'saveVideoTitle(this.value)'));        
+                       $recpaneltable[]='';
+                       
+                      $table->data[]=$recpaneltable;
+                      
+                      
+                      $recpaneltable=array();
+                      $recpaneltable[]=get_string('testirecording','feedcam');
+                      
+                      if (has_capability('mod/feedcam:record', $context)) {
+                       $recordbutt= html_writer::empty_tag('input', array('type' => 'submit','name'=>'record', 'value' => get_string('record','feedcam'),'id'=>'record', 'class'=>'recordbutton'));
+                        }
+                       $stopbutt= html_writer::empty_tag('input', array('type' => 'button','name'=>'stop', 'value' => get_string('stop','feedcam'),'id'=>'stop', 'class'=>'stopbutton','disabled'=>'disabled' ));
+                      
+                       if (has_capability('mod/feedcam:deleterecent', $context)) {
+                             $deleterecent= html_writer::empty_tag('input', array('type' => 'button','name'=>'delete', 'value' => get_string('deletefiles','feedcam'),'id'=>'delete', 'class'=>'deletefilesbutton','disabled'=>'disabled' ));
+                       }
+                       
+                      $recpaneltable[]= $recordbutt.$stopbutt.$deleterecent;
+                      $recpaneltable[]='';
+                              
+                       $table->data[]=$recpaneltable;
+                       
+                       
+                       $recpaneltable=array();
+                       
+                      // echo html_writer::start_tag('div', array('id' => 'video-container'));
+                     //  $control='';
+                      // echo "<script>document.getElementById('record').onclick = function() { $control='controls';}</script>";
+                       // echo '';
+                       
+                         $recbox= html_writer::start_tag('video', array('id' => 'preview','class'=>'videopreview','controls'=>'controls'));echo html_writer::end_tag('video');
+                      // echo html_writer::end_tag('div'); 
+                        $recpaneltable[]='';
+                        $recpaneltable[]=$recbox;
+                        $recpaneltable[]='';
                         
-                           // echo ' for live Camera';  
-                          echo html_writer::start_tag('video', array('id' => 'preview','class'=>'videopreview','controls'=> 'controls'));echo html_writer::end_tag('video');
-		        //  echo '<video id="preview" controls style=" border:1px solid #0070a8;height: 430px; width: 580px;"></video></p>';
+                       $table->data[]=$recpaneltable;
+                         
+                       $recpaneltable=array();
+                       
+                       
+                       $recpaneltable[]=get_string('uploading','feedcam');
+                       
+                        $recpaneltable[]= html_writer::empty_tag('div', array('id' => 'container','class'=>'uploadingbar')).html_writer::end_tag('div').get_string('refreshhint','feedcam');;
+                                        
+                       //$recpaneltable[]=$deleterecent;
+                      $recpaneltable[]='';
+                      
                         
-                          echo '<hr />';
+                        $table->data[]=$recpaneltable;
+                        
+                        $recpaneltable=array();
+                        
+                         $recpaneltable[]='';
+                         if (has_capability('mod/feedcam:godatabase', $context)) { //   echo  '<form method=post action="" ><input type="submit" value="Feedcam'."'s".' Store" name="database" style="height: 35px; width: 180px; font-size:13px;color:#00BFFF;" /><img src="http://www.essentialsql.com/wp-content/uploads/2014/05/database-parts.jpg" height="42" width="60"></img></form>';
+                                $url = new moodle_url('');
+                              $backtostore= html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','feedcam'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
+                             
+                           }
+                        $recpaneltable[]= $backtostore;
+                        $recpaneltable[]='';
+                      
+                        
+                        $table->data[]=$recpaneltable;
+                         
+                       echo html_writer::table($table); 
+                            
+                           
+                              
+                        
+                            
+                          
                           //  echo '<button id="stop" style="height: 35px; width: 150px; color:red;" disabled>Stop &FilledSmallSquare;</button> | ';
 
                     //    echo html_writer::start_tag('div', array('id' => 'buttons'));
-                         echo '<table align=center><tr><td>';
+                        // echo '<table align=center><tr><td>';
                         
-                             echo get_string('clickon', 'feedcam');
-                            if (has_capability('mod/feedcam:record', $context)) {
-                              //  echo '<script>if(window.videotitle){'.$disablerec="enabled".'}else{'.$disablerec="disabled".'}</script>';
-                              echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'record', 'value' => get_string('record','feedcam'),'id'=>'record', 'class'=>'recordbutton')).' || ';
-                             }
-                        //  echo get_string('livecamera', 'feedcam').'</td><td>';
+                           //  echo get_string('clickon', 'feedcam');
                           
-                            echo html_writer::empty_tag('input', array('type' => 'button','name'=>'stop', 'value' => get_string('stop','feedcam'),'id'=>'stop', 'class'=>'stopbutton','disabled'=>'disabled' )).' |</td><td>';
+                            
                            
-                            if (has_capability('mod/feedcam:deleterecent', $context)) {
-                               echo html_writer::empty_tag('input', array('type' => 'button','name'=>'delete', 'value' => get_string('deletefiles','feedcam'),'id'=>'delete', 'class'=>'deletefilesbutton','disabled'=>'disabled' ));
-                            }
-                           
-                         echo '</td><tr></table>' ;
+                        // echo '</td><tr></table>' ;
                       // echo html_writer::end_tag('div');
-                       echo html_writer::end_tag('div'); 
+                       
                      echo html_writer::end_tag('form');
                     
-                     echo html_writer::start_tag('div', array('id' => 'container','class'=>'uploadingbar'));echo html_writer::end_tag('div');
+                  //   echo html_writer::start_tag('div', array('id' => 'container','class'=>'uploadingbar'));echo html_writer::end_tag('div');
                         
                    // echo '<div align="center" id="container" style="padding:1em 1em;margin-top:80px; width: 600px; height: 200px;""></div>';
                    //  echo '</td></tr>';
@@ -432,7 +487,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              //  }
                   // if(isset($getvidname)){
                        
-                     echo "<meta http-equiv='refresh' content='5; url=view.php?id={$cm->id}&page=$page'>";
+                     echo "<meta http-equiv='refresh' content='3; url=view.php?id={$cm->id}&page=$page'>";
                  //  }
               }
               
@@ -452,10 +507,30 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
     // else { 
      //   echo "you are not an admin".$isadmin;
    //   }  
+        $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
+        if(!$isadmin){
+            $queryall= $DB->get_records_sql("SELECT * FROM {videos} WHERE user_id=$USER->id ");
+        }
        
+            $sno=0;
+            
+          foreach ($queryall as $value) { 
+             $vid = $value->id;
+             $rowscount = $value->rowscount;
+                if($vid%2!=0){
+                    $sno++;
+                }
+                
+             $update = new stdclass;
+                  $update->id = $vid;
+                  $update->rowscount = $sno;
+             $lastupdate=$DB->update_record('videos', $update);
+          }
+            
+           
        
-       
-       
+       $pagestart= ($page*10)+1;
+       $endpage= $pagestart+10-1;
 
       // $DB->get_record_sql('SELECT * FROM {videos} WHERE firstname = ? AND lastname = ?', array('Martin', 'Dougiamas'));
    if($isadmin){
@@ -463,10 +538,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
       // $remainingsno=10-$_SESSION['sno'];
      //  echo $remainingsno;
       
-       $initial=10;
+     //  $initial=10;
        
-       $pagestart= ($page*10)+1;
-       $endpage= $pagestart+10-1;
+      // $pagestart= ($page*10)+1;
+     //  $endpage= $pagestart+10-1;
        
      //  echo "start".$pagestart;
      //  echo "end".$endpage;
@@ -477,21 +552,19 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
        if(isset($page) && $page>0){
          //  echo "SELECT * FROM {videos} WHERE COUNT(feedcam_id) >$pagestart AND  COUNT(feedcam_id)< $endpage";
            $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage");
-           $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
+        //   $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
           // $page++;
          //  echo "<meta http-equiv='refresh' content='5; url=view.php?id={$cm->id}'>";
          }
        else{
            
            $query= $DB->get_records_sql("SELECT * FROM {videos}  WHERE rowscount<=$endpage");
-           $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
+         //  $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
        }
-           
-       
    }
    else{
-        $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE user_id=$USER->id ");
-        $queryall=$query;
+        $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE user_id=$USER->id AND rowscount>=$pagestart AND rowscount<=$endpage");
+       // $queryall=$query;
    }
      
       //  $query= mysqli_query($conn,"SELECT * FROM videos "); // db 
@@ -507,15 +580,19 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                          echo get_string('existprint', 'feedcam');
                   echo html_writer::end_tag('div');
                   
-                   echo $OUTPUT->paging_bar(50, $page, 10, "view.php?id={$cm->id}&page=$page");
-            
+                // if($isadmin){
+                   echo $OUTPUT->paging_bar(100, $page, 10, "view.php?id={$cm->id}&page=$page");
+               //    }
           //  echo "<div style='float:right;'><font color='#A80707'><b>No Video File Exist</font></b></div>";
           }
             
         else { 
             
              $table = new html_table();
-          //  $table->attributes['class'] = 'datatable';
+         //   if($admin){ 
+          //     $table->attributes['class'] = 'datatable';
+          //  }
+            
             // $table->head = array ();
              $table->align=array();
              $table->rowclasses = array();
@@ -603,11 +680,28 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              
          }
          
+            
              $table->data[] =$stattable;
+             
+            if(!$isadmin){ 
+              $stattable=array();
+              $stattable[]=get_string('studentimetext', 'feedcam');
+              $stattable[]=$studenttime." hours";
+            
+              $table->data[] =$stattable;        
+           }
+         
              $stattable=array();
              $stattable[]=get_string('testimonialstore', 'feedcam');
-             $stattable[]='';
-              
+             
+             if(!$isadmin){
+                    $stattable[]= html_writer::tag('form',html_writer::empty_tag('input', 
+                    array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','feedcam'),'id'=>'backbutton2')),
+                    array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
+             }
+             else{
+                 $stattable[]='';
+             }
             $table->data[] =$stattable;
          
              
@@ -629,25 +723,17 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
           //  echo "<div align=center><a href='view.php?id={$cm->id}'><input type=button value='Back to Video Capture' name='home' style='height: 40px; width: 180px;' /></a> | ";
           
             // echo '';
-           echo html_writer::start_tag('form', array('method' => 'post', 'action' => ''));
+         echo html_writer::start_tag('form', array('method' => 'post', 'action' => '','id'=>'frm1'));
            
        
-            
-           // echo '</tr></table><br/>';
-            
-            
-                  //  <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-                 //           <td>Item 1A</td><td>Item 1B</td><td>Item 1C</td>
-                  //  </tr>
-                  //  </table>
-                                        
-                              
             
             echo html_writer::start_tag('div', array('id'=>'storetable'));
             
             
             $table = new html_table();
-          //  $table->attributes['class'] = 'datatable';
+          if(!$admin){  
+            $table->attributes['class'] = 'datatable';
+          }
              $table->head = array ();
              $table->align=array();
              $table->rowclasses = array();
@@ -730,32 +816,11 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             
            // echo "<table cellpadding=30 cellspacing=2 style='border-spacing:2em;'>";
            // echo "<tr><th>Id</th><th>Name</th><th>Delete</th></tr>";
-                   
-             
-          
             date_default_timezone_set("Asia/Calcutta");
-            
-            
-            
-            
-            $sno=0;
-            
-            foreach ($queryall as $value) { 
-                $vid = $value->id;
-                $rowscount = $value->rowscount;
-                if($vid%2!=0){
-                    $sno++;
-                }
-                
-            $update = new stdclass;
-                  $update->id = $vid;
-                  $update->rowscount = $sno;
-            $lastupdate=$DB->update_record('videos', $update);
-               
-                
-            }
-            
-   
+           
+       //   if(!$isadmin){
+       //     $srno=1;
+       //   }
             
            // while($row=$DB->get_records_list($query)){   //db
             
@@ -801,14 +866,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                 $replycount = $value->replycount;
                 $urll = $value->url;
                 $rowscount = $value->rowscount;
-                
-
-               
                 $videoids=$vid.'/'.$name;
-               
-                
-                
-               
                // $url=get_feedcam_doc_url($vid);
                //echo($url);
                
@@ -853,14 +911,16 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                   //  echo $_SESSION['sno'];
                  
                     //$dataarr[]=$sno;
-                   $dataarr[]=$rowscount;
-                  //  $sno++;
+               //    if($isadmin){
+                     $dataarr[]=$rowscount;
+              //     }
+             //     if(!$isadmin){
+              //         $dataarr[]=$srno;
+              //         $srno++;
+              //     }
+                    //  $sno++;
                    
                 }
-                
-                
-                
-                
                 
               //  $link = new action_link();
               //      $link->url = new moodle_url("javascript:create_window('watch.php?id=$vid&cmid=$id')", array('id' => 2, 'action' => 'browse')); // required, but you can use a string instead
@@ -969,11 +1029,11 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                        }
                          
 
-                            $metaexpire=$expire+60;
-                            $page = $_SERVER['PHP_SELF'];
-                            $sec = "3600";
-                                  echo "<meta http-equiv='refresh' content= '$sec' URL='$page'>";
-                                  echo "<meta http-equiv='expires' content='$expire' />";
+                          //  $metaexpire=$expire+60;
+                         //   $page = $_SERVER['PHP_SELF'];
+                         //   $sec = "3600";
+                          //        echo "<meta http-equiv='refresh' content= '$sec' URL='$page'>";
+                          //        echo "<meta http-equiv='expires' content='$expire' />";
                                   
                                   
                        //  echo "<td><input type=checkbox name=videoarr[] value='$videoids' /></td>";         
@@ -987,13 +1047,15 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                  
              }
              
-             $dataarr=array();
-             
-             $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]='Select all';
-             $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall', 'value' => get_string('backbutton','feedcam'),'id'=>'checkall'));
-             $table->data[] =$dataarr;
-             
-             
+             if($isadmin){
+
+
+                $dataarr=array();
+                $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=get_string('selectall', 'feedcam');;
+                $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall','onclick'=>'checkedAll(frm1)','id'=>'checkall'));
+                $table->data[] =$dataarr;
+              }
+              
               echo html_writer::table($table);
              //  echo "</table>";
               
@@ -1006,17 +1068,19 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              
             } 
             
-          if($isadmin){
-            echo $OUTPUT->paging_bar(50, $page, 10, "view.php?id={$cm->id}&page=$page");
-          }
+       //  if($isadmin){
+            echo $OUTPUT->paging_bar(100, $page, 10, "view.php?id={$cm->id}&page=$page");
+        //  }
+         
           
          echo html_writer::end_tag('div');
           
          
+         if(!$isadmin){
             echo html_writer::tag('form',html_writer::empty_tag('input', 
                     array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')),
                     array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
-             
+         }
             
           echo html_writer::end_tag('form');  
         

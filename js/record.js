@@ -1579,20 +1579,17 @@ function bytesToSize(bytes) {
   
   
   function saveVideoTitle(val){ 
-     // alert("The input value has changed. The new value is: " + val); 
-     
       if(val){
         window.videotitle=val;
       }
       else{
          window.videotitle="Untitled Testimonial";
-     }
+      }
   }
   
   
    function getvideoid(val2){ 
-      alert("The input value has changed. The new value is: " + val2); 
-     
+    //  alert("The input value has changed. The new value is: " + val2); 
       if(val2){
         window.getvideoid=val2;
       }
@@ -1600,3 +1597,13 @@ function bytesToSize(bytes) {
          window.vgetvideoid="Error";
      }
   }
+  
+  checked=false;
+   function checkedAll (frm1) {var aa= document.getElementById('frm1'); if (checked == false){
+     checked = true
+   }
+   else{
+     checked = false
+    }
+   for (var i =0; i < aa.elements.length; i++){ aa.elements[i].checked = checked;}
+   }
