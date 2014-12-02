@@ -35,8 +35,17 @@ margin-left:12%; height: 35px; width: 160px;font-size: small;
 #page-mod-feedcam-view  #firstpara{
 text-align:justify;font-size:12px;color: #333333;font-family: Century Gothic, sans-serif;
 }
-#page-mod-feedcam-view  #video-container{
-margin-left:0px;margin-top:15px;text-align: center; border-right:1px solid #0070a8;height:500px;width:890px;
+
+.youwatching{
+background: url(pix/bg2.gif) repeat-x;padding: 50px;
+}
+
+#video-container{
+margin-left:0px;margin-top:25px;text-align: center;height:510px;width:680px;float: right;
+}
+
+#controlbutton{
+display: inline;margin-left: 40%;
 }
 //#page-mod-feedcam-view  #container{
 //padding:1em 1em; width: 600px; height: 200px;margin-top: 30px;
@@ -60,19 +69,27 @@ height: 35px; width: 70px;margin-left:90%;font-size: small;
 }
 
 .watch{
-height: 30px; width: 150px;
+height: 30px; width: 50px;font-size: small;
+}
+
+.icon{
+height: 30px; width: 30px;font-size: small;
 }
 
 .watch2{
-height: 30px; width: 90px;
+height: 30px; width: 50px;font-size: x-small;
 }
 
 .watchbar{
-height: 20px; width: 220px;
+height: 10px; width: 450px;
+}
+
+.watchbarmute{
+height: 10px; width: 100px;
 }
 
 .videowatch{
-border: 1px solid rgb(15, 158, 238); height: 500px; width: 660px;
+border: 1px solid rgb(15, 158, 238); height: 510px; width: 680px;
 }
 
 
@@ -109,6 +126,7 @@ border: 1px solid rgb(15, 158, 238); height: 500px; width: 660px;
         width: auto;
         
 }
+
 
 
 

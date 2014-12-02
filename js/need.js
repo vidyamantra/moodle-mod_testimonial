@@ -57,6 +57,7 @@ muteButton.addEventListener("click", function() {
 });
 
 // Event listener for the full-screen button
+/*
 fullScreenButton.addEventListener("click", function() {
   if (video.requestFullscreen) {
     video.requestFullscreen();
@@ -65,7 +66,7 @@ fullScreenButton.addEventListener("click", function() {
   } else if (video.webkitRequestFullscreen) {
     video.webkitRequestFullscreen(); // Chrome and Safari
   }
-});
+});*/
 
 // Event listener for the seek bar
 seekBar.addEventListener("change", function() {

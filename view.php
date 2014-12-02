@@ -180,7 +180,14 @@ if(((!isset($_POST['database'])) && (!isset($_POST['delete'])) && !isset($_POST[
 
 */
 
-
+$admins = get_admins();
+      $isadmin = false;
+      foreach($admins as $admin) {
+       if ($USER->id == $admin->id) {
+           $isadmin = true;
+            break;
+          }
+     }
 
 
 
@@ -273,7 +280,7 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                        
                        $recpaneltable[]=get_string('uploading','feedcam');
                        
-                        $recpaneltable[]= html_writer::empty_tag('div', array('id' => 'container','class'=>'uploadingbar')).html_writer::end_tag('div').get_string('refreshhint','feedcam');;
+                        $recpaneltable[]= html_writer::start_tag('div', array('id' => 'container','class'=>'uploadingbar')).html_writer::end_tag('div').get_string('refreshhint','feedcam');;
                                         
                        //$recpaneltable[]=$deleterecent;
                       $recpaneltable[]='';
@@ -335,7 +342,7 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
          echo '<script>window.uniqueId ='.$id.' </script>';
 	$PAGE->requires->js('/mod/feedcam/js/record2.js');		
            
-            if($completion->is_enabled($cm) && $feedcam->completionrecord) {
+            if($completion->is_enabled($cm) && $feedcam->completionrecord && !$isadmin) {
                  $completion->update_state($cm,COMPLETION_COMPLETE);
              }
         
@@ -343,14 +350,7 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
     }
 
 
-     $admins = get_admins();
-      $isadmin = false;
-      foreach($admins as $admin) {
-       if ($USER->id == $admin->id) {
-           $isadmin = true;
-            break;
-          }
-       }
+     
 
 if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !isset($postback)) && ($_SESSION['flip']==0)){
  
