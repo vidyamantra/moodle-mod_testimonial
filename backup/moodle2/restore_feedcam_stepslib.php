@@ -36,10 +36,10 @@ class restore_feedcam_activity_structure_step extends restore_activity_structure
         $paths = array();
        
         $userinfo = $this->get_setting_value('userinfo');
-        $paths[] = new restore_path_element('feedcam', '/activity/feedcam');
-        $paths[] = new restore_path_element('videos', '/activity/feedcam');
+        $paths[] = new restore_path_element('feedcam', '/activity/feedcam/feedcam');
+        $paths[] = new restore_path_element('videos', '/activity/feedcam/videos');
         if ($userinfo) {
-            $paths[] = new restore_path_element('feedcam_watching', '/activity/feedcam');
+            $paths[] = new restore_path_element('feedcam_watching', '/activity/feedcam/feedcam_watching');
         }
 
         // Return the paths wrapped into standard activity structure
@@ -51,8 +51,8 @@ class restore_feedcam_activity_structure_step extends restore_activity_structure
 
         $data = (object)$data;
         $oldid = $data->id;
+        
         $data->course = $this->get_courseid();
-
         $data->timeopen = $this->apply_date_offset($data->timeopen);
         $data->timeclose = $this->apply_date_offset($data->timeclose);
         $data->timemodified = $this->apply_date_offset($data->timemodified);
@@ -69,7 +69,9 @@ class restore_feedcam_activity_structure_step extends restore_activity_structure
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->feedcam_id = $this->get_new_parentid('feedcam');
+        
+        $data->user_id = $this->get_new_parentid('feedcam');
+       // user_id,name,url,feedcam_id
        // $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('videos', $data);

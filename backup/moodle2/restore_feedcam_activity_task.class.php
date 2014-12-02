@@ -64,12 +64,12 @@ class restore_feedcam_activity_task extends restore_activity_task {
      * to the activity to be executed by the link decoder
      */
     
-    /*
+    
     static public function define_decode_rules() {
         $rules = array();
 
-        $rules[] = new restore_decode_rule('CHOICEVIEWBYID', '/mod/choice/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('CHOICEINDEX', '/mod/choice/index.php?id=$1', 'course');
+        $rules[] = new restore_decode_rule('FEEDCAMVIEWBYID', '/mod/feedcam/view.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('FEEDCAMINDEX', '/mod/feedcam/index.php?id=$1', 'course');
 
         return $rules;
 
