@@ -72,6 +72,9 @@ if($feedcam->intro) { // Conditions to show the intro can change to look for own
  // echo $replycount;
   
   $rowscount=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id));
+  
+  $completion = new completion_info($course);
+$completion->set_module_viewed($cm);
   //$replycount=(int)floor($result2/2);     
  // echo $rowscount;
    
@@ -89,6 +92,8 @@ foreach(array('video', 'audio') as $type) {
        $uploaded_file_path = $_FILES["${type}-blob"]["tmp_name"];  // temp path to the actual file
         $filename = $_POST["${type}-filename"];                // the original (human readable) filename
        
+        
+       // print_r($filename);
         
       //  $mediaext=substr($filename, -3);
         
@@ -148,7 +153,7 @@ foreach(array('video', 'audio') as $type) {
          
                 $sql='SELECT id FROM {videos} WHERE name = ?';    
              $mediaid = $DB->get_field_sql($sql, array($filename));
-             $mediaid=(int)$mediaid;
+            
            // foreach ($query as $value) { 
           //      $mediaid= $value->id;  
           //   }      
@@ -190,7 +195,6 @@ foreach(array('video', 'audio') as $type) {
                 
                 
              $midint= (int)$mediaid;
-                
              $url=get_feedcam_doc_url($midint);
              $url1="$url";
              
@@ -205,10 +209,11 @@ foreach(array('video', 'audio') as $type) {
              
              echo $lastupdateid;
              */
+            print_r($url1);
              
              $update = new stdclass;
               
-                $update->id = $midint;
+                $update->id = $mediaid;
                 $update->url = $url1;
                 $update->replycount = $replycount;
                 $update->rowscount = $rowscount;
@@ -230,6 +235,7 @@ foreach(array('video', 'audio') as $type) {
         
     }
 }
+
 
                 $eventdata1 = array();
             $eventdata1['context'] = $context;

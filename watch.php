@@ -43,14 +43,19 @@ $context = context_module::instance($cm->id);
 
 //echo '<fieldset><legend><font color="black"  size="4"><b style="font-family:  "Hoefler Text", Georgia, "Times New Roman", serif;">RECORDINGS </b></font> </legend>';
 
-$id2='';$url2='';$feedcamid='';
+$id2='';$url='';$url2='';$feedcamid='';
 
-       if(isset($_GET['id'])){
+ $avid = optional_param('id', 0, PARAM_INT);
+    
+    if(isset($avid)){
            
            $feedcamid=$feedcam->id;
            
-           $id=$_GET['id'];
-           $id2=$id+1;
+           $id=$avid;
+           $id2=$avid+1;
+           
+           echo $avid.'avid';
+           
            
            //fetching video from database
            $query = $DB->get_records_sql('SELECT * FROM {videos} WHERE id = ?', array($id));
@@ -93,6 +98,9 @@ $id2='';$url2='';$feedcamid='';
             }
            
             
+           // echo $url;
+         //   echo ' , aud '.$url2;
+            
             echo '<script src="js/need.js"> </script>';
             echo '<link href="style.css" type="text/css" rel="stylesheet"></link>';
             
@@ -123,13 +131,7 @@ $id2='';$url2='';$feedcamid='';
                       $watchtable[]='';
                       $watchtable[]=get_string('youwatching','feedcam').$title;
                       $watchtable[]='';
-                           
-                     $table->data[]=$watchtable;
-                     $watchtable=array();
-                     
-                      $watchtable[]= html_writer::empty_tag('div', array('id' => 'space'));
-                      $watchtable[]='';
-                      $watchtable[]='';
+                   
                            
                      $table->data[]=$watchtable;
                      $watchtable=array();
@@ -147,8 +149,9 @@ $id2='';$url2='';$feedcamid='';
                    
                      
                      // echo html_writer::start_tag('div', array('id' => 'video-container'));
-                     $startdiv=html_writer::start_tag('div', array('id' => 'video-container'));
+                    
                       $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch','autoplay'=>'autoplay'));echo html_writer::end_tag('audio');
+                     $startdiv=html_writer::start_tag('div', array('id' => 'video-container'));
                       $videobuff=html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch','autoplay'=>'autoplay')).html_writer::end_tag('video');
                      $enddiv= html_writer::end_tag('div');
                      
