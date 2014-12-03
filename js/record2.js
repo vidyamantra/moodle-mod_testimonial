@@ -64,8 +64,8 @@
                         source.src = href + fileURL;
                         
                         if(fileType == 'video') source.type = 'video/webm; codecs="vp8, vorbis"';
-                        if(fileType == 'audio') source.type = !!navigator.mozGetUserMedia ? 'audio/ogg': 'audio/wav';
-                       //  if(fileType == 'audio') source.type = 'audio/wav';
+                      //  if(fileType == 'audio') source.type = !!navigator.mozGetUserMedia ? 'audio/ogg': 'audio/wav';
+                         if(fileType == 'audio') source.type = 'audio/wav;';
                         
                         mediaElement.appendChild(source);
                         

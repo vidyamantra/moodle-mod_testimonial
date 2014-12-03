@@ -33,9 +33,9 @@ defined('MOODLE_INTERNAL') || die();
 $string['modulename'] = 'FeedCam';
 $string['pluginname'] = 'FeedCam';
 $string['modulenameplural'] = 'feedcams';
-$string['modulename_help'] = '<b>FeedCam</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video lectures.<br/>
-                                                   FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users. You can delete your recently 
-                                                  recorded lecture as well as multiple deletion feature for previously recorded lectures. This is one of the poweful plugin that can automatically upload the lectures on server side therefore local space does not required much.';
+$string['modulename_help'] = '<b>FeedCam</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video testimonials.<br><br><table><tr><td>
+                                                   FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users.</td></tr><tr><td> Teacher can makes constraints for student. You can delete your recently 
+                                                  recorded testimonial as well multiple deletion feature for previously recorded testimonials.</td></tr><tr><td> This is one of the powerful plugin that can automatically upload the lectures on server side therefore local space does not required.</td></tr></table>';
 $string['feedcamfieldset'] = 'Custom example fieldset';
 $string['feedcamname'] = 'Testimonial Name';
 $string['feedcamname_help'] = 'This is the content of the help tooltip associated with the feedcamname field. Markdown syntax is supported.';
@@ -59,9 +59,9 @@ $string['store'] = " Back to Testimonials Store ";
 $string['backbutton'] = " Record Testimonials ";
 $string['backbutton2'] = " Make new testimonial ";
 $string['deleteselected'] = "Delete Selected";
-$string['firstpara']= "<b>FeedCam</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video lectures.
-                                                   FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users. You can delete your recently 
-                                                  recorded lecture as well as multiple deletion feature for previously recorded lectures. This is one of the poweful plugin that can automatically upload the lectures on server side therefore local space does not required much.";
+//$string['firstpara']= "<b>FeedCam</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video lectures.
+ //                                                  FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users. You can delete your recently 
+ //                                                 recorded lecture as well as multiple deletion feature for previously recorded lectures. This is one of the poweful plugin that can automatically upload the lectures on server side therefore local space does not required much.";
 $string['clickon'] = "Click on <html>&rarr;</html>";
 $string['recheading'] = "Testimonial recording";
 $string['subheading'] = "Testimonial submissions";

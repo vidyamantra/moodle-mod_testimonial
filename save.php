@@ -243,6 +243,9 @@ foreach(array('video', 'audio') as $type) {
             $event->trigger();  
 
   
+              if($completion->is_enabled($cm) && $feedcam->completionrecord) {
+                 $completion->update_state($cm,COMPLETION_COMPLETE);
+             }
 
 
 ?>

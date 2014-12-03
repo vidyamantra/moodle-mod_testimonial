@@ -339,12 +339,10 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
             // echo $id;
            //  exit();
        //  echo '<script>window.uniqueId ='.$id.' </script>';    
-         echo '<script>window.uniqueId ='.$id.' </script>';
+         echo '<script>window.uniqueId ='.$id.'; </script>';
 	$PAGE->requires->js('/mod/feedcam/js/record2.js');		
            
-            if($completion->is_enabled($cm) && $feedcam->completionrecord && !$isadmin) {
-                 $completion->update_state($cm,COMPLETION_COMPLETE);
-             }
+          
         
    
     }
@@ -573,15 +571,17 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
     //db
         if(!$query || !$queryall){
             
-            echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
             
+            if(!$isadmin){
+              echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
+            }
                // echo "<form method='post' action='view.php?id={$cm->id}'><input type=submit name='back' value='Back to Video Capture' name='home' /></form>";
                 echo html_writer::start_tag('div', array('class'=>'itemidprint'));
                          echo get_string('existprint', 'feedcam');
                   echo html_writer::end_tag('div');
                   
                 // if($isadmin){
-                   echo $OUTPUT->paging_bar(100, $page, 10, "view.php?id={$cm->id}&page=$page");
+                //   echo $OUTPUT->paging_bar(100, $page, 10, "view.php?id={$cm->id}&page=$page");
                //    }
           //  echo "<div style='float:right;'><font color='#A80707'><b>No Video File Exist</font></b></div>";
           }
