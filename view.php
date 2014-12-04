@@ -657,14 +657,14 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                      $lastcol1=$value->username;
                  }
                  
-                 $loopcount=0;
+                // $loopcount='';
                  foreach ($totalreplyperstu as $value) {
-                      $loopcount++;
+                      $lastcol2=$value->rowscount;
                  }
                  
              //echo "loop".$loopcount;
                 // echo $totalreplyperstu->replycount+1;
-                  $lastcol2=$loopcount/2;
+                 // $lastcol2=$loopcount;
                   
                   $percentperstu= round(($lastcol2*100)/$totaltesti);
                   
@@ -930,22 +930,16 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                  $username = $DB->get_field_sql($sql, array($userid));
                 
                 if($vid%2 !=0 ){
-                  if($isadmin){   
-                   // echo "<td>$username</td>";
-                      $dataarr[]=$username;
-                    
-                   }
-                  //echo "<td >$videotitle</td>";
-                 // echo "<td><a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$videotitle</a><br /></td>";
-                  $dataarr[]="<a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$videotitle</a><br />";
-                 
-                  $datetimeformat=date("Y-m-d H:i:s", $datetime);
-                  //echo "<td>$datetimeformat</td>";
-                  
-                  $dataarr[]=$datetimeformat;
+                    if($isadmin){   
+                        $dataarr[]=$username;
+                     }
+                     
+                    $dataarr[]="<a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$videotitle</a><br />";
+                    $datetimeformat=date("Y-m-d H:i:s", $datetime);
+                    $dataarr[]=$datetimeformat;
                 }
                
-             //  echo $datetime."datetime<br/>";
+                //  echo $datetime."datetime<br/>";
                 
                      
 

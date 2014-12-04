@@ -51,43 +51,82 @@ $id2='';$url='';$url2='';$feedcamid='';
            
            $feedcamid=$feedcam->id;
            
-           $id=$avid;
-           $id2=$avid+1;
+           //$id=$avid;
            
            echo $avid.'avid';
            
            
            //fetching video from database
-           $query = $DB->get_records_sql('SELECT * FROM {videos} WHERE id = ?', array($id));
+           $query = $DB->get_records_sql('SELECT * FROM {videos} WHERE id = ?', array($avid));
                
            foreach ($query as $value) { 
                     $url=  $value->url;
                     $name=$value->name;
                     $title=$value->videotitle;
                     
-                  if(!($DB->record_exists('feedcam_watching', array('user_id' =>$USER->id, 'feedcam_id'=>$feedcamid, 'video_id'=>$id)))){  
+                  if(!($DB->record_exists('feedcam_watching', array('user_id' =>$USER->id, 'feedcam_id'=>$feedcamid, 'video_id'=>$avid)))){  
                      $record1 = new stdClass();
                      $record1->user_id = $USER->id;
                      $record1->feedcam_id = $feedcamid;
-                     $record1->video_id=$id;
+                     $record1->video_id=$avid;
                      $lastinsertid1 = $DB->insert_record('feedcam_watching', $record1, false);
                   }
                }
-           
+               
+               $revitem= strrev($name);
+               $str = $revitem;
+               // $strlen = strlen( $str );
+              //  $id = "";
+               // for( $i=0; $i<=$strlen; $i++ ) {
+                 $char=substr( $str, 0, 1 );
+                    if($char=='m') {
+                       $cropeditem= substr($revitem,4);
+                       $audioname=  trim(strrev($cropeditem).'wav');
+                       
+                     }
+                   else{
+                       $cropeditem= substr($revitem,3);
+                       $audioname=  trim(strrev($cropeditem).'webm');
+                       $x=$url;
+                   }  
+                  //  $id .= $char;
+              //  }
+
+                   
+                   echo $audioname.'name';
+                   
+               
+               
          //  while($row=mysqli_fetch_assoc($query)){
             
          //      $url=$row['url'];
          //      $name=$row['name'];
          //  }
-           
+                   
+                 //   $revitem= strrev($name);
+            //   $str = $revitem;
+           //  $char=substr( $str, 0, 1 );
             // fetching audio from database
-            $query2 = $DB->get_records_sql('SELECT * FROM {videos} WHERE id = ?', array($id2));
+            $query2 = $DB->get_records_sql('SELECT * FROM {videos} WHERE name = ?', array($audioname));
          //  $query= mysqli_query($conn,"SELECT * FROM videos WHERE id='$id' ");
             
+          
+            
             foreach ($query2 as $value2) { 
-                $url2=  $value2->url;
-                $name2=$value2->name;
-                
+            
+            $id2=$value2->id;
+            
+              if($char=='m') {
+                $url2=$value2->url;
+              }
+              else{
+                  $url2=$value2->url;
+                  $url=$url2;
+                  $url2=$x;
+              }
+              
+              
+              
                if(!($DB->record_exists('feedcam_watching', array('user_id' =>$USER->id, 'feedcam_id'=>$feedcamid, 'video_id'=>$id2)))){
                      $record2 = new stdClass();
                      $record2->user_id = $USER->id;
@@ -146,12 +185,12 @@ $id2='';$url='';$url2='';$feedcamid='';
                         
                        // $url = new moodle_url('javascript:history.go(0)');
                      
-                   
+                   echo $url.'video';
+                   echo $url2.'audio';
                      
                      // echo html_writer::start_tag('div', array('id' => 'video-container'));
-                    
+                    $startdiv=html_writer::start_tag('div', array('id' => 'video-container'));
                       $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch','autoplay'=>'autoplay'));echo html_writer::end_tag('audio');
-                     $startdiv=html_writer::start_tag('div', array('id' => 'video-container'));
                       $videobuff=html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch','autoplay'=>'autoplay')).html_writer::end_tag('video');
                      $enddiv= html_writer::end_tag('div');
                      
@@ -256,24 +295,14 @@ $id2='';$url='';$url2='';$feedcamid='';
            // $PAGE->requires->js('/mod/feedcam/js/need.js'); 
              
              
-           
-                
-          //   echo '<div id="video-container">';
-                   
-                          
-                   
                          
                      //  echo '</video>';
                          echo '<!-- Video Controls -->';
                          
-                      
-                   //  echo '</div>';
-                     
-                     
                      
                      $eventdata = array();
             $eventdata['context'] = $context;
-            $eventdata['objectid'] = $id;
+            $eventdata['objectid'] = $avid;
             $eventdata['userid'] = $USER->id;
             $eventdata['courseid'] = $course->id;
 
