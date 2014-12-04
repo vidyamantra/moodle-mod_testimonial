@@ -67,11 +67,11 @@ if($feedcam->intro) { // Conditions to show the intro can change to look for own
     $videotitle="Untitled testimonial";
  }
    
- $result=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
+ $result=$DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
   $replycount=(int)floor($result/2);     
  // echo $replycount;
   
-  $rowscount=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id));
+  $rowscount=$DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id));
   
   $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
@@ -115,10 +115,10 @@ foreach(array('video', 'audio') as $type) {
      //   echo $question.'<br><br>';
       //  exit();
 
-       // print_r($DB->count_records('videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id))); 
+       // print_r($DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id))); 
        // exit;
         
-       // $countsql='SELECT replycount FROM {videos} WHERE feedcam_id AND user_id = ? AND  question = ? ';
+       // $countsql='SELECT replycount FROM {feedcam_videos} WHERE feedcam_id AND user_id = ? AND  question = ? ';
         
        
          
@@ -127,7 +127,7 @@ foreach(array('video', 'audio') as $type) {
    
        
        //  else{
-       //      $countsql='SELECT replycount FROM {videos} WHERE feedcam_id AND user_id = ? AND  question = ? ';    
+       //      $countsql='SELECT replycount FROM {feedcam_videos} WHERE feedcam_id AND user_id = ? AND  question = ? ';    
        //      $replycount = (int) $DB->get_fieldset_sql($countsql, array($feedcam->id, $USER->id, $question));
        //      $replycount++;
        //   }
@@ -144,14 +144,14 @@ foreach(array('video', 'audio') as $type) {
                $record->question = $question;
                $record->datetime = time();
               // $record->url = '';
-               $lastinsertid = $DB->insert_record('videos', $record, false);
+               $lastinsertid = $DB->insert_record('feedcam_videos', $record, false);
         
                
                
-      //  $query = $DB->get_records_sql('SELECT * FROM {videos} WHERE name = ?', array($filename));
-       //  $query = $DB->get_records('videos', array('name'=>$filename));
+      //  $query = $DB->get_records_sql('SELECT * FROM {feedcam_videos} WHERE name = ?', array($filename));
+       //  $query = $DB->get_records('feedcam_videos', array('name'=>$filename));
          
-                $sql='SELECT id FROM {videos} WHERE name = ?';    
+                $sql='SELECT id FROM {feedcam_videos} WHERE name = ?';    
              $mediaid = $DB->get_field_sql($sql, array($filename));
             
            // foreach ($query as $value) { 
@@ -204,8 +204,8 @@ foreach(array('video', 'audio') as $type) {
             
                $record1->id = $midint;
                $record1->url = $url;
-            //   $lastinsertid = $DB->insert_record('videos', $record, false);
-             $lastupdateid = $DB->update_record('videos', $record1);
+            //   $lastinsertid = $DB->insert_record('feedcam_videos', $record, false);
+             $lastupdateid = $DB->update_record('feedcam_videos', $record1);
              
              echo $lastupdateid;
              */
@@ -218,7 +218,7 @@ foreach(array('video', 'audio') as $type) {
                 $update->replycount = $replycount;
                 $update->rowscount = $rowscount;
                 
-                $lastupdate=$DB->update_record('videos', $update);
+                $lastupdate=$DB->update_record('feedcam_videos', $update);
                 
             //    if ($lastupdate) {
            //      echo "Success!";

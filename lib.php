@@ -80,11 +80,11 @@ function feedcam_get_completion_state($course, $cm, $userid, $type) {
       // print_r($cm->instance);
       // echo '______________';
      //  print_r($feedcam->id);
-      //  $countvid= $DB->count_records('videos', array('feedcam_id' => $feedcam->id, 'user_id' => $userid));
+      //  $countvid= $DB->count_records('feedcam_videos', array('feedcam_id' => $feedcam->id, 'user_id' => $userid));
         
-        echo $DB->record_exists('videos', array('feedcam_id'=>$cm->instance, 'user_id'=>$USER->id));
+        echo $DB->record_exists('feedcam_videos', array('feedcam_id'=>$cm->instance, 'user_id'=>$USER->id));
         
-        return $DB->record_exists('videos', array('feedcam_id'=>$cm->instance, 'user_id'=>$USER->id));
+        return $DB->record_exists('feedcam_videos', array('feedcam_id'=>$cm->instance, 'user_id'=>$USER->id));
         
     } 
     
@@ -97,7 +97,7 @@ function feedcam_get_completion_state($course, $cm, $userid, $type) {
     if(($feedcam->completionrecord && $feedcam->completionwatch)) {
         
      //   print_r('both');
-        $rec=$DB->record_exists('videos', array('feedcam_id'=>$cm->instance, 'user_id'=>$USER->id));
+        $rec=$DB->record_exists('feedcam_videos', array('feedcam_id'=>$cm->instance, 'user_id'=>$USER->id));
         $wat=$DB->record_exists('feedcam_watching', array('user_id'=>$USER->id, 'feedcam_id'=>$cm->instance));
         
         return ($rec && $wat);

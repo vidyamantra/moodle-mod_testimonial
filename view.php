@@ -160,7 +160,7 @@ if(((!isset($_POST['database'])) && (!isset($_POST['delete'])) && !isset($_POST[
                 echo  "<fieldset><legend><font color='black'  size='4'><b>FEED CAM </b> </legend>";
                 
                     
-                            //   $DB->get_records_sql('SELECT subname,subid FROM {videos}');
+                            //   $DB->get_records_sql('SELECT subname,subid FROM {feedcam_videos}');
                              //    $quer2=mysqli_query($conn,"SELECT subname,subid FROM 'subject' ");
                      
                                       echo "<form method=post name='home' action=''>";
@@ -404,7 +404,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                                $aitemname=  trim(strrev($cropeditem).'wav');
                              
                   
-                                $sql='SELECT videotitle FROM {videos} WHERE id = ?';    
+                                $sql='SELECT videotitle FROM {feedcam_videos} WHERE id = ?';    
                                 $vtitle = $DB->get_field_sql($sql, array((int)$itemid));
                                
                              //  if(isset($postdelete)){
@@ -418,7 +418,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                                     $session['lastid']=$aitemid;
                                             echo $session['lastid'];
 
-                                      $sql='SELECT rowscount FROM {videos} WHERE id = ?';    
+                                      $sql='SELECT rowscount FROM {feedcam_videos} WHERE id = ?';    
                                       $lastrowcount = $DB->get_records_sql($sql, array($session['lastid']));
 
                                      //   print_r($$lastrowcount);
@@ -433,18 +433,18 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                                
                             if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$itemid)))){  
 
-                                   $DB->delete_records('videos', array ('id'=> $itemid));
-                                   $DB->delete_records('videos', array ('id'=> $aitemid));
-                                 //  $DB->delete_records('videos', array ('id'=> $itemid+1));
+                                   $DB->delete_records('feedcam_videos', array ('id'=> $itemid));
+                                   $DB->delete_records('feedcam_videos', array ('id'=> $aitemid));
+                                 //  $DB->delete_records('feedcam_videos', array ('id'=> $itemid+1));
                                  
                                    echo html_writer::start_tag('div', array('class'=>'curruptprint'));
                                    echo get_string('curruptprint', 'feedcam');
                                     echo html_writer::end_tag('div');  
                                   
                               //   echo "<div><font color='#A80707'>Sorry, Currupted media and did not store on server<font></div>";
-                                 // mysqli_query($conn,"DELETE FROM mdl_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
+                                 // mysqli_query($conn,"DELETE FROM feedcam_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
 
-                                 //  $DB->delete_records("videos", array("name"=>$value));
+                                 //  $DB->delete_records("feedcam_videos", array("name"=>$value));
                             }
 
                              else{
@@ -453,22 +453,22 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                                      fileDeletion($aitemid,$aitemname,$context->id);
                                      fileDeletion($aitemid,".",$context->id);
 
-                                        $vid=$DB->delete_records('videos', array ('id'=> $itemid));
-                                        $aid=$DB->delete_records('videos', array ('id'=> $aitemid));
-                                      //  $DB->delete_records('videos', array ('id'=> $itemid+1));
+                                        $vid=$DB->delete_records('feedcam_videos', array ('id'=> $itemid));
+                                        $aid=$DB->delete_records('feedcam_videos', array ('id'=> $aitemid));
+                                      //  $DB->delete_records('feedcam_videos', array ('id'=> $itemid+1));
                               }
                          //  if(!file_exists('uploads/'.$value)){
                         //        echo "Sorry Video had been currupted and did not stored on server<br /><br/>";
-                        //         mysqli_query($conn,"DELETE FROM mdl_videos WHERE name='$value' ");   //db
+                        //         mysqli_query($conn,"DELETE FROM feedcam_videos WHERE name='$value' ");   //db
                                  
-                             //  $DB->delete_records("videos", array(sql_compare_text("name")=>$value));
+                             //  $DB->delete_records("feedcam_videos", array(sql_compare_text("name")=>$value));
                        //    }
                            
                        //     else{
                        //          unlink('uploads/'.$value);
                                  
-                       //          mysqli_query($conn,"DELETE FROM mdl_videos WHERE name='$value' ");  //db
-                           //   $DB->delete_records("videos", array(sql_compare_text("name")=>$value));
+                       //          mysqli_query($conn,"DELETE FROM feedcam_videos WHERE name='$value' ");  //db
+                           //   $DB->delete_records("feedcam_videos", array(sql_compare_text("name")=>$value));
                         //     }
                                  
                        }
@@ -505,9 +505,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
     // else { 
      //   echo "you are not an admin".$isadmin;
    //   }  
-        $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
+        $queryall= $DB->get_records_sql("SELECT * FROM {feedcam_videos}");
         if(!$isadmin){
-            $queryall= $DB->get_records_sql("SELECT * FROM {videos} WHERE user_id=$USER->id ");
+            $queryall= $DB->get_records_sql("SELECT * FROM {feedcam_videos} WHERE user_id=$USER->id ");
         }
        
             $sno=0;
@@ -522,7 +522,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              $update = new stdclass;
                   $update->id = $vid;
                   $update->rowscount = $sno;
-             $lastupdate=$DB->update_record('videos', $update);
+             $lastupdate=$DB->update_record('feedcam_videos', $update);
           }
             
            
@@ -530,7 +530,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
        $pagestart= ($page*10)+1;
        $endpage= $pagestart+10-1;
 
-      // $DB->get_record_sql('SELECT * FROM {videos} WHERE firstname = ? AND lastname = ?', array('Martin', 'Dougiamas'));
+      // $DB->get_record_sql('SELECT * FROM {feedcam_videos} WHERE firstname = ? AND lastname = ?', array('Martin', 'Dougiamas'));
    if($isadmin){
        
       // $remainingsno=10-$_SESSION['sno'];
@@ -544,28 +544,28 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
      //  echo "start".$pagestart;
      //  echo "end".$endpage;
        
-     //  $countrows=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id));
+     //  $countrows=$DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id));
        
        
        if(isset($page) && $page>0){
-         //  echo "SELECT * FROM {videos} WHERE COUNT(feedcam_id) >$pagestart AND  COUNT(feedcam_id)< $endpage";
-           $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage");
-        //   $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
+         //  echo "SELECT * FROM {feedcam_videos} WHERE COUNT(feedcam_id) >$pagestart AND  COUNT(feedcam_id)< $endpage";
+           $query= $DB->get_records_sql("SELECT * FROM {feedcam_videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage");
+        //   $queryall= $DB->get_records_sql("SELECT * FROM {feedcam_videos}");
           // $page++;
          //  echo "<meta http-equiv='refresh' content='5; url=view.php?id={$cm->id}'>";
          }
        else{
            
-           $query= $DB->get_records_sql("SELECT * FROM {videos}  WHERE rowscount<=$endpage");
-         //  $queryall= $DB->get_records_sql("SELECT * FROM {videos}");
+           $query= $DB->get_records_sql("SELECT * FROM {feedcam_videos}  WHERE rowscount<=$endpage");
+         //  $queryall= $DB->get_records_sql("SELECT * FROM {feedcam_videos}");
        }
    }
    else{
-        $query= $DB->get_records_sql("SELECT * FROM {videos} WHERE user_id=$USER->id AND rowscount>=$pagestart AND rowscount<=$endpage");
+        $query= $DB->get_records_sql("SELECT * FROM {feedcam_videos} WHERE user_id=$USER->id AND rowscount>=$pagestart AND rowscount<=$endpage");
        // $queryall=$query;
    }
      
-      //  $query= mysqli_query($conn,"SELECT * FROM videos "); // db 
+      //  $query= mysqli_query($conn,"SELECT * FROM feedcam_videos "); // db 
         
     //     if (mysqli_num_rows($query) == 0){  
     //db
@@ -633,15 +633,15 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                   
                
             //$stattable=array();
-            // $result=$DB->count_records('videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
+            // $result=$DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
             //    $replycount=(int)floor($result/2); 
-           // $totalstudent= $DB->get_records_sql("SELECT user_id FROM {videos}");  
-             $sql='SELECT DISTINCT user_id FROM {videos} WHERE feedcam_id = ?';    
+           // $totalstudent= $DB->get_records_sql("SELECT user_id FROM {feedcam_videos}");  
+             $sql='SELECT DISTINCT user_id FROM {feedcam_videos} WHERE feedcam_id = ?';    
              $totalstudent = $DB->get_records_sql($sql, array($feedcam->id));
              
              
              foreach($totalstudent as $value){
-                 $sql2='SELECT * FROM {videos} WHERE user_id = ?';
+                 $sql2='SELECT * FROM {feedcam_videos} WHERE user_id = ?';
                  $sql3='SELECT username FROM {user} WHERE id = ?';
                 
                  
@@ -889,7 +889,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              //    $update = new stdclass;
             //           $update->id = $vid;
             //           $update->rowscount = $sno;
-            //     $lastupdate=$DB->update_record('videos', $update);
+            //     $lastupdate=$DB->update_record('feedcam_videos', $update);
                
              // }
                 
@@ -904,7 +904,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                //    $update = new stdclass;
                 //       $update->id = $vid;
                //        $update->rowscount = $sno;
-               //    $lastupdate=$DB->update_record('videos', $update);
+               //    $lastupdate=$DB->update_record('feedcam_videos', $update);
                    
                    
                 //    $_SESSION['sno']=$sno;

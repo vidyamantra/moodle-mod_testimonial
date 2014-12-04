@@ -37,7 +37,7 @@ class restore_feedcam_activity_structure_step extends restore_activity_structure
        
         $userinfo = $this->get_setting_value('userinfo');
         $paths[] = new restore_path_element('feedcam', '/activity/feedcam/feedcam');
-        $paths[] = new restore_path_element('videos', '/activity/feedcam/videos');
+        $paths[] = new restore_path_element('feedcam_videos', '/activity/feedcam/feedcam_videos');
         if ($userinfo) {
             $paths[] = new restore_path_element('feedcam_watching', '/activity/feedcam/feedcam_watching');
         }
@@ -63,7 +63,7 @@ class restore_feedcam_activity_structure_step extends restore_activity_structure
         $this->apply_activity_instance($newitemid);
     }
 
-    protected function process_videos($data) {
+    protected function process_feedcam_videos($data) {
         global $DB;
 
         $data = (object)$data;
@@ -74,8 +74,8 @@ class restore_feedcam_activity_structure_step extends restore_activity_structure
        // user_id,name,url,feedcam_id
        // $data->timemodified = $this->apply_date_offset($data->timemodified);
 
-        $newitemid = $DB->insert_record('videos', $data);
-        $this->set_mapping('videos', $oldid, $newitemid);
+        $newitemid = $DB->insert_record('feedcam_videos', $data);
+        $this->set_mapping('feedcam_videos', $oldid, $newitemid);
     }
 
     protected function process_feedcam_watching($data) {
@@ -84,7 +84,7 @@ class restore_feedcam_activity_structure_step extends restore_activity_structure
         $data = (object)$data;
 
         $data->feedcam_id = $this->get_new_parentid('feedcam');
-        $data->video_id = $this->get_mappingid('videos', $data->id);
+        $data->video_id = $this->get_mappingid('feedcam_videos', $data->id);
         $data->user_id = $this->get_mappingid('user', $data->userid);
 
         $newitemid = $DB->insert_record('feedcam_watching', $data);

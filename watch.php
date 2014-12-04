@@ -57,7 +57,7 @@ $id2='';$url='';$url2='';$feedcamid='';
            
            
            //fetching video from database
-           $query = $DB->get_records_sql('SELECT * FROM {videos} WHERE id = ?', array($avid));
+           $query = $DB->get_records_sql('SELECT * FROM {feedcam_videos} WHERE id = ?', array($avid));
                
            foreach ($query as $value) { 
                     $url=  $value->url;
@@ -107,8 +107,8 @@ $id2='';$url='';$url2='';$feedcamid='';
             //   $str = $revitem;
            //  $char=substr( $str, 0, 1 );
             // fetching audio from database
-            $query2 = $DB->get_records_sql('SELECT * FROM {videos} WHERE name = ?', array($audioname));
-         //  $query= mysqli_query($conn,"SELECT * FROM videos WHERE id='$id' ");
+            $query2 = $DB->get_records_sql('SELECT * FROM {feedcam_videos} WHERE name = ?', array($audioname));
+         //  $query= mysqli_query($conn,"SELECT * FROM feedcam_videos WHERE id='$id' ");
             
           
             

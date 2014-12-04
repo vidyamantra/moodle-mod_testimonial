@@ -60,9 +60,9 @@ if (isset($_POST['delete-file'])) {
     
    // echo $withvideoext;
   //  exit();
-       // $videoitemid = $DB->get_record_sql('SELECT id FROM {videos} WHERE name = ?', array($withvideoext));
-          //  $videoitemid = $DB->get_field('videos', 'id', array ('name' => $vext));
-         $sql='SELECT id FROM {videos} WHERE name = ?';    
+       // $videoitemid = $DB->get_record_sql('SELECT id FROM {feedcam_videos} WHERE name = ?', array($withvideoext));
+          //  $videoitemid = $DB->get_field('feedcam_videos', 'id', array ('name' => $vext));
+         $sql='SELECT id FROM {feedcam_videos} WHERE name = ?';    
          $fileid = $DB->get_field_sql($sql, array($file));
       
         
@@ -75,12 +75,12 @@ if (isset($_POST['delete-file'])) {
       //  if(!file_exists('uploads/'.$withvideoext)){
             if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$fileid)))){  
                  
-                 $DB->delete_records('videos', array ('id'=> $fileid));
-                // $DB->delete_records('videos', array ('id'=> $audioitemid));
+                 $DB->delete_records('feedcam_videos', array ('id'=> $fileid));
+                // $DB->delete_records('feedcam_videos', array ('id'=> $audioitemid));
                  echo "Sorry, Video had been currupted and did not store on server<br /><br/>";
-            //     mysqli_query($conn,"DELETE FROM mdl_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
+            //     mysqli_query($conn,"DELETE FROM feedcam_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
                     
-                 //  $DB->delete_records("videos", array("name"=>$value));
+                 //  $DB->delete_records("feedcam_videos", array("name"=>$value));
                }
 
                 else{
@@ -88,13 +88,13 @@ if (isset($_POST['delete-file'])) {
                     fileDeletion($fileid,$file,$context->id);
                     fileDeletion($fileid,".",$context->id);
                                 
-                       $vid=$DB->delete_records('videos', array ('id'=> $fileid));
-                    //   $aud=$DB->delete_records('videos', array ('id'=> $audioitemid));
-                    // mysqli_query($conn,"DELETE FROM mdl_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
-                     // $DB->delete_records("mdl_videos", array('name'=>$withvideoext));
-                     // $DB->delete_records("mdl_videos", array('name'=>$withaudioext));
+                       $vid=$DB->delete_records('feedcam_videos', array ('id'=> $fileid));
+                    //   $aud=$DB->delete_records('feedcam_videos', array ('id'=> $audioitemid));
+                    // mysqli_query($conn,"DELETE FROM feedcam_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
+                     // $DB->delete_records("feedcam_videos", array('name'=>$withvideoext));
+                     // $DB->delete_records("feedcam_videos", array('name'=>$withaudioext));
                     // echo "$file, ";
-                 //   $DB->delete_records("videos", array(sql_compare_text("name")=>$value));
+                 //   $DB->delete_records("feedcam_videos", array(sql_compare_text("name")=>$value));
              }
     }
     

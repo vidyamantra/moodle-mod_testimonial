@@ -33,8 +33,8 @@ $logs = array(
     array('module'=>'feedcam', 'action'=>'update', 'mtable'=>'feedcam', 'field'=>'name'),
     array('module'=>'feedcam', 'action'=>'view', 'mtable'=>'feedcam', 'field'=>'name'),
     array('module'=>'feedcam', 'action'=>'view all', 'mtable'=>'feedcam', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'add', 'mtable'=>'videos', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'update', 'mtable'=>'videos', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'view', 'mtable'=>'videos', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'view all', 'mtable'=>'videos', 'field'=>'name')
+    array('module'=>'feedcam', 'action'=>'add', 'mtable'=>'feedcam_videos', 'field'=>'name'),
+    array('module'=>'feedcam', 'action'=>'update', 'mtable'=>'feedcam_videos', 'field'=>'name'),
+    array('module'=>'feedcam', 'action'=>'view', 'mtable'=>'feedcam_videos', 'field'=>'name'),
+    array('module'=>'feedcam', 'action'=>'view all', 'mtable'=>'feedcam_videos', 'field'=>'name')
 );
