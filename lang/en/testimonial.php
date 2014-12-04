@@ -17,37 +17,37 @@
 
 
 /**
- * English strings for feedcam
+ * English strings for testimonial
  *
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
  * @package    mod
- * @subpackage feedcam
+ * @subpackage testimonial
  * @copyright  2011 Your Name
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['modulename'] = 'FeedCam';
-$string['pluginname'] = 'FeedCam';
-$string['modulenameplural'] = 'feedcams';
-$string['modulename_help'] = '<b>FeedCam</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video testimonials.<br><br><table><tr><td>
-                                                   FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users.</td></tr><tr><td> Teacher can makes constraints for student. You can delete your recently 
-                                                  recorded testimonial as well multiple deletion feature for previously recorded testimonials.</td></tr><tr><td> This is one of the powerful plugin that can automatically upload the lectures on server side therefore local space does not required.</td></tr></table>';
-$string['feedcamfieldset'] = 'Custom example fieldset';
-$string['feedcamname'] = 'Testimonial Name';
-$string['feedcamname_help'] = 'This is the content of the help tooltip associated with the feedcamname field. Markdown syntax is supported.';
-$string['feedcam'] = 'feedcam';
-$string['pluginadministration'] = 'feedcam administration';
+$string['modulename'] = 'Testimonial';
+$string['pluginname'] = 'Testimonial';
+$string['modulenameplural'] = 'testimonials';
+$string['modulename_help'] = '<b>Testimonial</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video testimonials.<br><ul><li>
+                                                   Testimonial is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users.</li><li> Teacher can makes constraints for student. You can delete your recently 
+                                                  recorded testimonial as well multiple deletion feature for previously recorded testimonials.</li><li> This is one of the powerful plugin that can automatically upload the lectures on server side therefore local space does not required.</li></ul>';
+$string['testimonialfieldset'] = 'Custom example fieldset';
+$string['testimonialname'] = 'Testimonial Name';
+$string['testimonialname_help'] = 'This is the content of the help tooltip associated with the testimonialname field. Markdown syntax is supported.';
+$string['testimonial'] = 'testimonial';
+$string['pluginadministration'] = 'testimonial administration';
 
-$string['feedcam:view'] = 'view';
-$string['feedcam:submit'] = 'submit';
-$string['feedcam:record'] = 'record';
-$string['feedcam:godatabase'] = 'godatabase';
-$string['feedcam:deleterecent'] = 'deleterecent';
-$string['feedcam:deletemultiple'] = 'deletemultiple';
+$string['testimonial:view'] = 'view';
+$string['testimonial:submit'] = 'submit';
+$string['testimonial:record'] = 'record';
+$string['testimonial:godatabase'] = 'godatabase';
+$string['testimonial:deleterecent'] = 'deleterecent';
+$string['testimonial:deletemultiple'] = 'deletemultiple';
 $string['completionrecord'] = 'Student must record the video lacture:';
 $string['completionwatch'] = 'Student must watch the video lactures:';
 $string['eventvideocreated'] = 'Recorded video has been submitted';
@@ -59,13 +59,13 @@ $string['store'] = " Back to Testimonials Store ";
 $string['backbutton'] = " Record Testimonials ";
 $string['backbutton2'] = " Make new testimonial ";
 $string['deleteselected'] = "Delete Selected";
-//$string['firstpara']= "<b>FeedCam</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video lectures.
- //                                                  FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users. You can delete your recently 
+//$string['firstpara']= "<b>Testimonial</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video lectures.
+ //                                                  Testimonial is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users. You can delete your recently 
  //                                                 recorded lecture as well as multiple deletion feature for previously recorded lectures. This is one of the poweful plugin that can automatically upload the lectures on server side therefore local space does not required much.";
 $string['clickon'] = "Click on <html>&rarr;</html>";
 $string['recheading'] = "Testimonial recording";
 $string['subheading'] = "Testimonial submissions";
-$string['feedcamlegend'] = "FEED CAM";
+$string['testimoniallegend'] = "FEED CAM";
 $string['curruptprint'] = "Sorry, Currupted Testimonial and did not store on server";
 $string['deleteprint']= "<font color='green'> Successfully Deleted </font>";
 $string['existprint']= " No Testimonial File Exist";

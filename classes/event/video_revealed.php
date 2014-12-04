@@ -15,21 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_feedcam course module viewed event.
+ * The mod_testimonial course module viewed event.
  *
- * @package mod_feedcam
+ * @package mod_testimonial
  * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
-namespace mod_feedcam\event;
+namespace mod_testimonial\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_feedcam video revealed event class.
- * @package    mod_feedcam
+ * The mod_testimonial video revealed event class.
+ * @package    mod_testimonial
  * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -41,7 +41,7 @@ class video_revealed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' watched the video with id '$this->objectid' in the feedcam activity
+        return "The user with id '$this->userid' watched the video with id '$this->objectid' in the testimonial activity
             with the course module id '$this->contextinstanceid'.";
     }
 
@@ -52,7 +52,7 @@ class video_revealed extends \core\event\base {
      */
     protected function get_legacy_logdata() {
         $legacylogdata = array($this->courseid,
-            'feedcam',
+            'testimonial',
             'view',
             'view.php?id=' . $this->contextinstanceid,
             $this->other['id'],
@@ -67,7 +67,7 @@ class video_revealed extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventvideorevealed', 'mod_feedcam');
+        return get_string('eventvideorevealed', 'mod_testimonial');
     }
 
     /**
@@ -76,7 +76,7 @@ class video_revealed extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/feedcam/view.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/testimonial/view.php', array('id' => $this->contextinstanceid));
     }
 
     /**
@@ -87,7 +87,7 @@ class video_revealed extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'c';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
-        $this->data['objecttable'] = 'feedcam';
+        $this->data['objecttable'] = 'testimonial';
     
     }
     /**

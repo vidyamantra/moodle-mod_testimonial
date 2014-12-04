@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_feedcam course module viewed event.
+ * The mod_testimonial course module viewed event.
  *
- * @package mod_feedcam
+ * @package mod_testimonial
  * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,12 +29,12 @@ defined('MOODLE_INTERNAL') || die();
 global $DB;
 
 $logs = array(
-    array('module'=>'feedcam', 'action'=>'add', 'mtable'=>'feedcam', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'update', 'mtable'=>'feedcam', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'view', 'mtable'=>'feedcam', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'view all', 'mtable'=>'feedcam', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'add', 'mtable'=>'feedcam_videos', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'update', 'mtable'=>'feedcam_videos', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'view', 'mtable'=>'feedcam_videos', 'field'=>'name'),
-    array('module'=>'feedcam', 'action'=>'view all', 'mtable'=>'feedcam_videos', 'field'=>'name')
+    array('module'=>'testimonial', 'action'=>'add', 'mtable'=>'testimonial', 'field'=>'name'),
+    array('module'=>'testimonial', 'action'=>'update', 'mtable'=>'testimonial', 'field'=>'name'),
+    array('module'=>'testimonial', 'action'=>'view', 'mtable'=>'testimonial', 'field'=>'name'),
+    array('module'=>'testimonial', 'action'=>'view all', 'mtable'=>'testimonial', 'field'=>'name'),
+    array('module'=>'testimonial', 'action'=>'add', 'mtable'=>'testimonial_videos', 'field'=>'name'),
+    array('module'=>'testimonial', 'action'=>'update', 'mtable'=>'testimonial_videos', 'field'=>'name'),
+    array('module'=>'testimonial', 'action'=>'view', 'mtable'=>'testimonial_videos', 'field'=>'name'),
+    array('module'=>'testimonial', 'action'=>'view all', 'mtable'=>'ftestimonial_videos', 'field'=>'name')
 );

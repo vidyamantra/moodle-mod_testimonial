@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_feedcam course module viewed event.
+ * The mod_testimonial course module viewed event.
  *
- * @package mod_feedcam
+ * @package mod_testimonial
  * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 $capabilities = array(
 
 //***************************** remove these comment marks and modify the code as needed
-    'mod/feedcam:addinstance' => array(
+    'mod/testimonial:addinstance' => array(
         'riskbitmask' => RISK_XSS,
 
         'captype' => 'write',
@@ -41,7 +41,7 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/course:manageactivities'
     ),
     
-    'mod/feedcam:view' => array(
+    'mod/testimonial:view' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -53,7 +53,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/feedcam:submit' => array(
+    'mod/testimonial:submit' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -64,21 +64,7 @@ $capabilities = array(
     ),
     
     
-    'mod/feedcam:record' => array(
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'guest' => CAP_ALLOW,
-            'student' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
-    
-    
-     'mod/feedcam:godatabase' => array(
+    'mod/testimonial:record' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -92,7 +78,7 @@ $capabilities = array(
     ),
     
     
-    'mod/feedcam:deleterecent' => array(
+     'mod/testimonial:godatabase' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -105,7 +91,21 @@ $capabilities = array(
         )
     ),
     
-    'mod/feedcam:deletemultiple' => array(
+    
+    'mod/testimonial:deleterecent' => array(
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'guest' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ),
+    
+    'mod/testimonial:deletemultiple' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -118,7 +118,7 @@ $capabilities = array(
     
     
     /**
-    'mod/feedcam:submit' => array(
+    'mod/testimonial:submit' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -128,7 +128,7 @@ $capabilities = array(
     ),
     
     
-    'mod/feedcam:submit' => array(
+    'mod/testimonial:submit' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -138,7 +138,7 @@ $capabilities = array(
     ),
     
     
-    'mod/feedcam:submit' => array(
+    'mod/testimonial:submit' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,

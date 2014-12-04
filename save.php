@@ -5,7 +5,7 @@
 
  *
  * @package    mod
- * @subpackage feedcam
+ * @subpackage testimonial
  * @copyright  2014 krishna
  * @license    http://www.vidyamantra.com
  */
@@ -20,18 +20,18 @@ global $DB,$USER;
 //}
 /*
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$n  = optional_param('n', 0, PARAM_INT);  // feedcam instance ID - it should be named as the first character of the module
+$n  = optional_param('n', 0, PARAM_INT);  // testimonial instance ID - it should be named as the first character of the module
 
 
 /*
 if ($id) {
-    $cm         = get_coursemodule_from_id('feedcam', $id, 0, false, MUST_EXIST);
+    $cm         = get_coursemodule_from_id('testimonial', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $feedcam  = $DB->get_record('feedcam', array('id' => $cm->instance), '*', MUST_EXIST);
+    $testimonial  = $DB->get_record('testimonial', array('id' => $cm->instance), '*', MUST_EXIST);
 } elseif ($n) {
-    $feedcam  = $DB->get_record('feedcam', array('id' => $n), '*', MUST_EXIST);
-    $course     = $DB->get_record('course', array('id' => $feedcam->course), '*', MUST_EXIST);
-    $cm         = get_coursemodule_from_instance('feedcam', $feedcam->id, $course->id, false, MUST_EXIST);
+    $testimonial  = $DB->get_record('testimonial', array('id' => $n), '*', MUST_EXIST);
+    $course     = $DB->get_record('course', array('id' => $testimonial->course), '*', MUST_EXIST);
+    $cm         = get_coursemodule_from_instance('testimonial', $testimonial->id, $course->id, false, MUST_EXIST);
 } else {
     error('You must specify a course_module ID or an instance ID');
 }
@@ -48,15 +48,15 @@ $id = optional_param('cmid', 0, PARAM_INT);
 
 //$id= $_GET['cmid'];
 if ($id) {
-    $cm         = get_coursemodule_from_id('feedcam', $id, 0, false, MUST_EXIST);
+    $cm         = get_coursemodule_from_id('testimonial', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $feedcam  = $DB->get_record('feedcam', array('id' => $cm->instance), '*', MUST_EXIST);
+    $testimonial  = $DB->get_record('testimonial', array('id' => $cm->instance), '*', MUST_EXIST);
 } 
 
 $context = context_module::instance($cm->id);
 
-if($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
-    $question= $feedcam->intro;
+if($testimonial->intro) { // Conditions to show the intro can change to look for own settings or whatever
+    $question= $testimonial->intro;
  }
  else{
     $question = " Sorry no question/dscription "; 
@@ -67,11 +67,11 @@ if($feedcam->intro) { // Conditions to show the intro can change to look for own
     $videotitle="Untitled testimonial";
  }
    
- $result=$DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
+ $result=$DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id, 'user_id' =>$USER->id));
   $replycount=(int)floor($result/2);     
  // echo $replycount;
   
-  $rowscount=$DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id));
+  $rowscount=$DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id));
   
   $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
@@ -110,15 +110,15 @@ foreach(array('video', 'audio') as $type) {
         //   $mediaid= $j;
           
      //   }
-      //  echo $feedcam->id;
+      //  echo $testimonial->id;
       //  echo $USER->id;
      //   echo $question.'<br><br>';
       //  exit();
 
-       // print_r($DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id))); 
+       // print_r($DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id, 'user_id' =>$USER->id))); 
        // exit;
         
-       // $countsql='SELECT replycount FROM {feedcam_videos} WHERE feedcam_id AND user_id = ? AND  question = ? ';
+       // $countsql='SELECT replycount FROM {testimonial_videos} WHERE testimonial_id AND user_id = ? AND  question = ? ';
         
        
          
@@ -127,8 +127,8 @@ foreach(array('video', 'audio') as $type) {
    
        
        //  else{
-       //      $countsql='SELECT replycount FROM {feedcam_videos} WHERE feedcam_id AND user_id = ? AND  question = ? ';    
-       //      $replycount = (int) $DB->get_fieldset_sql($countsql, array($feedcam->id, $USER->id, $question));
+       //      $countsql='SELECT replycount FROM {testimonial_videos} WHERE testimonial_id AND user_id = ? AND  question = ? ';    
+       //      $replycount = (int) $DB->get_fieldset_sql($countsql, array($testimonial->id, $USER->id, $question));
        //      $replycount++;
        //   }
 
@@ -137,21 +137,21 @@ foreach(array('video', 'audio') as $type) {
        date_default_timezone_set("Asia/Calcutta");
         
          $record = new stdClass();
-               $record->feedcam_id=$feedcam->id;
+               $record->testimonial_id=$testimonial->id;
                $record->user_id = $USER->id;
                $record->name = $filename;
                $record->videotitle = $videotitle;
                $record->question = $question;
                $record->datetime = time();
               // $record->url = '';
-               $lastinsertid = $DB->insert_record('feedcam_videos', $record, false);
+               $lastinsertid = $DB->insert_record('testimonial_videos', $record, false);
         
                
                
-      //  $query = $DB->get_records_sql('SELECT * FROM {feedcam_videos} WHERE name = ?', array($filename));
-       //  $query = $DB->get_records('feedcam_videos', array('name'=>$filename));
+      //  $query = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ?', array($filename));
+       //  $query = $DB->get_records('testimonial_videos', array('name'=>$filename));
          
-                $sql='SELECT id FROM {feedcam_videos} WHERE name = ?';    
+                $sql='SELECT id FROM {testimonial_videos} WHERE name = ?';    
              $mediaid = $DB->get_field_sql($sql, array($filename));
             
            // foreach ($query as $value) { 
@@ -165,8 +165,8 @@ foreach(array('video', 'audio') as $type) {
         
             $fileinfo = array(
                 'contextid' => $context->id,
-                'component' => 'mod_feedcam',    // mod_[your-mod-name]
-                'filearea' => 'feedcam_docs',   // arbitrary string
+                'component' => 'mod_testimonial',    // mod_[your-mod-name]
+                'filearea' => 'testimonial_docs',   // arbitrary string
                 'itemid' => $mediaid,           // use a unique id in the context of the filearea and you should be safe
                 'filepath' => '/',              // virtual path
                 'filename' => "$filename");       // virtual filename
@@ -195,7 +195,7 @@ foreach(array('video', 'audio') as $type) {
                 
                 
              $midint= (int)$mediaid;
-             $url=get_feedcam_doc_url($midint);
+             $url=get_testimonial_doc_url($midint);
              $url1="$url";
              
            //  echo $url;
@@ -204,12 +204,12 @@ foreach(array('video', 'audio') as $type) {
             
                $record1->id = $midint;
                $record1->url = $url;
-            //   $lastinsertid = $DB->insert_record('feedcam_videos', $record, false);
-             $lastupdateid = $DB->update_record('feedcam_videos', $record1);
+            //   $lastinsertid = $DB->insert_record('testimonial_videos', $record, false);
+             $lastupdateid = $DB->update_record('testimonial_videos', $record1);
              
              echo $lastupdateid;
              */
-            print_r($url1);
+           // print_r($url1);
              
              $update = new stdclass;
               
@@ -218,7 +218,7 @@ foreach(array('video', 'audio') as $type) {
                 $update->replycount = $replycount;
                 $update->rowscount = $rowscount;
                 
-                $lastupdate=$DB->update_record('feedcam_videos', $update);
+                $lastupdate=$DB->update_record('testimonial_videos', $update);
                 
             //    if ($lastupdate) {
            //      echo "Success!";
@@ -230,7 +230,7 @@ foreach(array('video', 'audio') as $type) {
           //    print_r($url);
              //  exit();
                
-             //   $url="http://localhost/moodle27d/mod/feedcam/uploads/$fileName";
+             //   $url="http://localhost/moodle27d/mod/testimonial/uploads/$fileName";
           
         
     }
@@ -243,13 +243,13 @@ foreach(array('video', 'audio') as $type) {
             $eventdata1['userid'] = $USER->id;
             $eventdata1['courseid'] = $course->id;
 
-            $event = \mod_feedcam\event\video_submitted::create($eventdata1);
+            $event = \mod_testimonial\event\video_submitted::create($eventdata1);
             $event->add_record_snapshot('course', $course);
             $event->add_record_snapshot('course_modules', $cm);
             $event->trigger();  
 
   
-              if($completion->is_enabled($cm) && $feedcam->completionrecord) {
+              if($completion->is_enabled($cm) && $testimonial->completionrecord) {
                  $completion->update_state($cm,COMPLETION_COMPLETE);
              }
 

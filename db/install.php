@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_feedcam course module viewed event.
+ * The mod_testimonial course module viewed event.
  *
- * @package mod_feedcam
+ * @package mod_testimonial
  * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,7 +29,7 @@
  *
  * @see upgrade_plugins_modules()
  */
-function xmldb_feedcam_install() {
+function xmldb_testimonial_install() {
 }
 
 /**
@@ -37,5 +37,5 @@ function xmldb_feedcam_install() {
  *
  * @see upgrade_plugins_modules()
  */
-function xmldb_feedcam_install_recovery() {
+function xmldb_testimonial_install_recovery() {
 }

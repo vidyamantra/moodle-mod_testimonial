@@ -1,4 +1,4 @@
-﻿FeedCam for Moodle
+﻿Testimonial for Moodle
 ---------------------------------------
 
 This program is free software: you can redistribute it and/or modify it
@@ -17,9 +17,9 @@ You should have received a copy of the GNU General Public License along with thi
 Description
 ------------
 
-FeedCam is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video lectures
+Testimonial is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video lectures
 
-FeedCam is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users.
+Testimonial is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users.
 
 You can delete your recently recorded lecture as well as multiple deletion feature for previously recorded lectures.
 
@@ -36,17 +36,17 @@ Requirements
 Installation
 -------------
 
-1. Unpack the "moodle-mod_feedcam.zip" and rename that unzipped folder to "feedcam" and place this folder into '/mod/' directory of moodle.
+1. Unpack the "moodle-mod_testimonial.zip" and rename that unzipped folder to "testimonial" and place this folder into '/mod/' directory of moodle.
    
-2. The file structure for feedcam would be something like. 
-	[site-root]/mod/feedcam
+2. The file structure for testimonial would be something like. 
+	[site-root]/mod/testimonial
 
 3. Now login to your Moodle site and go to Administration -> Site administration -> Notification, you will see a Notification for course format to be installed. Click “Upgrade Moodle Database now” button to continue for the installation procedure.    
 
 
 Dependencies
 --------------
-  "FeedCam" have no dependencies.
+  "Testimonial" have no dependencies.
 
 
 Bugs/patches

@@ -22,12 +22,12 @@
  * if you like, and it can span multiple lines.
  *
  * @package    mod
- * @subpackage feedcam
+ * @subpackage testimonial
  * @copyright  2011 Your Name
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/// Replace feedcam with the name of your module and remove this line
+/// Replace testimonial with the name of your module and remove this line
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
@@ -38,25 +38,25 @@ $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
 require_course_login($course);
 
-//add_to_log($course->id, 'feedcam', 'view all', 'index.php?id='.$course->id, '');
+//add_to_log($course->id, 'testimonial', 'view all', 'index.php?id='.$course->id, '');
 
 
 $eventdata = array('context' => context_course::instance($id));
-    $event = \mod_feedcam\event\course_module_instance_list_viewed::create($eventdata);
+    $event = \mod_testimonial\event\course_module_instance_list_viewed::create($eventdata);
     $event->add_record_snapshot('course', $course);
     $event->trigger();
 
 $coursecontext = get_context_instance(CONTEXT_COURSE, $course->id);
 
-$PAGE->set_url('/mod/feedcam/index.php', array('id' => $id));
+$PAGE->set_url('/mod/testimonial/index.php', array('id' => $id));
 $PAGE->set_title(format_string($course->fullname));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($coursecontext);
 
 echo $OUTPUT->header();
 
-if (! $feedcams = get_all_instances_in_course('feedcam', $course)) {
-    notice(get_string('nofeedcams', 'feedcam'), new moodle_url('/course/view.php', array('id' => $course->id)));
+if (! $testimonials = get_all_instances_in_course('testimonial', $course)) {
+    notice(get_string('notestimonials', 'testimonial'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 if ($course->format == 'weeks') {
@@ -70,25 +70,25 @@ if ($course->format == 'weeks') {
     $table->align = array('left', 'left', 'left');
 }
 
-foreach ($feedcams as $feedcam) {
-    if (!$feedcam->visible) {
+foreach ($testimonials as $testimonial) {
+    if (!$testimonial->visible) {
         $link = html_writer::link(
-            new moodle_url('/mod/feedcam.php', array('id' => $feedcam->coursemodule)),
-            format_string($feedcam->name, true),
+            new moodle_url('/mod/testimonial.php', array('id' => $testimonial->coursemodule)),
+            format_string($testimonial->name, true),
             array('class' => 'dimmed'));
     } else {
         $link = html_writer::link(
-            new moodle_url('/mod/feedcam.php', array('id' => $feedcam->coursemodule)),
-            format_string($feedcam->name, true));
+            new moodle_url('/mod/testimonial.php', array('id' => $testimonial->coursemodule)),
+            format_string($testimonial->name, true));
     }
 
     if ($course->format == 'weeks' or $course->format == 'topics') {
-        $table->data[] = array($feedcam->section, $link);
+        $table->data[] = array($testimonial->section, $link);
     } else {
         $table->data[] = array($link);
     }
 }
 
-echo $OUTPUT->heading(get_string('modulenameplural', 'feedcam'), 2);
+echo $OUTPUT->heading(get_string('modulenameplural', 'testimonial'), 2);
 echo html_writer::table($table);
 echo $OUTPUT->footer();

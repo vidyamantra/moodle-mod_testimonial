@@ -1,43 +1,43 @@
-#page-mod-feedcam-view #record {
+#page-mod-testimonial-view #record {
  height: 33px; width: 120px; color:#36AE79;font-size: small;
 }
-#page-mod-feedcam-view #stop {
+#page-mod-testimonial-view #stop {
 height: 33px; width: 120px;font-size: small;
 }
-#page-mod-feedcam-view #delete {
+#page-mod-testimonial-view #delete {
 height: 33px; width: 130px;font-size: small;
 }
 
-#page-mod-feedcam-view #videotitle {
+#page-mod-testimonial-view #videotitle {
     width: 250px;height: 15px;
 }
 
-#page-mod-feedcam-view #store {
+#page-mod-testimonial-view #store {
 height: 35px; width: 200px; font-size:13px;margin-left: 0%;
 }
-#page-mod-feedcam-view .databaseimage {
+#page-mod-testimonial-view .databaseimage {
  height:42px; width:60px;
 }
-#page-mod-feedcam-view  #backbutton {
+#page-mod-testimonial-view  #backbutton {
 margin-left:30%; height: 35px; width: 150px;font-size: small;
 }
-#page-mod-feedcam-view  #backbutton2 {
+#page-mod-testimonial-view  #backbutton2 {
 margin-left:12%; height: 35px; width: 160px;font-size: small;
 }
 
-#page-mod-feedcam-view #deleteselected {
+#page-mod-testimonial-view #deleteselected {
  height: 40px; width: 180px;color:red;font-size: small;
 }
-#page-mod-feedcam-view #firstdiv{
+#page-mod-testimonial-view #firstdiv{
     border-bottom:1px solid #0070a8; height:0px; width:1200px;
 }
 
-#page-mod-feedcam-view  #firstpara{
+#page-mod-testimonial-view  #firstpara{
 text-align:justify;font-size:12px;color: #333333;font-family: Century Gothic, sans-serif;
 }
 
 .youwatching{
-background: url(pix/bg2.gif) repeat-x;padding: 50px;
+background: url(pix/bg2.png) repeat-x;padding: 50px;
 }
 
 #video-container{
@@ -47,24 +47,24 @@ margin-left:0px;margin-top:25px;text-align: center;height:510px;width:680px;floa
 #controlbutton{
 display: inline;margin-left: 40%;
 }
-//#page-mod-feedcam-view  #container{
+//#page-mod-testimonial-view  #container{
 //padding:1em 1em; width: 600px; height: 200px;margin-top: 30px;
 //}
-#page-mod-feedcam-view  #preview{
+#page-mod-testimonial-view  #preview{
 border:1px solid #0070a8;height: 300px; width: 400px;
 }
-#page-mod-feedcam-view  .itemidprint{
+#page-mod-testimonial-view  .itemidprint{
 color:green; font-weight:300;float:right;
 }
-#page-mod-feedcam-view  .curruptprint{
+#page-mod-testimonial-view  .curruptprint{
 color:#A80707;
 }
 
-#page-mod-feedcam-view  #deletemul{
+#page-mod-testimonial-view  #deletemul{
 height: 35px; width: 70px;margin-left:90%;font-size: small;
 }
 
-#page-mod-feedcam-view  #storetable{
+#page-mod-testimonial-view  #storetable{
  width: 700px; height: 500px;margin-left:10%;overflow: visible;
 }
 
@@ -94,7 +94,7 @@ border: 1px solid rgb(15, 158, 238); height: 510px; width: 680px;
 
 
 
-#page-mod-feedcam-view  table.datatable {
+#page-mod-testimonial-view  table.datatable {
 	font-family: verdana,arial,sans-serif;
 	font-size:13px;
 	color:#333333;
@@ -103,7 +103,7 @@ border: 1px solid rgb(15, 158, 238); height: 510px; width: 680px;
 	border-collapse: collapse;
         table-layout: auto;
 }
-#page-mod-feedcam-view  table.datatable th {
+#page-mod-testimonial-view  table.datatable th {
 	background-color:#fafafa;
 	border-width: 0px;
         border-bottom-width: 1px;
@@ -112,11 +112,11 @@ border: 1px solid rgb(15, 158, 238); height: 510px; width: 680px;
 	border-color: #a9c6c9;
         width: auto;
 }
-#page-mod-feedcam-view  table.datatable tr {
+#page-mod-testimonial-view  table.datatable tr {
 	background-color:#FFFFFF;
         width: auto;
 }
-#page-mod-feedcam-view  table.datatable td {
+#page-mod-testimonial-view  table.datatable td {
 	border-width: 0px;
         border-bottom-width: 1px;
 	padding: 10px;

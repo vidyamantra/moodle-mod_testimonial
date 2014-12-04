@@ -16,38 +16,38 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prints a particular instance of feedcam
+ * Prints a particular instance of testimonial
  *
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
  * @package    mod
- * @subpackage feedcam
+ * @subpackage testimonial
  * @copyright  2011 Your Name
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/// (Replace feedcam with the name of your module and remove this line)
+/// (Replace testimonial with the name of your module and remove this line)
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 require_once(dirname(__FILE__).'/locallib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
-//require_once ($CFG->dirroot.'/mod/feedcam/style.css');
-$PAGE->requires->css('/mod/feedcam/style.css');
+//require_once ($CFG->dirroot.'/mod/testimonial/style.css');
+$PAGE->requires->css('/mod/testimonial/style.css');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$n  = optional_param('n', 0, PARAM_INT);  // feedcam instance ID - it should be named as the first character of the module
+$n  = optional_param('n', 0, PARAM_INT);  // testimonial instance ID - it should be named as the first character of the module
 
 
 if ($id) {
-    $cm         = get_coursemodule_from_id('feedcam', $id, 0, false, MUST_EXIST);
+    $cm         = get_coursemodule_from_id('testimonial', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $feedcam  = $DB->get_record('feedcam', array('id' => $cm->instance), '*', MUST_EXIST);
+    $testimonial  = $DB->get_record('testimonial', array('id' => $cm->instance), '*', MUST_EXIST);
 } elseif ($n) {
-    $feedcam  = $DB->get_record('feedcam', array('id' => $n), '*', MUST_EXIST);
-    $course     = $DB->get_record('course', array('id' => $feedcam->course), '*', MUST_EXIST);
-    $cm         = get_coursemodule_from_instance('feedcam', $feedcam->id, $course->id, false, MUST_EXIST);
+    $testimonial  = $DB->get_record('testimonial', array('id' => $n), '*', MUST_EXIST);
+    $course     = $DB->get_record('course', array('id' => $testimonial->course), '*', MUST_EXIST);
+    $cm         = get_coursemodule_from_instance('testimonial', $testimonial->id, $course->id, false, MUST_EXIST);
 } else {
     error('You must specify a course_module ID or an instance ID');
 }
@@ -56,13 +56,13 @@ require_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 //$context = get_context_instance(CONTEXT_MODULE, $cm->id);
 
-//add_to_log($course->id, 'feedcam', 'view', "view.php?id={$cm->id}", $feedcam->name, $cm->id);
+//add_to_log($course->id, 'testimonial', 'view', "view.php?id={$cm->id}", $testimonial->name, $cm->id);
 
  $eventdata = array();
-    $eventdata['objectid'] = $feedcam->id;
+    $eventdata['objectid'] = $testimonial->id;
     $eventdata['context'] = $context;
 
-    $event = \mod_feedcam\event\course_module_viewed::create($eventdata);
+    $event = \mod_testimonial\event\course_module_viewed::create($eventdata);
     $event->add_record_snapshot('course_modules', $cm);
     $event->add_record_snapshot('course', $course);
     $event->trigger();
@@ -71,15 +71,15 @@ $context = context_module::instance($cm->id);
  
 /// Print the page header
 
-$PAGE->set_url('/mod/feedcam/view.php', array('id' => $cm->id));
-$PAGE->set_title(format_string($feedcam->name));
+$PAGE->set_url('/mod/testimonial/view.php', array('id' => $cm->id));
+$PAGE->set_title(format_string($testimonial->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
 // other things you may want to set - remove if not needed
 //$PAGE->set_cacheable(false);
 //$PAGE->set_focuscontrol('some-html-id');
-//$PAGE->add_body_class('feedcam-'.$somevar);
+//$PAGE->add_body_class('testimonial-'.$somevar);
 
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
@@ -89,12 +89,12 @@ echo $OUTPUT->header();
 
 
 
-$heading = $OUTPUT->heading(format_string($feedcam->name), 3, null);
+$heading = $OUTPUT->heading(format_string($testimonial->name), 3, null);
 echo $heading;
 //echo html_writer::empty_tag('hr');
 
-if ($feedcam->intro) { // Conditions to show the intro can change to look for own settings or whatever
-    $question= $OUTPUT->box(format_module_intro('feedcam', $feedcam, $cm->id), 'generalbox mod_introbox', 'feedcamintro'); 
+if ($testimonial->intro) { // Conditions to show the intro can change to look for own settings or whatever
+    $question= $OUTPUT->box(format_module_intro('testimonial', $testimonial, $cm->id), 'generalbox mod_introbox', 'testimonialintro'); 
 }
  else{
     $question = " Sorry no question/dscription "; 
@@ -105,18 +105,18 @@ echo $question;
 
 
 
-//print_r($feedcam);
+//print_r($testimonial);
 
 
-$studenttime = $feedcam->studenttime;
-$teacherdelete = $feedcam->teacherdelete;
+$studenttime = $testimonial->studenttime;
+$teacherdelete = $testimonial->teacherdelete;
 
 //echo $question;
 //echo $studenttime;
 //echo $teacherdelete;
 // Replace the following lines with you own code
 
-$PAGE->requires->js('/mod/feedcam/js/record.js');
+$PAGE->requires->js('/mod/testimonial/js/record.js');
 //require_capability($capability, $context);
 //$_SESSION['id']=0;
 
@@ -160,7 +160,7 @@ if(((!isset($_POST['database'])) && (!isset($_POST['delete'])) && !isset($_POST[
                 echo  "<fieldset><legend><font color='black'  size='4'><b>FEED CAM </b> </legend>";
                 
                     
-                            //   $DB->get_records_sql('SELECT subname,subid FROM {feedcam_videos}');
+                            //   $DB->get_records_sql('SELECT subname,subid FROM {testimonial_videos}');
                              //    $quer2=mysqli_query($conn,"SELECT subname,subid FROM 'subject' ");
                      
                                       echo "<form method=post name='home' action=''>";
@@ -197,20 +197,20 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
      //  echo '<section class="experiment">'  ;
              
            //html_writer::start_tag('fieldset',  array('class' => 'field'));
-           //  html_writer::tag('legend', get_string('feedcamlegend', 'feedcam'), array('id' => 'feedcamlegend','class' => 'field'));
-                     //  echo "<fieldset><legend><font size='4'><b>".get_string('heading', 'feedcam')."</b></font></legend>";
-                        //   echo get_string('heading', 'feedcam');
+           //  html_writer::tag('legend', get_string('testimoniallegend', 'testimonial'), array('id' => 'testimoniallegend','class' => 'field'));
+                     //  echo "<fieldset><legend><font size='4'><b>".get_string('heading', 'testimonial')."</b></font></legend>";
+                        //   echo get_string('heading', 'testimonial');
                             //  echo '<div class="page">';
                                      
                             // echo '</div></br>';
-                        //   $PAGE->requires->js('/mod/feedcam/js/need.js');
+                        //   $PAGE->requires->js('/mod/testimonial/js/need.js');
                         //   echo '<br/>';
                                    
                            
                         //   echo "<form method=post name='home' action=''>";
                             
-                          //  echo '<script src="http://localhost/moodle27d/mod/feedcam/js/need.js"> </script>';
-                     //  $PAGE->requires->js('/mod/feedcam/js/need.js');
+                          //  echo '<script src="http://localhost/moodle27d/mod/testimonial/js/need.js"> </script>';
+                     //  $PAGE->requires->js('/mod/testimonial/js/need.js');
     
             $table = new html_table();
             
@@ -230,11 +230,11 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
 
 
                    //    $table->data[] =$dataarr; 
-                   $OUTPUT->heading(get_string('recheading', 'feedcam'), 4, null);
+                   $OUTPUT->heading(get_string('recheading', 'testimonial'), 4, null);
                      $recpaneltable=array();
                 //  echo html_writer::start_tag('div', array('id'=>'firstdiv','class' => 'page')); echo html_writer::end_tag('div').'<br/>';
                        
-                      $recpaneltable[]= get_string('videotitle','feedcam');
+                      $recpaneltable[]= get_string('videotitle','testimonial');
                          //echo html_writer::empty_tag('input', array('type' => 'text','name'=>'videotitle','id'=>'videotitle', 'class'=>'titlebutton', 'onchange'=>'saveVideoTitle(this.value)'));
                        $recpaneltable[]= html_writer::empty_tag('input', array('type' => 'text','name'=>'videotitle','id'=>'videotitle', 'class'=>'titlebutton', 'onchange'=>'saveVideoTitle(this.value)'));        
                        $recpaneltable[]='';
@@ -243,15 +243,15 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                       
                       
                       $recpaneltable=array();
-                      $recpaneltable[]=get_string('testirecording','feedcam');
+                      $recpaneltable[]=get_string('testirecording','testimonial');
                       
-                      if (has_capability('mod/feedcam:record', $context)) {
-                       $recordbutt= html_writer::empty_tag('input', array('type' => 'submit','name'=>'record', 'value' => get_string('record','feedcam'),'id'=>'record', 'class'=>'recordbutton'));
+                      if (has_capability('mod/testimonial:record', $context)) {
+                       $recordbutt= html_writer::empty_tag('input', array('type' => 'submit','name'=>'record', 'value' => get_string('record','testimonial'),'id'=>'record', 'class'=>'recordbutton'));
                         }
-                       $stopbutt= html_writer::empty_tag('input', array('type' => 'button','name'=>'stop', 'value' => get_string('stop','feedcam'),'id'=>'stop', 'class'=>'stopbutton','disabled'=>'disabled' ));
+                       $stopbutt= html_writer::empty_tag('input', array('type' => 'button','name'=>'stop', 'value' => get_string('stop','testimonial'),'id'=>'stop', 'class'=>'stopbutton','disabled'=>'disabled' ));
                       
-                       if (has_capability('mod/feedcam:deleterecent', $context)) {
-                             $deleterecent= html_writer::empty_tag('input', array('type' => 'button','name'=>'delete', 'value' => get_string('deletefiles','feedcam'),'id'=>'delete', 'class'=>'deletefilesbutton','disabled'=>'disabled' ));
+                       if (has_capability('mod/testimonial:deleterecent', $context)) {
+                             $deleterecent= html_writer::empty_tag('input', array('type' => 'button','name'=>'delete', 'value' => get_string('deletefiles','testimonial'),'id'=>'delete', 'class'=>'deletefilesbutton','disabled'=>'disabled' ));
                        }
                        
                       $recpaneltable[]= $recordbutt.$stopbutt.$deleterecent;
@@ -278,9 +278,9 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                        $recpaneltable=array();
                        
                        
-                       $recpaneltable[]=get_string('uploading','feedcam');
+                       $recpaneltable[]=get_string('uploading','testimonial');
                        
-                        $recpaneltable[]= html_writer::start_tag('div', array('id' => 'container','class'=>'uploadingbar')).html_writer::end_tag('div').get_string('refreshhint','feedcam');;
+                        $recpaneltable[]= html_writer::start_tag('div', array('id' => 'container','class'=>'uploadingbar')).html_writer::end_tag('div').get_string('refreshhint','testimonial');;
                                         
                        //$recpaneltable[]=$deleterecent;
                       $recpaneltable[]='';
@@ -291,9 +291,9 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                         $recpaneltable=array();
                         
                          $recpaneltable[]='';
-                         if (has_capability('mod/feedcam:godatabase', $context)) { //   echo  '<form method=post action="" ><input type="submit" value="Feedcam'."'s".' Store" name="database" style="height: 35px; width: 180px; font-size:13px;color:#00BFFF;" /><img src="http://www.essentialsql.com/wp-content/uploads/2014/05/database-parts.jpg" height="42" width="60"></img></form>';
+                         if (has_capability('mod/testimonial:godatabase', $context)) { //   echo  '<form method=post action="" ><input type="submit" value="testimonial'."'s".' Store" name="database" style="height: 35px; width: 180px; font-size:13px;color:#00BFFF;" /><img src="http://www.essentialsql.com/wp-content/uploads/2014/05/database-parts.jpg" height="42" width="60"></img></form>';
                                 $url = new moodle_url('');
-                              $backtostore= html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','feedcam'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
+                              $backtostore= html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','testimonial'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
                              
                            }
                         $recpaneltable[]= $backtostore;
@@ -314,7 +314,7 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
                     //    echo html_writer::start_tag('div', array('id' => 'buttons'));
                         // echo '<table align=center><tr><td>';
                         
-                           //  echo get_string('clickon', 'feedcam');
+                           //  echo get_string('clickon', 'testimonial');
                           
                             
                            
@@ -340,7 +340,7 @@ if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) 
            //  exit();
        //  echo '<script>window.uniqueId ='.$id.' </script>';    
          echo '<script>window.uniqueId ='.$id.'; </script>';
-	$PAGE->requires->js('/mod/feedcam/js/record2.js');		
+	$PAGE->requires->js('/mod/testimonial/js/record2.js');		
            
           
         
@@ -356,14 +356,14 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
     //  echo '<fieldset><legend><font color="black"  size="4"><b style="font-family:  "Hoefler Text", Georgia, "Times New Roman", serif;">RECORDINGS </b></font> </legend>';
    
        
-     echo $OUTPUT->heading(get_string('subheading', 'feedcam'), 4, null);
+     echo $OUTPUT->heading(get_string('subheading', 'testimonial'), 4, null);
      
         $page = optional_param('page', 0, PARAM_INT); 
      // echo html_writer::empty_tag('hr');
       
        //  echo html_writer::start_tag('div', array('class' => 'page'));
         //               echo html_writer::start_tag('div', array('id'=>'firstdiv','class' => 'page')).'<br/>';
-                     //  echo html_writer::tag('p', get_string('firstpara', 'feedcam'), array('id'=>'firstpara','class' => 'page'));
+                     //  echo html_writer::tag('p', get_string('firstpara', 'testimonial'), array('id'=>'firstpara','class' => 'page'));
        //                echo html_writer::end_tag('div');
        //  echo html_writer::end_tag('div').'<br>';           
     
@@ -404,7 +404,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                                $aitemname=  trim(strrev($cropeditem).'wav');
                              
                   
-                                $sql='SELECT videotitle FROM {feedcam_videos} WHERE id = ?';    
+                                $sql='SELECT videotitle FROM {testimonial_videos} WHERE id = ?';    
                                 $vtitle = $DB->get_field_sql($sql, array((int)$itemid));
                                
                              //  if(isset($postdelete)){
@@ -418,7 +418,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                                     $session['lastid']=$aitemid;
                                             echo $session['lastid'];
 
-                                      $sql='SELECT rowscount FROM {feedcam_videos} WHERE id = ?';    
+                                      $sql='SELECT rowscount FROM {testimonial_videos} WHERE id = ?';    
                                       $lastrowcount = $DB->get_records_sql($sql, array($session['lastid']));
 
                                      //   print_r($$lastrowcount);
@@ -433,18 +433,18 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                                
                             if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$itemid)))){  
 
-                                   $DB->delete_records('feedcam_videos', array ('id'=> $itemid));
-                                   $DB->delete_records('feedcam_videos', array ('id'=> $aitemid));
-                                 //  $DB->delete_records('feedcam_videos', array ('id'=> $itemid+1));
+                                   $DB->delete_records('testimonial_videos', array ('id'=> $itemid));
+                                   $DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
+                                 //  $DB->delete_records('testimonial_videos', array ('id'=> $itemid+1));
                                  
                                    echo html_writer::start_tag('div', array('class'=>'curruptprint'));
-                                   echo get_string('curruptprint', 'feedcam');
+                                   echo get_string('curruptprint', 'testimonial');
                                     echo html_writer::end_tag('div');  
                                   
                               //   echo "<div><font color='#A80707'>Sorry, Currupted media and did not store on server<font></div>";
-                                 // mysqli_query($conn,"DELETE FROM feedcam_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
+                                 // mysqli_query($conn,"DELETE FROM testimonial_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
 
-                                 //  $DB->delete_records("feedcam_videos", array("name"=>$value));
+                                 //  $DB->delete_records("testimonial_videos", array("name"=>$value));
                             }
 
                              else{
@@ -453,22 +453,22 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                                      fileDeletion($aitemid,$aitemname,$context->id);
                                      fileDeletion($aitemid,".",$context->id);
 
-                                        $vid=$DB->delete_records('feedcam_videos', array ('id'=> $itemid));
-                                        $aid=$DB->delete_records('feedcam_videos', array ('id'=> $aitemid));
-                                      //  $DB->delete_records('feedcam_videos', array ('id'=> $itemid+1));
+                                        $vid=$DB->delete_records('testimonial_videos', array ('id'=> $itemid));
+                                        $aid=$DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
+                                      //  $DB->delete_records('testimonial_videos', array ('id'=> $itemid+1));
                               }
                          //  if(!file_exists('uploads/'.$value)){
                         //        echo "Sorry Video had been currupted and did not stored on server<br /><br/>";
-                        //         mysqli_query($conn,"DELETE FROM feedcam_videos WHERE name='$value' ");   //db
+                        //         mysqli_query($conn,"DELETE FROM testimonial_videos WHERE name='$value' ");   //db
                                  
-                             //  $DB->delete_records("feedcam_videos", array(sql_compare_text("name")=>$value));
+                             //  $DB->delete_records("testimonial_videos", array(sql_compare_text("name")=>$value));
                        //    }
                            
                        //     else{
                        //          unlink('uploads/'.$value);
                                  
-                       //          mysqli_query($conn,"DELETE FROM feedcam_videos WHERE name='$value' ");  //db
-                           //   $DB->delete_records("feedcam_videos", array(sql_compare_text("name")=>$value));
+                       //          mysqli_query($conn,"DELETE FROM testimonial_videos WHERE name='$value' ");  //db
+                           //   $DB->delete_records("testimonial_videos", array(sql_compare_text("name")=>$value));
                         //     }
                                  
                        }
@@ -480,7 +480,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                
               // if(isset($postdelete)){
                     echo html_writer::start_tag('div', array('class'=>'curruptprint'));
-                       echo get_string('deleteprint', 'feedcam');
+                       echo get_string('deleteprint', 'testimonial');
                    echo html_writer::end_tag('div');
              //  }
                   // if(isset($getvidname)){
@@ -490,7 +490,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
               }
               
                else{
-                   echo get_string('selectfile', 'feedcam');
+                   echo get_string('selectfile', 'testimonial');
                }
            }
  
@@ -505,9 +505,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
     // else { 
      //   echo "you are not an admin".$isadmin;
    //   }  
-        $queryall= $DB->get_records_sql("SELECT * FROM {feedcam_videos}");
+        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos}");
         if(!$isadmin){
-            $queryall= $DB->get_records_sql("SELECT * FROM {feedcam_videos} WHERE user_id=$USER->id ");
+            $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id ");
         }
        
             $sno=0;
@@ -522,7 +522,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              $update = new stdclass;
                   $update->id = $vid;
                   $update->rowscount = $sno;
-             $lastupdate=$DB->update_record('feedcam_videos', $update);
+             $lastupdate=$DB->update_record('testimonial_videos', $update);
           }
             
            
@@ -530,7 +530,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
        $pagestart= ($page*10)+1;
        $endpage= $pagestart+10-1;
 
-      // $DB->get_record_sql('SELECT * FROM {feedcam_videos} WHERE firstname = ? AND lastname = ?', array('Martin', 'Dougiamas'));
+      // $DB->get_record_sql('SELECT * FROM {testimonial_videos} WHERE firstname = ? AND lastname = ?', array('Martin', 'Dougiamas'));
    if($isadmin){
        
       // $remainingsno=10-$_SESSION['sno'];
@@ -544,28 +544,28 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
      //  echo "start".$pagestart;
      //  echo "end".$endpage;
        
-     //  $countrows=$DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id));
+     //  $countrows=$DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id));
        
        
        if(isset($page) && $page>0){
-         //  echo "SELECT * FROM {feedcam_videos} WHERE COUNT(feedcam_id) >$pagestart AND  COUNT(feedcam_id)< $endpage";
-           $query= $DB->get_records_sql("SELECT * FROM {feedcam_videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage");
-        //   $queryall= $DB->get_records_sql("SELECT * FROM {feedcam_videos}");
+         //  echo "SELECT * FROM {testimonial_videos} WHERE COUNT(testimonial_id) >$pagestart AND  COUNT(testimonial_id)< $endpage";
+           $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage");
+        //   $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos}");
           // $page++;
          //  echo "<meta http-equiv='refresh' content='5; url=view.php?id={$cm->id}'>";
          }
        else{
            
-           $query= $DB->get_records_sql("SELECT * FROM {feedcam_videos}  WHERE rowscount<=$endpage");
-         //  $queryall= $DB->get_records_sql("SELECT * FROM {feedcam_videos}");
+           $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos}  WHERE rowscount<=$endpage");
+         //  $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos}");
        }
    }
    else{
-        $query= $DB->get_records_sql("SELECT * FROM {feedcam_videos} WHERE user_id=$USER->id AND rowscount>=$pagestart AND rowscount<=$endpage");
+        $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND rowscount>=$pagestart AND rowscount<=$endpage");
        // $queryall=$query;
    }
      
-      //  $query= mysqli_query($conn,"SELECT * FROM feedcam_videos "); // db 
+      //  $query= mysqli_query($conn,"SELECT * FROM testimonial_videos "); // db 
         
     //     if (mysqli_num_rows($query) == 0){  
     //db
@@ -573,11 +573,11 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             
             
             if(!$isadmin){
-              echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
+              echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','testimonial'),'id'=>'backbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
             }
                // echo "<form method='post' action='view.php?id={$cm->id}'><input type=submit name='back' value='Back to Video Capture' name='home' /></form>";
                 echo html_writer::start_tag('div', array('class'=>'itemidprint'));
-                         echo get_string('existprint', 'feedcam');
+                         echo get_string('existprint', 'testimonial');
                   echo html_writer::end_tag('div');
                   
                 // if($isadmin){
@@ -613,8 +613,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
               $stattable=array();
               $row='';
                    
-           //  echo get_string('totaltestimonials', 'feedcam');
-             $stattable[]=get_string('totaltestimonials', 'feedcam');
+           //  echo get_string('totaltestimonials', 'testimonial');
+             $stattable[]=get_string('totaltestimonials', 'testimonial');
               
              $totaltesti=  floor(sizeof($queryall)/2);
                   $stattable[]= $totaltesti;
@@ -622,26 +622,26 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
           //   echo html_writer::empty_tag('hr');
             // echo html_writer::start_tag('div', array('class'=>'itemidprint','value'=>"$totaltesti")); echo html_writer::end_tag('div');
            
-            // echo get_string('totalstudents', 'feedcam');
+            // echo get_string('totalstudents', 'testimonial');
           if($isadmin){
                  
                   
               $table->data[] =$stattable;
               $stattable=array();
                  
-              $stattable[]=get_string('totalstudents', 'feedcam');
+              $stattable[]=get_string('totalstudents', 'testimonial');
                   
                
             //$stattable=array();
-            // $result=$DB->count_records('feedcam_videos', array('feedcam_id'=>$feedcam->id, 'user_id' =>$USER->id));
+            // $result=$DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id, 'user_id' =>$USER->id));
             //    $replycount=(int)floor($result/2); 
-           // $totalstudent= $DB->get_records_sql("SELECT user_id FROM {feedcam_videos}");  
-             $sql='SELECT DISTINCT user_id FROM {feedcam_videos} WHERE feedcam_id = ?';    
-             $totalstudent = $DB->get_records_sql($sql, array($feedcam->id));
+           // $totalstudent= $DB->get_records_sql("SELECT user_id FROM {testimonial_videos}");  
+             $sql='SELECT DISTINCT user_id FROM {testimonial_videos} WHERE testimonial_id = ?';    
+             $totalstudent = $DB->get_records_sql($sql, array($testimonial->id));
              
              
              foreach($totalstudent as $value){
-                 $sql2='SELECT * FROM {feedcam_videos} WHERE user_id = ?';
+                 $sql2='SELECT * FROM {testimonial_videos} WHERE user_id = ?';
                  $sql3='SELECT username FROM {user} WHERE id = ?';
                 
                  
@@ -685,18 +685,18 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              
             if(!$isadmin){ 
               $stattable=array();
-              $stattable[]=get_string('studentimetext', 'feedcam');
+              $stattable[]=get_string('studentimetext', 'testimonial');
               $stattable[]=$studenttime." hours";
             
               $table->data[] =$stattable;        
            }
          
              $stattable=array();
-             $stattable[]=get_string('testimonialstore', 'feedcam');
+             $stattable[]=get_string('testimonialstore', 'testimonial');
              
              if(!$isadmin){
                     $stattable[]= html_writer::tag('form',html_writer::empty_tag('input', 
-                    array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','feedcam'),'id'=>'backbutton2')),
+                    array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton2')),
                     array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
              }
              else{
@@ -858,7 +858,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
            // echo $count;
             
                 $vid = $value->id;
-                $feedcamid = $value->feedcam_id;
+                $testimonialid = $value->testimonial_id;
                 $userid = $value->user_id;
                 $name = $value->name;
                 $videotitle = $value->videotitle;
@@ -867,7 +867,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                 $urll = $value->url;
                 $rowscount = $value->rowscount;
                 $videoids=$vid.'/'.$name;
-               // $url=get_feedcam_doc_url($vid);
+               // $url=get_testimonial_doc_url($vid);
                //echo($url);
                
               //  echo($url);
@@ -889,7 +889,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              //    $update = new stdclass;
             //           $update->id = $vid;
             //           $update->rowscount = $sno;
-            //     $lastupdate=$DB->update_record('feedcam_videos', $update);
+            //     $lastupdate=$DB->update_record('testimonial_videos', $update);
                
              // }
                 
@@ -904,7 +904,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                //    $update = new stdclass;
                 //       $update->id = $vid;
                //        $update->rowscount = $sno;
-               //    $lastupdate=$DB->update_record('feedcam_videos', $update);
+               //    $lastupdate=$DB->update_record('testimonial_videos', $update);
                    
                    
                 //    $_SESSION['sno']=$sno;
@@ -970,7 +970,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                    //   $url = new moodle_url('');
                 //   echo html_writer::tag('input',
                  //          html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/delete'),'class'=>'iconsmall')),
-                //           array('type' => 'submit','name'=>'database', 'value' => get_string('store','feedcam'),'id'=>'store', 'class'=>'databasesbutton')
+                //           array('type' => 'submit','name'=>'database', 'value' => get_string('store','testimonial'),'id'=>'store', 'class'=>'databasesbutton')
                //           );
                                
                             
@@ -979,7 +979,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                       //      $link->text = 'Browse page 2'; // Required
                        //     echo $OUTPUT->link($link);
                             
-                    //     echo get_string('videotitle','feedcam');
+                    //     echo get_string('videotitle','testimonial');
                      //    echo html_writer::empty_tag('input', array('type' => 'button','name'=>'videotitle','id'=>'videotitle', 'class'=>'titlebutton', 'onchange'=>'saveVideoTitle(this.value)'));
                             
                             
@@ -997,7 +997,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                             
                             $delurl = new moodle_url("view.php?id={$cm->id}&vidname=$videoids");
                              
-                           // echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','feedcam'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
+                           // echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','testimonial'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
                            // echo "<td>";
                             $lastcolumn =  html_writer::link($delurl,
                                      html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/delete'),'class'=>'iconsmall'),
@@ -1045,7 +1045,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
 
 
                 $dataarr=array();
-                $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=get_string('selectall', 'feedcam');;
+                $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=get_string('selectall', 'testimonial');;
                 $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall','onclick'=>'checkedAll(frm1)','id'=>'checkall'));
                 $table->data[] =$dataarr;
               }
@@ -1055,9 +1055,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
               
             
             
-           if (has_capability('mod/feedcam:deletemultiple', $context)) {
+           if (has_capability('mod/testimonial:deletemultiple', $context)) {
                if($isadmin && $teacherdelete){
-                  echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','feedcam'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
+                  echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','testimonial'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
                }
              
             } 
@@ -1072,7 +1072,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
          
          if(!$isadmin){
             echo html_writer::tag('form',html_writer::empty_tag('input', 
-                    array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','feedcam'),'id'=>'backbutton')),
+                    array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','testimonial'),'id'=>'backbutton')),
                     array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
          }
             

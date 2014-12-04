@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_feedcam course module viewed event.
+ * The mod_testimonial course module viewed event.
  *
- * @package mod_feedcam
+ * @package mod_testimonial
  * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,12 +27,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Execute feedcam upgrade from the given old version
+ * Execute testimonial upgrade from the given old version
  *
  * @param int $oldversion
  * @return bool
  */
-function xmldb_feedcam_upgrade($oldversion) {
+function xmldb_testimonial_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager(); // loads ddl manager and xmldb classes
@@ -48,10 +48,10 @@ function xmldb_feedcam_upgrade($oldversion) {
 
     // Lines below (this included)  MUST BE DELETED once you get the first version
     // of your module ready to be installed. They are here only
-    // for demonstrative purposes and to show how the feedcam
+    // for demonstrative purposes and to show how the testimonial
     // iself has been upgraded.
 
-    // For each upgrade block, the file feedcam/version.php
+    // For each upgrade block, the file testimonial/version.php
     // needs to be updated . Such change allows Moodle to know
     // that this file has to be processed.
 
@@ -64,8 +64,8 @@ function xmldb_feedcam_upgrade($oldversion) {
     // First example, some fields were added to install.xml on 2007/04/01
     if ($oldversion < 2007040100) {
 
-        // Define field course to be added to feedcam
-        $table = new xmldb_table('feedcam');
+        // Define field course to be added to testimonial
+        $table = new xmldb_table('testimonial');
         $field = new xmldb_field('course', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'id');
 
         // Add field course
@@ -73,8 +73,8 @@ function xmldb_feedcam_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Define field intro to be added to feedcam
-        $table = new xmldb_table('feedcam');
+        // Define field intro to be added to testimonial
+        $table = new xmldb_table('testimonial');
         $field = new xmldb_field('intro', XMLDB_TYPE_TEXT, 'medium', null, null, null, null,'name');
 
         // Add field intro
@@ -82,8 +82,8 @@ function xmldb_feedcam_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Define field introformat to be added to feedcam
-        $table = new xmldb_table('feedcam');
+        // Define field introformat to be added to testimonial
+        $table = new xmldb_table('testimonial');
         $field = new xmldb_field('introformat', XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0',
             'intro');
 
@@ -94,7 +94,7 @@ function xmldb_feedcam_upgrade($oldversion) {
 
         // Once we reach this point, we can store the new version and consider the module
         // upgraded to the version 2007040100 so the next time this block is skipped
-        upgrade_mod_savepoint(true, 2007040100, 'feedcam');
+        upgrade_mod_savepoint(true, 2007040100, 'testimonial');
     }
 
     // Second example, some hours later, the same day 2007/04/01
@@ -102,8 +102,8 @@ function xmldb_feedcam_upgrade($oldversion) {
     // "01" in the last two digits of the version
     if ($oldversion < 2007040101) {
 
-        // Define field timecreated to be added to feedcam
-        $table = new xmldb_table('feedcam');
+        // Define field timecreated to be added to testimonial
+        $table = new xmldb_table('testimonial');
         $field = new xmldb_field('timecreated', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0',
             'introformat');
 
@@ -112,8 +112,8 @@ function xmldb_feedcam_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Define field timemodified to be added to feedcam
-        $table = new xmldb_table('feedcam');
+        // Define field timemodified to be added to testimonial
+        $table = new xmldb_table('testimonial');
         $field = new xmldb_field('timemodified', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0',
             'timecreated');
 
@@ -122,8 +122,8 @@ function xmldb_feedcam_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Define index course (not unique) to be added to feedcam
-        $table = new xmldb_table('feedcam');
+        // Define index course (not unique) to be added to testimonial
+        $table = new xmldb_table('testimonial');
         $index = new xmldb_index('courseindex', XMLDB_INDEX_NOTUNIQUE, array('course'));
 
         // Add index to course field
@@ -132,7 +132,7 @@ function xmldb_feedcam_upgrade($oldversion) {
         }
 
         // Another save point reached
-        upgrade_mod_savepoint(true, 2007040101, 'feedcam');
+        upgrade_mod_savepoint(true, 2007040101, 'testimonial');
     }
 
     // Third example, the next day, 2007/04/02 (with the trailing 00), some actions were performed to install.php,
@@ -141,7 +141,7 @@ function xmldb_feedcam_upgrade($oldversion) {
 
         // insert here code to perform some actions (same as in install.php)
 
-        upgrade_mod_savepoint(true, 2007040200, 'feedcam');
+        upgrade_mod_savepoint(true, 2007040200, 'testimonial');
     }
 
     // And that's all. Please, examine and understand the 3 example blocks above. Also

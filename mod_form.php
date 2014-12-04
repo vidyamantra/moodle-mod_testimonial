@@ -16,13 +16,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The main feedcam configuration form
+ * The main testimonial configuration form
  *
  * It uses the standard core Moodle formslib. For more info about them, please
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
  * @package    mod
- * @subpackage feedcam
+ * @subpackage testimonial
  * @copyright  2011 Your Name
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
 /**
  * Module instance settings form
  */
-class mod_feedcam_mod_form extends moodleform_mod {
+class mod_testimonial_mod_form extends moodleform_mod {
 
     /**
      * Defines forms elements
@@ -48,7 +48,7 @@ class mod_feedcam_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field
-        $mform->addElement('text', 'name', get_string('feedcamname', 'feedcam'), array('size'=>'64'));
+        $mform->addElement('text', 'name', get_string('testimonialname', 'testimonial'), array('size'=>'64'));
       
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -60,7 +60,7 @@ class mod_feedcam_mod_form extends moodleform_mod {
          
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('name', 'feedcamname', 'feedcam');
+        $mform->addHelpButton('name', 'testimonialname', 'testimonial');
 
         // Adding the standard "intro" and "introformat" fields
          $this->add_intro_editor();
@@ -69,7 +69,7 @@ class mod_feedcam_mod_form extends moodleform_mod {
         //-------------------------------------------------------------------------------
         // Adding the "additional" fieldset, where all the additional settings are showed   
          
-         $mform->addElement('header', 'additional', get_string('additional', 'feedcam'));
+         $mform->addElement('header', 'additional', get_string('additional', 'testimonial'));
         // Adding the standard "select" field
          
          $hours=array();
@@ -79,22 +79,22 @@ class mod_feedcam_mod_form extends moodleform_mod {
           }
           $options = $hours;
             
-         $select =$mform->addElement('select', 'studenttime', get_string('studenttime', 'feedcam'), $options);
+         $select =$mform->addElement('select', 'studenttime', get_string('studenttime', 'testimonial'), $options);
             // This will select the time in hours.
-       //  $mform->addElement('checkbox', 'teacherdelete', get_string('teacherdelete', 'feedcam'),'unchecked');
-        $mform->addElement('advcheckbox', 'teacherdelete', get_string('teacherdelete', 'feedcam'), 'Yes', array('group' => 1), array(0, 1));
+       //  $mform->addElement('checkbox', 'teacherdelete', get_string('teacherdelete', 'testimonial'),'unchecked');
+        $mform->addElement('advcheckbox', 'teacherdelete', get_string('teacherdelete', 'testimonial'), 'Yes', array('group' => 1), array(0, 1));
          
-        // $checkbox = html_select_option::make_checkbox('1', false, get_string('teacherdelete', 'feedcam'));
+        // $checkbox = html_select_option::make_checkbox('1', false, get_string('teacherdelete', 'testimonial'));
         // echo $OUTPUT->checkbox($checkbox, 'teacherdelete');
         
 
         //-------------------------------------------------------------------------------
-        // Adding the rest of feedcam settings, spreeading all them into this fieldset
+        // Adding the rest of testimonial settings, spreeading all them into this fieldset
         // or adding more fieldsets ('header' elements) if needed for better logic
-       // $mform->addElement('static', 'label1', 'feedcamsetting1', 'Your feedcam fields go here. Replace me!');
+       // $mform->addElement('static', 'label1', 'testimonialsetting1', 'Your testimonial fields go here. Replace me!');
 
-      //  $mform->addElement('header', 'feedcamfieldset', get_string('feedcamfieldset', 'feedcam'));
-      //  $mform->addElement('static', 'label2', 'feedcamsetting2', 'Your feedcam fields go here. Replace me!');
+      //  $mform->addElement('header', 'testimonialfieldset', get_string('testimonialfieldset', 'testimonial'));
+      //  $mform->addElement('static', 'label2', 'testimonialsetting2', 'Your testimonial fields go here. Replace me!');
 
         
         //-------------------------------------------------------------------------------
@@ -114,20 +114,20 @@ function add_completion_rules() {
     $mform =& $this->_form;
 
     $group=array();
-    $group[] =& $mform->createElement('checkbox', 'completionrecordenabled', ' ', get_string('completionrecord','feedcam'));
+    $group[] =& $mform->createElement('checkbox', 'completionrecordenabled', ' ', get_string('completionrecord','testimonial'));
   //  $group[] =& $mform->createElement('text', 'completionrecord', ' ', array('size'=>3));
     $mform->setType('completionrecord',PARAM_INT);
-    $mform->addGroup($group, 'completionrecordgroup', get_string('completionrecordgroup','feedcam'), array(' '), false);
-   // $mform->setHelpButton('completionrecordgroup', array('completion', get_string('completionrecordhelp', 'feedcam'), 'feedcam'));
+    $mform->addGroup($group, 'completionrecordgroup', get_string('completionrecordgroup','testimonial'), array(' '), false);
+   // $mform->setHelpButton('completionrecordgroup', array('completion', get_string('completionrecordhelp', 'testimonial'), 'testimonial'));
     $mform->disabledIf('completionrecord','completionrecordenabled','notchecked');
 
     
      $group=array();
-    $group[] =& $mform->createElement('checkbox', 'completionwatchenabled', ' ', get_string('completionwatch','feedcam'));
+    $group[] =& $mform->createElement('checkbox', 'completionwatchenabled', ' ', get_string('completionwatch','testimonial'));
   
     $mform->setType('completionwatch',PARAM_INT);
-    $mform->addGroup($group, 'completionwatchgroup', get_string('completionwatchgroup','feedcam'), array(' '), false);
-   // $mform->setHelpButton('completionwatchgroup', array('completion', get_string('completionwatchhelp', 'feedcam'), 'feedcam'));
+    $mform->addGroup($group, 'completionwatchgroup', get_string('completionwatchgroup','testimonial'), array(' '), false);
+   // $mform->setHelpButton('completionwatchgroup', array('completion', get_string('completionwatchhelp', 'testimonial'), 'testimonial'));
     $mform->disabledIf('completionwatch','completionwatchenabled','notchecked');
     
     
@@ -185,8 +185,8 @@ function add_completion_rules() {
     function add_completion_rules() {
         $mform =& $this->_form;
 
-        $mform->addElement('checkbox', 'completionrecord', '', get_string('completionrecord', 'feedcam'));
-        $mform->addElement('checkbox', 'completionwatch', '', get_string('completionwatch', 'feedcam'));
+        $mform->addElement('checkbox', 'completionrecord', '', get_string('completionrecord', 'testimonial'));
+        $mform->addElement('checkbox', 'completionwatch', '', get_string('completionwatch', 'testimonial'));
         return array('completionrecord','completionwatch');
     }
 
