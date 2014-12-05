@@ -30,7 +30,7 @@ This is one of the poweful plugin that takes very less time and resourse to auto
 Requirements
 -------------
 
-* Moodle 2.7.0
+* Moodle 2.7.0+
 
 
 Installation

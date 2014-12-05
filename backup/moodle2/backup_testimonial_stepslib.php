@@ -43,7 +43,7 @@ class backup_testimonial_activity_structure_step extends backup_activity_structu
         // Define sources
         $testimonial->set_source_table('testimonial', array('id' => backup::VAR_ACTIVITYID));
 
-         $video->set_source_sql('SELECT * FROM {videos} WHERE testimonial_id = ?', array(backup::VAR_PARENTID));
+         $video->set_source_sql('SELECT * FROM {testimonial_videos} WHERE testimonial_id = ?', array(backup::VAR_PARENTID));
          if ($userinfo) {
            $watching->set_source_table('testimonial_watching', array('testimonial_id' => backup::VAR_PARENTID));
          }
