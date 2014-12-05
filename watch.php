@@ -63,8 +63,29 @@ $id2='';$url='';$url2='';$testimonialid='';
            $query = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE id = ?', array($avid));
                
            foreach ($query as $value) { 
-                    $url=  $value->url;
+               
+                    
                     $name=$value->name;
+                    
+                   $revitem= strrev($name);
+                   $str = $revitem;
+                   
+                   $char=substr( $str, 0, 1 );
+                    if($char=='m') {
+                       $cropeditem= substr($revitem,4);
+                       $audioname=  trim(strrev($cropeditem).'wav');
+                       $url=$value->url;
+                       
+                     }
+                   else{
+                       $cropeditem= substr($revitem,3);
+                       $audioname=  trim(strrev($cropeditem).'webm');
+                       $url2=$value->url;
+                   } 
+                    
+                    
+                    
+                   // $url=  $value->url;
                     $title=$value->videotitle;
                     
                   if(!($DB->record_exists('testimonial_watching', array('user_id' =>$USER->id, 'testimonial_id'=>$testimonialid, 'video_id'=>$avid)))){  
@@ -76,40 +97,7 @@ $id2='';$url='';$url2='';$testimonialid='';
                   }
                }
                
-               $revitem= strrev($name);
-               $str = $revitem;
-               // $strlen = strlen( $str );
-              //  $id = "";
-               // for( $i=0; $i<=$strlen; $i++ ) {
-                 $char=substr( $str, 0, 1 );
-                    if($char=='m') {
-                       $cropeditem= substr($revitem,4);
-                       $audioname=  trim(strrev($cropeditem).'wav');
-                       
-                     }
-                   else{
-                       $cropeditem= substr($revitem,3);
-                       $audioname=  trim(strrev($cropeditem).'webm');
-                       $x=$url;
-                   }  
-                  //  $id .= $char;
-              //  }
-
-                   
-                 //  echo $audioname.'name';
-                   
                
-               
-         //  while($row=mysqli_fetch_assoc($query)){
-            
-         //      $url=$row['url'];
-         //      $name=$row['name'];
-         //  }
-                   
-                 //   $revitem= strrev($name);
-            //   $str = $revitem;
-           //  $char=substr( $str, 0, 1 );
-            // fetching audio from database
             $query2 = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ?', array($audioname));
          //  $query= mysqli_query($conn,"SELECT * FROM testimonial_videos WHERE id='$id' ");
             
@@ -117,15 +105,13 @@ $id2='';$url='';$url2='';$testimonialid='';
             
             foreach ($query2 as $value2) { 
             
-            $id2=$value2->id;
-            
               if($char=='m') {
+                $id2=$value2->id;
                 $url2=$value2->url;
               }
               else{
-                  $url2=$value2->url;
-                  $url=$url2;
-                  $url2=$x;
+                  $id2=$value2->id;
+                  $url=$value2->url;
               }
               
               
@@ -193,8 +179,8 @@ $id2='';$url='';$url2='';$testimonialid='';
                      
                      // echo html_writer::start_tag('div', array('id' => 'video-container'));
                     $startdiv=html_writer::start_tag('div', array('id' => 'video-container'));
-                      $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch','autoplay'=>'autoplay'));echo html_writer::end_tag('audio');
-                      $videobuff=html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch','autoplay'=>'autoplay')).html_writer::end_tag('video');
+                      $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch'));echo html_writer::end_tag('audio');
+                      $videobuff=html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch')).html_writer::end_tag('video');
                      $enddiv= html_writer::end_tag('div');
                      
                     
@@ -216,7 +202,7 @@ $id2='';$url='';$url2='';$testimonialid='';
                            //          html_writer::empty_tag('img', array('src'=>'pix/play.svg','class'=>'iconsmall'),
                            //          array('class'=>'watch2','id' => 'play-pause','value'=>'Pause', 'onclick'=>'getvideoid(this.id)')));
                      
-                          $playbutt= html_writer::empty_tag('input', array('type' => 'button','value' => 'Pause','id'=>'play-pause', 'class'=>'watch2'));
+                          $playbutt= html_writer::empty_tag('input', array('type' => 'button','value' => 'Play','id'=>'play-pause', 'class'=>'watch2'));
                           $playrange= html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar'));
                           $mutebutt= html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('mutewatch','testimonial'),'id'=>'mute', 'class'=>'watch2'));
                           $muterange= html_writer::empty_tag('input', array('type' => 'range', 'id'=>'volume-bar', 'class'=>'watchbarmute', 'min'=>'0', 'max'=>'1','step'=>'0.1', 'value'=>'1'));
@@ -256,7 +242,7 @@ $id2='';$url='';$url2='';$testimonialid='';
                      
                      
                       $watchtable[]='';
-                      $watchtable[]=$startdivbutt.' replay '.$replay.'&nbsp&nbsp  exit'.$closewindow.' '.$enddivbutt;
+                      $watchtable[]=$startdivbutt.' Refresh '.$replay.'&nbsp&nbsp  Exit'.$closewindow.' '.$enddivbutt;
                       $watchtable[]='';
                            
                      $table->data[]=$watchtable;

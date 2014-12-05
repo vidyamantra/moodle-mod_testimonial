@@ -92,6 +92,7 @@ $string['testirecording']="<b> Testimonial recording </b>";
 $string['uploading']=" Uploading process ";
 $string['successdelrecent']=" Successfully deleted all consecutive recent files ";
 $string['refreshhint']="<font size='2px' color='grey'> * Refresh page after deleting recent files </font>";
-$string['youwatching']="<font color='gray'><b> You are watching : </b></font>";
+$string['youwatching']="<font color='gray'><b> * Click on play button for watching testimonial : </b></font>";
+//$string['clickforwatch']="<font color='gray'><b> </b></font>";
 
 
