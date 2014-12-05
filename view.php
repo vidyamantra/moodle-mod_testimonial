@@ -346,7 +346,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              $row='';
              
              $stattable[]=get_string('totaltestimonials', 'testimonial');
-             $totaltesti=  floor(sizeof($queryall)/2);
+             foreach ($queryall as $value){
+                 $totaltesti=  $value->rowscount;
+             }
              $stattable[]= $totaltesti;
             
           if($isadmin){
