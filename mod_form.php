@@ -16,59 +16,46 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The main testimonial configuration form
+ * The mod_testimonial course module viewed event.
  *
- * It uses the standard core Moodle formslib. For more info about them, please
- * visit: http://docs.moodle.org/en/Development:lib/formslib.php
- *
- * @package    mod
- * @subpackage testimonial
- * @copyright  2011 Your Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package mod_testimonial
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
-
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
 /**
  * Module instance settings form
  */
 class mod_testimonial_mod_form extends moodleform_mod {
-
     /**
      * Defines forms elements
      */
     public function definition() {
 
         $mform = $this->_form;
-
         //-------------------------------------------------------------------------------
         // Adding the "general" fieldset, where all the common settings are showed
         $mform->addElement('header', 'general', get_string('general', 'form'));
-
         // Adding the standard "name" field
         $mform->addElement('text', 'name', get_string('testimonialname', 'testimonial'), array('size'=>'64'));
       
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
          }
-         
         else {
             $mform->setType('name', PARAM_CLEAN);
          }
-         
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('name', 'testimonialname', 'testimonial');
 
         // Adding the standard "intro" and "introformat" fields
          $this->add_intro_editor();
-         
-      
         //-------------------------------------------------------------------------------
         // Adding the "additional" fieldset, where all the additional settings are showed   
-         
          $mform->addElement('header', 'additional', get_string('additional', 'testimonial'));
         // Adding the standard "select" field
          
@@ -77,17 +64,11 @@ class mod_testimonial_mod_form extends moodleform_mod {
           for($counthr=1;$counthr<=24;$counthr++){
              $hours[$counthr]="$counthr";
           }
-          $options = $hours;
+        $options = $hours;
             
-         $select =$mform->addElement('select', 'studenttime', get_string('studenttime', 'testimonial'), $options);
-            // This will select the time in hours.
-       //  $mform->addElement('checkbox', 'teacherdelete', get_string('teacherdelete', 'testimonial'),'unchecked');
+        $select =$mform->addElement('select', 'studenttime', get_string('studenttime', 'testimonial'), $options);
+        // This will select the time in hours.
         $mform->addElement('advcheckbox', 'teacherdelete', get_string('teacherdelete', 'testimonial'), 'Yes', array('group' => 1), array(0, 1));
-         
-        // $checkbox = html_select_option::make_checkbox('1', false, get_string('teacherdelete', 'testimonial'));
-        // echo $OUTPUT->checkbox($checkbox, 'teacherdelete');
-        
-
         //-------------------------------------------------------------------------------
         // Adding the rest of testimonial settings, spreeading all them into this fieldset
         // or adding more fieldsets ('header' elements) if needed for better logic
@@ -101,67 +82,12 @@ class mod_testimonial_mod_form extends moodleform_mod {
         // add standard elements, common to all modules
         $this->standard_coursemodule_elements();
         
-           //     $select=$mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="25" ');
-               //  $select = html_select::make(array('1' => 'Value 1', '2' => 'Value 2'), 'choice1', '2'));
         //-------------------------------------------------------------------------------
         // add standard buttons, common to all modules
         $this->add_action_buttons();
     }
 
-/*
-function add_completion_rules() {
- 
-    $mform =& $this->_form;
-
-    $group=array();
-    $group[] =& $mform->createElement('checkbox', 'completionrecordenabled', ' ', get_string('completionrecord','testimonial'));
-  //  $group[] =& $mform->createElement('text', 'completionrecord', ' ', array('size'=>3));
-    $mform->setType('completionrecord',PARAM_INT);
-    $mform->addGroup($group, 'completionrecordgroup', get_string('completionrecordgroup','testimonial'), array(' '), false);
-   // $mform->setHelpButton('completionrecordgroup', array('completion', get_string('completionrecordhelp', 'testimonial'), 'testimonial'));
-    $mform->disabledIf('completionrecord','completionrecordenabled','notchecked');
-
-    
-     $group=array();
-    $group[] =& $mform->createElement('checkbox', 'completionwatchenabled', ' ', get_string('completionwatch','testimonial'));
-  
-    $mform->setType('completionwatch',PARAM_INT);
-    $mform->addGroup($group, 'completionwatchgroup', get_string('completionwatchgroup','testimonial'), array(' '), false);
-   // $mform->setHelpButton('completionwatchgroup', array('completion', get_string('completionwatchhelp', 'testimonial'), 'testimonial'));
-    $mform->disabledIf('completionwatch','completionwatchenabled','notchecked');
-    
-    
-    return array('completionrecordgroup','completionwatchgroup');
-}
-
- function completion_rule_enabled($data) {
-        return (!empty($data['completionrecordenabled']) && $data['completionrecord']!=0) ||
-            (!empty($data['completionwatchenabled']) && $data['completionwatch']!=0);
-    }
-    
-    
-    function get_data() {
-        $data = parent::get_data();
-        if (!$data) {
-            return false;
-        }
-        // Turn off completion settings if the checkboxes aren't ticked
-        if (!empty($data->completionunlocked)) {
-            $autocompletion = !empty($data->completion) && $data->completion==COMPLETION_TRACKING_AUTOMATIC;
-            if (empty($data->completionrecordenabled) || !$autocompletion) {
-                $data->completionrecord = 0;
-            }
-            if (empty($data->completionwatchenabled) || !$autocompletion) {
-                $data->completionwatch = 0;
-            }
-        }
-        return $data;
-    }
-    */
-    
-    
-    
-    function get_data() {
+   function get_data() {
         $data = parent::get_data();
         if (!$data) {
             return false;
@@ -171,70 +97,28 @@ function add_completion_rules() {
             if (empty($data->completionrecord)) {
                 $data->completionrecord = 0;
             }
-            
-             if (empty($data->completionwatch)) {
+            if (empty($data->completionwatch)) {
                 $data->completionwatch = 0;
             }
-        }
-      //  print_r($data);
-      //  exit();
-        return $data;
-        
-    }
+       }
+    return $data;
+  }
 
-    function add_completion_rules() {
+   function add_completion_rules() {
         $mform =& $this->_form;
-
         $mform->addElement('checkbox', 'completionrecord', '', get_string('completionrecord', 'testimonial'));
         $mform->addElement('checkbox', 'completionwatch', '', get_string('completionwatch', 'testimonial'));
         return array('completionrecord','completionwatch');
-    }
+   }
 
     
-    function completion_rule_enabled($data) {
-        
-        if(!empty($data['completionrecord'])){
-            return $data['completionrecord'];
-        }
-          else {
-              return $data['completionwatch'];
-          }
+  function completion_rule_enabled($data) {
+    if(!empty($data['completionrecord'])){
+        return $data['completionrecord'];
     }
-    
-    
-   /* function data_preprocessing(&$default_values) {
-        
-        parent::data_preprocessing($default_values);
-
-        // Set up the completion checkboxes which aren't part of standard data.
-        // We also make the default value (if you turn on the checkbox) for those
-        // numbers to be 1, this will not apply unless checkbox is ticked.
-        $default_values['completionrecord']=
-            !empty($default_values['completionrecord']) ? 1 : 0;
-        if (empty($default_values['completionrecord'])) {
-            $default_values['completionrecord']=1;
-        }
-        $default_values['completionwatch']=
-            !empty($default_values['completionwatch']) ? 1 : 0;
-        if (empty($default_values['completionwatch'])) {
-            $default_values['completionwatch']=1;
-        }
-       
-    }*/
-    
-   /* 
-    function data_preprocessing(&$default_values){
-    // [Existing code, not shown]
-
-    // Set up the completion checkboxes which aren't part of standard data.
-    // We also make the default value (if you turn on the checkbox) for those
-    // numbers to be 1, this will not apply unless checkbox is ticked.
-    $default_values['completionrecord']=
-        !empty($default_values['completionrecord']) ? 1 : 0;
-    if(empty($default_values['completionwatch'])) {
-        $default_values['completionwatch']=1;
-    }
-}
-    */
+    else {
+        return $data['completionwatch'];
+     }
+  }
     
 }

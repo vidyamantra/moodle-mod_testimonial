@@ -16,30 +16,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
+ * The mod_testimonial course module viewed event.
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
- * @package    mod
- * @subpackage testimonial
- * @copyright  2011 Your Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package mod_testimonial
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-/// Replace testimonial with the name of your module and remove this line
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
 $id = required_param('id', PARAM_INT);   // course
-
 $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
-
 require_course_login($course);
-
-//add_to_log($course->id, 'testimonial', 'view all', 'index.php?id='.$course->id, '');
-
 
 $eventdata = array('context' => context_course::instance($id));
     $event = \mod_testimonial\event\course_module_instance_list_viewed::create($eventdata);

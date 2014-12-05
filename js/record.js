@@ -1,4 +1,25 @@
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * The mod_testimonial course module viewed event.
+ *
+ * @package mod_testimonial
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 //------------------------------------
 // 1. RecordRTC.js
 // 2. MRecordRTC.js
@@ -1546,7 +1567,6 @@ if (location.href.indexOf('file:') == 0) {
     console.error('Please load this HTML file on HTTP or HTTPS.');
 }
 
-// below function via: http://goo.gl/B3ae8c
 function bytesToSize(bytes) {
     var k = 1000;
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -1556,28 +1576,18 @@ function bytesToSize(bytes) {
 }
 
 
-// for delete a file either from database or server
-
-
-
- function create_window (image) {
-
-          //  width = (+width) +  10;
-          //  height = (+height) + 10;
-
-                if (window.popup && !window.popup.closed) {
-                        window.popup.resizeTo(width, height);
-                }
-
-             //  var specs = "width=" + width + ", height=" + height+ "', location=yes,scrollbars=yes, menubars=no,toolbars=yes, resizable=yes,left=300, top=200" ;
-                var url = image;
-                        // Create the pop-up window:
-
-                        popup = window.open(url, "ImageWindow","width=1200, height=800, left=400, top=200");
-                        popup.focus( );
-          } // End of function
+// for create popup window for watching testimonials
+ function create_window (image){
+       if (window.popup && !window.popup.closed) {
+         window.popup.resizeTo(width, height);
+       }
+        var url = image;
+        // Create the pop-up window:
+        popup = window.open(url, "ImageWindow","width=1200, height=800, left=400, top=200");
+        popup.focus( );
+    } // End of function
   
-  
+  //function for save video title onchange
   function saveVideoTitle(val){ 
       if(val){
         window.videotitle=val;
@@ -1587,17 +1597,17 @@ function bytesToSize(bytes) {
       }
   }
   
-  
+  //for getting video id
    function getvideoid(val2){ 
-    //  alert("The input value has changed. The new value is: " + val2); 
       if(val2){
         window.getvideoid=val2;
       }
       else{
          window.vgetvideoid="Error";
-     }
+      }
   }
   
+  //function for multiple selection checkbox
   checked=false;
    function checkedAll (frm1) {var aa= document.getElementById('frm1'); if (checked == false){
      checked = true
@@ -1606,4 +1616,4 @@ function bytesToSize(bytes) {
      checked = false
     }
    for (var i =0; i < aa.elements.length; i++){ aa.elements[i].checked = checked;}
-   }
+  }

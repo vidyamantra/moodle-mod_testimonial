@@ -16,10 +16,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_testimonial
- * @subpackage backup-moodle2
- * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * The mod_testimonial course module viewed event.
+ *
+ * @package mod_testimonial
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
@@ -34,14 +35,12 @@ class restore_testimonial_activity_structure_step extends restore_activity_struc
     protected function define_structure() {
 
         $paths = array();
-       
         $userinfo = $this->get_setting_value('userinfo');
         $paths[] = new restore_path_element('testimonial', '/activity/testimonial/testimonial');
         $paths[] = new restore_path_element('testimonial_videos', '/activity/testimonial/testimonial_videos');
         if ($userinfo) {
-            $paths[] = new restore_path_element('testimonial_watching', '/activity/testimonial/testimonial_watching');
+         $paths[] = new restore_path_element('testimonial_watching', '/activity/testimonial/testimonial_watching');
         }
-
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
     }
@@ -69,10 +68,7 @@ class restore_testimonial_activity_structure_step extends restore_activity_struc
         $data = (object)$data;
         $oldid = $data->id;
 
-        
         $data->user_id = $this->get_new_parentid('testimonial');
-       // user_id,name,url,testimonial_id
-       // $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('testimonial_videos', $data);
         $this->set_mapping('testimonial_videos', $oldid, $newitemid);

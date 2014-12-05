@@ -16,36 +16,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Library of interface functions and constants for module testimonial
+ * The mod_testimonial course module viewed event.
  *
- * All the core Moodle functions, neeeded to allow the module to work
- * integrated in Moodle should be placed here.
- * All the testimonial specific functions, needed to implement all the module
- * logic, should go to locallib.php. This will help to save some memory when
- * Moodle is performing actions across all modules.
- *
- * @package    mod
- * @subpackage testimonial
- * @copyright  2011 Your Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package mod_testimonial
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/** example constant */
-//define('TESTIMONIAL_ULTIMATE_ANSWER', 42);
-
-////////////////////////////////////////////////////////////////////////////////
-// Moodle core API                                                            //
-////////////////////////////////////////////////////////////////////////////////
-
-/**
- * Returns the information on whether the module supports a feature
- *
- * @see plugin_supports() in lib/moodlelib.php
- * @param string $feature FEATURE_xx constant for requested feature
- * @return mixed true if the feature is supported, null if unknown
- */
 function testimonial_supports($feature) {
     
     switch($feature) {
@@ -59,7 +38,6 @@ function testimonial_supports($feature) {
         case FEATURE_GRADE_OUTCOMES:          return false;
         case FEATURE_BACKUP_MOODLE2:          return true;
         case FEATURE_SHOW_DESCRIPTION:        return false;
-      //  case FEATURE_COMPLETION_HAS_RULES: return true;
         default: return null;
     }
 }
@@ -68,35 +46,20 @@ function testimonial_supports($feature) {
 
 function testimonial_get_completion_state($course, $cm, $userid, $type) {
     global $CFG,$DB,$USER;
-
-   // echo $cm->instance;
     echo $USER->id;
      $testimonial = $DB->get_record('testimonial', array('id'=>$cm->instance), '*', MUST_EXIST);
 
     // If completion option is enabled, evaluate it and return true/false
     if($testimonial->completionrecord && (!($testimonial->completionrecord && $testimonial->completionwatch))) {
-        
-     //  print_r('rec');
-      // print_r($cm->instance);
-      // echo '______________';
-     //  print_r($testimonial->id);
-      //  $countvid= $DB->count_records('testimonial_videos', array('testimonial_id' => $testimonial->id, 'user_id' => $userid));
-        
         echo $DB->record_exists('testimonial_videos', array('testimonial_id'=>$cm->instance, 'user_id'=>$USER->id));
-        
         return $DB->record_exists('testimonial_videos', array('testimonial_id'=>$cm->instance, 'user_id'=>$USER->id));
-        
     } 
     
-   if($testimonial->completionwatch && (!($testimonial->completionrecord && $testimonial->completionwatch))) {
-        
-      //  print_r('wat');
+    if($testimonial->completionwatch && (!($testimonial->completionrecord && $testimonial->completionwatch))) {
         return $DB->record_exists('testimonial_watching', array('user_id'=>$USER->id, 'testimonial_id'=>$cm->instance));
     } 
     
     if(($testimonial->completionrecord && $testimonial->completionwatch)) {
-        
-     //   print_r('both');
         $rec=$DB->record_exists('testimonial_videos', array('testimonial_id'=>$cm->instance, 'user_id'=>$USER->id));
         $wat=$DB->record_exists('testimonial_watching', array('user_id'=>$USER->id, 'testimonial_id'=>$cm->instance));
         
@@ -104,8 +67,6 @@ function testimonial_get_completion_state($course, $cm, $userid, $type) {
     }
     
     else {
-      //  print_r('nothing');
-        // Completion option is not enabled so just return $type
         return $type;
     }
    
@@ -413,20 +374,7 @@ function testimonial_pluginfile($course, $cm, $context, $filearea, array $args, 
 
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Navigation API                                                             //
-////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Extends the global navigation tree by adding testimonial nodes if there is a relevant content
- *
- * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
- *
- * @param navigation_node $navref An object representing the navigation tree node of the testimonial module instance
- * @param stdClass $course
- * @param stdClass $module
- * @param cm_info $cm
- */
 function testimonial_extend_navigation(navigation_node $navref, stdclass $course, stdclass $module, cm_info $cm) {
 }
 

@@ -34,7 +34,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class video_revealed extends \core\event\base {
-
     /**
      * Returns description of what happened.
      *
@@ -44,7 +43,6 @@ class video_revealed extends \core\event\base {
         return "The user with id '$this->userid' watched the video with id '$this->objectid' in the testimonial activity
             with the course module id '$this->contextinstanceid'.";
     }
-
     /**
      * Return legacy data for add_to_log().
      *
@@ -60,7 +58,6 @@ class video_revealed extends \core\event\base {
 
         return $legacylogdata;
     }
-
     /**
      * Return localised event name.
      *
@@ -69,7 +66,6 @@ class video_revealed extends \core\event\base {
     public static function get_name() {
         return get_string('eventvideorevealed', 'mod_testimonial');
     }
-
     /**
      * Get URL related to the action
      *
@@ -100,5 +96,4 @@ class video_revealed extends \core\event\base {
         parent::validate_data();
 
     }
-    
 }

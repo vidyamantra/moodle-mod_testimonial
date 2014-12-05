@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-//***************************** remove these comment marks and modify the code as needed
+   
     'mod/testimonial:addinstance' => array(
         'riskbitmask' => RISK_XSS,
 
@@ -40,7 +40,9 @@ $capabilities = array(
         ),
         'clonepermissionsfrom' => 'moodle/course:manageactivities'
     ),
-    
+    /**
+     * define capability for view
+     */
     'mod/testimonial:view' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -52,7 +54,9 @@ $capabilities = array(
             'manager' => CAP_ALLOW,
         )
     ),
-
+   /**
+     * define capability for submit testimonial
+     */
     'mod/testimonial:submit' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
@@ -62,8 +66,9 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
-    
-    
+    /**
+     * define capability for record new testimonial
+     */
     'mod/testimonial:record' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
@@ -77,7 +82,9 @@ $capabilities = array(
         )
     ),
     
-    
+    /**
+     * define capability for viewing database
+     */
      'mod/testimonial:godatabase' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
@@ -91,7 +98,9 @@ $capabilities = array(
         )
     ),
     
-    
+    /**
+     * define capability for recent deletion
+     */
     'mod/testimonial:deleterecent' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
@@ -104,7 +113,9 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
-    
+    /**
+     * define capability for multiple deletion
+     */
     'mod/testimonial:deletemultiple' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',

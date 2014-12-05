@@ -1,9 +1,18 @@
+
+/**
+ * @package mod_testimonial
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 #page-mod-testimonial-view #record {
- height: 33px; width: 120px; color:#36AE79;font-size: small;
+ height: 33px; width: 120px; color:#36AE79;font-size:small;
 }
+
 #page-mod-testimonial-view #stop {
 height: 33px; width: 120px;font-size: small;
 }
+
 #page-mod-testimonial-view #delete {
 height: 33px; width: 130px;font-size: small;
 }
@@ -15,12 +24,15 @@ height: 33px; width: 130px;font-size: small;
 #page-mod-testimonial-view #store {
 height: 35px; width: 200px; font-size:13px;margin-left: 0%;
 }
+
 #page-mod-testimonial-view .databaseimage {
  height:42px; width:60px;
 }
+
 #page-mod-testimonial-view  #backbutton {
 margin-left:30%; height: 35px; width: 150px;font-size: small;
 }
+
 #page-mod-testimonial-view  #backbutton2 {
 margin-left:12%; height: 35px; width: 160px;font-size: small;
 }
@@ -47,15 +59,15 @@ margin-left:0px;margin-top:25px;text-align: center;height:510px;width:680px;floa
 #controlbutton{
 display: inline;margin-left: 40%;
 }
-//#page-mod-testimonial-view  #container{
-//padding:1em 1em; width: 600px; height: 200px;margin-top: 30px;
-//}
+
 #page-mod-testimonial-view  #preview{
 border:1px solid #0070a8;height: 300px; width: 400px;
 }
+
 #page-mod-testimonial-view  .itemidprint{
 color:green; font-weight:300;float:right;
 }
+
 #page-mod-testimonial-view  .curruptprint{
 color:#A80707;
 }
@@ -91,8 +103,6 @@ height: 10px; width: 100px;
 .videowatch{
 border: 1px solid rgb(15, 158, 238); height: 510px; width: 680px;
 }
-
-
 
 #page-mod-testimonial-view  table.datatable {
 	font-family: verdana,arial,sans-serif;

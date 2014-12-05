@@ -25,14 +25,7 @@
 
 namespace mod_testimonial\event;
 defined('MOODLE_INTERNAL') || die();
-/**
- * The mod_testimonial course module viewed event class.
- *
- * @package    mod_testimonial
- * @since      Moodle 2.6
- * @copyright  2013 Adrian Greeve
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+
 class course_module_viewed extends \core\event\course_module_viewed {
     /**
      * Init method.

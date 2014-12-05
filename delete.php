@@ -1,15 +1,27 @@
 
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * save and upload the audio video files into directories and link of files in database
-
+ * The mod_testimonial course module viewed event.
  *
- * @package    mod
- * @subpackage testimonial
- * @copyright  2014 krishna
- * @license    http://www.vidyamantra.com
+ * @package mod_testimonial
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
@@ -17,13 +29,7 @@ require_once(dirname(__FILE__).'/locallib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
 global $DB,$USER;
 
-
-
 $id = optional_param('cmid', 0, PARAM_INT);
-//$id= $_GET['id'];
-//echo $id;
-
-
 if ($id) {
     $cm         = get_coursemodule_from_id('testimonial', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -31,72 +37,30 @@ if ($id) {
 } 
 
 $context = context_module::instance($id);
-
-//$conn=mysqli_connect('localhost','root',"mummy","moodle27d");
- 
 $files=array();
-
-
 if (isset($_POST['delete-file'])) {
   
-    
-    
-   // $files=$_POST['delete-file'];
+    //get an array of consecutive files for deletion
     $fiesstr= $_POST['delete-file'];
-    //print_r($fiesstr);
     $files=explode(',',$_POST['delete-file']);
     
-    
- //   $fileName = 'uploads/'.$_POST['delete-file'];
-   // echo($_POST['delete-file']);
-   
-   // print_r(sizeof($files));
-    
     foreach ($files as $value) {
-        
       $file=$value;
-  //  $withaudioext=
-   // $vext="$withvideoext";
-    
-   // echo $withvideoext;
-  //  exit();
-       // $videoitemid = $DB->get_record_sql('SELECT id FROM {testimonial_videos} WHERE name = ?', array($withvideoext));
-          //  $videoitemid = $DB->get_field('testimonial_videos', 'id', array ('name' => $vext));
-         $sql='SELECT id FROM {testimonial_videos} WHERE name = ?';    
-         $fileid = $DB->get_field_sql($sql, array($file));
+      $sql='SELECT id FROM {testimonial_videos} WHERE name = ?';    
+      $fileid = $DB->get_field_sql($sql, array($file));
       
-        
-        
-    
-       // echo $videoitemid;
-       // echo 'name '.$withvideoext;
-        
-    
-      //  if(!file_exists('uploads/'.$withvideoext)){
             if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$fileid)))){  
-                 
                  $DB->delete_records('testimonial_videos', array ('id'=> $fileid));
-                // $DB->delete_records('testimonial_videos', array ('id'=> $audioitemid));
                  echo "Sorry, Video had been currupted and did not store on server<br /><br/>";
-            //     mysqli_query($conn,"DELETE FROM testimonial_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
-                    
-                 //  $DB->delete_records("testimonial_videos", array("name"=>$value));
-               }
-
-                else{
-                    
-                    fileDeletion($fileid,$file,$context->id);
-                    fileDeletion($fileid,".",$context->id);
-                                
-                       $vid=$DB->delete_records('testimonial_videos', array ('id'=> $fileid));
-                    //   $aud=$DB->delete_records('testimonial_videos', array ('id'=> $audioitemid));
-                    // mysqli_query($conn,"DELETE FROM testimonial_videos WHERE name='$withvideoext' OR name='$withaudioext' ");
-                     // $DB->delete_records("testimonial_videos", array('name'=>$withvideoext));
-                     // $DB->delete_records("testimonial_videos", array('name'=>$withaudioext));
-                    // echo "$file, ";
-                 //   $DB->delete_records("testimonial_videos", array(sql_compare_text("name")=>$value));
              }
-    }
+            else{
+                //delete files from moodle database
+                fileDeletion($fileid,$file,$context->id);
+                fileDeletion($fileid,".",$context->id);
+                //delete data from testimonial_videos table
+                $vid=$DB->delete_records('testimonial_videos', array ('id'=> $fileid));
+             }
+     } 
     
     echo get_string('successdelrecent','testimonial'); 
   }

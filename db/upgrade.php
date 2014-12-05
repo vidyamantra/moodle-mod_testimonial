@@ -22,16 +22,8 @@
  * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Execute testimonial upgrade from the given old version
- *
- * @param int $oldversion
- * @return bool
- */
 function xmldb_testimonial_upgrade($oldversion) {
     global $DB;
 

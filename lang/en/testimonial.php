@@ -15,17 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
- * English strings for testimonial
+ * The mod_testimonial course module viewed event.
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
- * @package    mod
- * @subpackage testimonial
- * @copyright  2011 Your Name
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package mod_testimonial
+ * @copyright 2014 Krishna Pratap Singh <krishna@vidyamantra.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -41,7 +36,6 @@ $string['testimonialname'] = 'Testimonial Name';
 $string['testimonialname_help'] = 'This is the content of the help tooltip associated with the testimonialname field. Markdown syntax is supported.';
 $string['testimonial'] = 'testimonial';
 $string['pluginadministration'] = 'testimonial administration';
-
 $string['testimonial:view'] = 'view';
 $string['testimonial:submit'] = 'submit';
 $string['testimonial:record'] = 'record';
@@ -59,9 +53,6 @@ $string['store'] = " Back to Testimonials Store ";
 $string['backbutton'] = " Record Testimonials ";
 $string['backbutton2'] = " Make new testimonial ";
 $string['deleteselected'] = "Delete Selected";
-//$string['firstpara']= "<b>Testimonial</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video lectures.
- //                                                  Testimonial is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users. You can delete your recently 
- //                                                 recorded lecture as well as multiple deletion feature for previously recorded lectures. This is one of the poweful plugin that can automatically upload the lectures on server side therefore local space does not required much.";
 $string['clickon'] = "Click on <html>&rarr;</html>";
 $string['recheading'] = "Testimonial recording";
 $string['subheading'] = "Testimonial submissions";
@@ -93,6 +84,5 @@ $string['uploading']=" Uploading process ";
 $string['successdelrecent']=" Successfully deleted all consecutive recent files ";
 $string['refreshhint']="<font size='2px' color='grey'> * Refresh page after deleting recent files </font>";
 $string['youwatching']="<font color='gray'><b> * Click on play button for watching testimonial : </b></font>";
-//$string['clickforwatch']="<font color='gray'><b> </b></font>";
 
 

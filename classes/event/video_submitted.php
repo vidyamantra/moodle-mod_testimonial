@@ -27,21 +27,6 @@ namespace mod_testimonial\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * The mod_testimonial video submitted event class.
- *
- * @property-read array $other {
- *      Extra information about event.
- *
- *      - int testimonialid: id of testimonial.
- *      - int optionid: (optional) id of option.
- * }
- *
- * @package    mod_testimonial
- * @since      Moodle 2.7
- * @copyright  2013 Adrian Greeve <adrian@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class video_submitted extends \core\event\base {
     /**
      * Returns description of what happened.
@@ -49,10 +34,8 @@ class video_submitted extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' record the video with id '$this->objectid' in the testimonial activity
-            with the course module id '$this->contextinstanceid'.";
+        return "The user with id '$this->userid' record the video with id '$this->objectid' in the testimonial activity with the course module id '$this->contextinstanceid'.";
     }
-
     /**
      * Return legacy data for add_to_log().
      *
@@ -76,7 +59,6 @@ class video_submitted extends \core\event\base {
     public static function get_name() {
         return get_string('eventvideocreated', 'mod_testimonial');
     }
-
     /**
      * Get URL related to the action
      *
@@ -85,7 +67,6 @@ class video_submitted extends \core\event\base {
     public function get_url() {
         return new \moodle_url('/mod/testimonial/view.php', array('id' => $this->contextinstanceid));
     }
-
     /**
      * Init method.
      *
@@ -105,6 +86,5 @@ class video_submitted extends \core\event\base {
      */
     protected function validate_data() {
         parent::validate_data();
-
     }
 }
