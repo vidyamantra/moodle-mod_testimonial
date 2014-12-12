@@ -25,6 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
+require_once($CFG->dirroot.'/mod/testimonial/locallib.php');
+require_once($CFG->libdir.'/filelib.php');
 
 /**
  * Module instance settings form
@@ -34,8 +36,11 @@ class mod_testimonial_mod_form extends moodleform_mod {
      * Defines forms elements
      */
     public function definition() {
+        
+        global $CFG, $DB;
 
         $mform = $this->_form;
+        $config = get_config('page');
         //-------------------------------------------------------------------------------
         // Adding the "general" fieldset, where all the common settings are showed
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -48,12 +53,16 @@ class mod_testimonial_mod_form extends moodleform_mod {
         else {
             $mform->setType('name', PARAM_CLEAN);
          }
+         
+       //  $mform->addRule('name', null, 'required', null, 'client');
+      //  $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
+     //   $this->add_intro_editor($config->requiremodintro);
+         
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('name', 'testimonialname', 'testimonial');
-
+        
         // Adding the standard "intro" and "introformat" fields
-         $this->add_intro_editor();
+         $this->add_intro_editor($config->requiremodintro);
         //-------------------------------------------------------------------------------
         // Adding the "additional" fieldset, where all the additional settings are showed   
          $mform->addElement('header', 'additional', get_string('additional', 'testimonial'));
@@ -120,5 +129,5 @@ class mod_testimonial_mod_form extends moodleform_mod {
         return $data['completionwatch'];
      }
   }
-    
+  
 }

@@ -55,7 +55,7 @@ $id2='';$url='';$url2='';$testimonialid='';
     if(isset($avid)){
    $testimonialid=$testimonial->id;
        //fetching video from database
-       $query = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE id = ?', array($avid));
+       $query = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE id = ? AND testimonial_id = ?', array($avid,$testimonial->id));
 
        foreach ($query as $value) { 
                 $name=$value->name;
@@ -87,7 +87,7 @@ $id2='';$url='';$url2='';$testimonialid='';
            }
 
           //getting id of second a/v file with unique name
-        $query2 = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ?', array($audioname));
+        $query2 = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?', array($audioname,$testimonial->id));
             
             foreach ($query2 as $value2) { 
               if($char=='m') {

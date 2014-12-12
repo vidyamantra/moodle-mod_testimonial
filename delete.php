@@ -46,8 +46,8 @@ if (isset($_POST['delete-file'])) {
     
     foreach ($files as $value) {
       $file=$value;
-      $sql='SELECT id FROM {testimonial_videos} WHERE name = ?';    
-      $fileid = $DB->get_field_sql($sql, array($file));
+      $sql='SELECT id FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?';    
+      $fileid = $DB->get_field_sql($sql, array($file,$testimonial->id));
       
             if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$fileid)))){  
                  $DB->delete_records('testimonial_videos', array ('id'=> $fileid));

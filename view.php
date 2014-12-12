@@ -86,6 +86,7 @@ echo $question;
 
 $studenttime = $testimonial->studenttime;
 $teacherdelete = $testimonial->teacherdelete;
+$totalpages='';
 
 $PAGE->requires->js('/mod/testimonial/js/record.js');
 
@@ -237,8 +238,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                    $aitemname=  trim(strrev($cropeditem).'wav');
 
 
-                   $sql='SELECT videotitle FROM {testimonial_videos} WHERE id = ?';    
-                   $vtitle = $DB->get_field_sql($sql, array((int)$itemid));
+                   $sql='SELECT videotitle FROM {testimonial_videos} WHERE id = ? AND testimonial_id = ?';    
+                   $vtitle = $DB->get_field_sql($sql, array((int)$itemid,$testimonial->id));
 
                //display deleted file
                 echo html_writer::start_tag('div', array('class'=>'itemidprint'));
@@ -280,9 +281,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
        
     }
      //updating serial numbers of each record into table
-        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos}");
+        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
         if(!$isadmin){
-          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id ");
+          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
         }
             $sno=0;
             
@@ -305,15 +306,15 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
      //query for admin  
       if($isadmin){
         if(isset($page) && $page>0){
-            $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage");
+            $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage AND testimonial_id=$testimonial->id");
          }
         else{
-            $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos}  WHERE rowscount<=$endpage");
+            $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos}  WHERE rowscount<=$endpage AND testimonial_id=$testimonial->id");
         }
       }
     //for student  
      else{
-        $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND rowscount>=$pagestart AND rowscount<=$endpage");
+        $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND rowscount>=$pagestart AND rowscount<=$endpage AND testimonial_id=$testimonial->id");
       }
       
       
@@ -362,10 +363,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              
              
              foreach($totalstudent as $value){
-                 $sql2='SELECT * FROM {testimonial_videos} WHERE user_id = ?';
+                 $sql2='SELECT * FROM {testimonial_videos} WHERE user_id = ? AND testimonial_id = ?';
                  $sql3='SELECT username FROM {user} WHERE id = ?';
                  
-                 $totalreplyperstu = $DB->get_records_sql($sql2, array($value->user_id));
+                 $totalreplyperstu = $DB->get_records_sql($sql2, array($value->user_id,$testimonial->id));
                  $usernameper = $DB->get_records_sql($sql3, array($value->user_id));
                  
                  //student names
@@ -450,8 +451,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
               $table->head[] = 'Select';
               $table->align[] = 'center';
            }
-           if(!$isadmin){ 
-              $table->head[] = 'Remove';
+           if(!$isadmin && isset($studenttime)){ 
+              $table->head[] = 'Delete';
               $table->align[] = 'center';
            }
      
@@ -495,17 +496,12 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                 }
                
             
-                if($isadmin && $teacherdelete){
-                    if($vid%2!=0){
-                        //individual check box for each record
-                        $dataarr[]="<input type=checkbox name=videoarr[] value='$videoids' />";
-                    }
-                }
+                $timelimit= $datetime+$studenttime*60*60;
+                $expire = date("Y-m-d H:i:s", $timelimit);
+                $current = date("Y-m-d H:i:s");
                
-                if(!$isadmin  && $vid%2!=0){ 
-                      $timelimit= $datetime+$studenttime*60*60;
-                      $expire = date("Y-m-d H:i:s", $timelimit);
-                      $current = date("Y-m-d H:i:s");
+                if(!$isadmin  && $vid%2!=0 && isset($studenttime)){ 
+                     
 
                     if(($expire > $current)){  
                         //individual deletion for student only
@@ -516,6 +512,13 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                         $dataarr[] = $lastcolumn;
                     }     
                 }   
+                
+                 if($isadmin && $teacherdelete){
+                    if($vid%2!=0 && !($expire > $current)){
+                        //individual check box for each record
+                        $dataarr[]="<input type=checkbox name=videoarr[] value='$videoids' />";
+                    }
+                }
                   
                  if($vid%2!=0 ){
                      $table->data[] =$dataarr; 
@@ -523,7 +526,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                  
         }
              
-      if($isadmin){
+      if($isadmin && $teacherdelete){
         $dataarr=array();
         $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=get_string('selectall', 'testimonial');;
         $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall','onclick'=>'checkedAll(frm1)','id'=>'checkall'));//checkbox for select all
@@ -539,7 +542,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
            }
         } 
          //pagination bar, total 100 pages and each of have 10 records  
-       echo $OUTPUT->paging_bar(100, $page, 10, "view.php?id={$cm->id}&page=$page");
+        $totalpages=floor($totaltesti/10)+1;
+      // echo $totalpages;
+      echo $OUTPUT->paging_bar($totalpages+10, $page, 10, "view.php?id={$cm->id}&page=$page");
        echo html_writer::end_tag('div');
           
       //button for new testimonial recording   

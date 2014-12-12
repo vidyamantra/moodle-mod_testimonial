@@ -83,14 +83,13 @@ function testimonial_get_completion_state($course, $cm, $userid, $type) {
  * @param mod_testimonial_mod_form $mform
  * @return int The id of the newly inserted testimonial record
  */
-function testimonial_add_instance(stdClass $testimonial, mod_testimonial_mod_form $mform = null) {
+function testimonial_add_instance(stdClass $testimonial, mod_testimonial_mod_form $mform=null) {
     global $DB;
 
     $testimonial->timecreated = time();
-
     # You may have to add extra stuff in here #
 
-    return $DB->insert_record('testimonial', $testimonial);
+    return $DB->insert_records('testimonial', $testimonial);
 }
 
 /**
@@ -104,13 +103,16 @@ function testimonial_add_instance(stdClass $testimonial, mod_testimonial_mod_for
  * @param mod_testimonial_mod_form $mform
  * @return boolean Success/Fail
  */
-function testimonial_update_instance(stdClass $testimonial, mod_testimonial_mod_form $mform = null) {
+function testimonial_update_instance(stdClass $testimonial, mod_testimonial_mod_form $mform=null) {
     global $DB;
 
+    
+   
     $testimonial->timemodified = time();
     $testimonial->id = $testimonial->instance;
 
     # You may have to add extra stuff in here #
+  //  echo $DB->update_record('testimonial', $testimonial);
     return $DB->update_record('testimonial', $testimonial);
 }
 

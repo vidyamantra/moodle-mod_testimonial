@@ -78,8 +78,8 @@ foreach(array('video', 'audio') as $type) {
            $lastinsertid = $DB->insert_record('testimonial_videos', $record, false);
 
 
-         $sql='SELECT id FROM {testimonial_videos} WHERE name = ?';    
-         $mediaid = $DB->get_field_sql($sql, array($filename));
+         $sql='SELECT id FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?';    
+         $mediaid = $DB->get_field_sql($sql, array($filename,$testimonial->id));
 
          //store data into moodle database
         $fileinfo = array(
