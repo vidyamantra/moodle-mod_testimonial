@@ -118,6 +118,24 @@ $admins = get_admins();
       }
   }
 
+   //updating serial numbers of each record into table
+        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
+        if(!$isadmin){
+          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
+        }
+            $sno=0;
+            
+          foreach ($queryall as $value) { 
+             $vid = $value->id;
+             $rowscount = $value->rowscount;
+                if($vid%2!=0){
+                    $sno++;
+                }
+             $update = new stdclass;
+                  $update->id = $vid;
+                  $update->rowscount = $sno;
+             $lastupdate=$DB->update_record('testimonial_videos', $update);
+          }
 
 //display the testimonial live recording page
 if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) || isset($id))) && $_SESSION['flip']==1){
@@ -183,23 +201,45 @@ $table = new html_table();
           $recpaneltable[]='';
 
           $table->data[]=$recpaneltable;
-
-          $recpaneltable=array();
-          $recpaneltable[]='';
+          echo html_writer::table($table);
+        //  $recpaneltable=array();
+       //   $recpaneltable[]='';
           if (has_capability('mod/testimonial:godatabase', $context)) {
                $url = new moodle_url('');
                //button for previous testimonial store page
                $backtostore= html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','testimonial'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
            }
-          $recpaneltable[]= $backtostore;
-          $recpaneltable[]='';
+           
+           
+           echo $backtostore;
+       //   $recpaneltable[]= $backtostore;
+        //  $recpaneltable[]='';
 
-          $table->data[]=$recpaneltable;
+        //  $table->data[]=$recpaneltable;
             
-          echo html_writer::table($table); 
+           
         echo html_writer::end_tag('form');
       echo '<script>window.uniqueId ='.$id.'; </script>';
       $PAGE->requires->js('/mod/testimonial/js/record2.js');		
+      
+      //updating serial numbers of each record into table
+        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
+        if(!$isadmin){
+          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
+        }
+            $sno=0;
+            
+          foreach ($queryall as $value) { 
+             $vid = $value->id;
+             $rowscount = $value->rowscount;
+                if($vid%2!=0){
+                    $sno++;
+                }
+             $update = new stdclass;
+                  $update->id = $vid;
+                  $update->rowscount = $sno;
+             $lastupdate=$DB->update_record('testimonial_videos', $update);
+          }
    
  }
 
@@ -211,7 +251,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
 
         
       //code block for deletion either multiple or single deletion
-     if(isset($postdelete) || isset($getvidname))  {   
+     if(isset($postdelete) || isset($getvidname)) {   
           
               if(isset($_POST['videoarr'])){
                $names=$_POST['videoarr'];
@@ -242,16 +282,16 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                    $vtitle = $DB->get_field_sql($sql, array((int)$itemid,$testimonial->id));
 
                //display deleted file
-                echo html_writer::start_tag('div', array('class'=>'itemidprint'));
-                    echo $vtitle.' |';
-                echo html_writer::end_tag('div');  
+              //  echo html_writer::start_tag('div', array('class'=>'itemidprint'));
+              //      echo $vtitle.' |';
+             //   echo html_writer::end_tag('div');  
                 
                 if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$itemid)))){  
                        $DB->delete_records('testimonial_videos', array ('id'=> $itemid));
                        $DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
-                       echo html_writer::start_tag('div', array('class'=>'curruptprint'));
-                       echo get_string('curruptprint', 'testimonial');
-                       echo html_writer::end_tag('div');  
+                      // echo html_writer::start_tag('div', array('class'=>'curruptprint'));
+                     //  echo get_string('curruptprint', 'testimonial');
+                     //  echo html_writer::end_tag('div');  
                 }
 
                  else{
@@ -268,10 +308,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                 }
            }
 
-           echo html_writer::start_tag('div', array('class'=>'curruptprint'));
-           echo get_string('deleteprint', 'testimonial');
-           echo html_writer::end_tag('div');
-           echo "<meta http-equiv='refresh' content='3; url=view.php?id={$cm->id}&page=$page'>";
+         //  echo html_writer::start_tag('div', array('class'=>'curruptprint'));
+        //   echo get_string('deleteprint', 'testimonial');
+        //   echo html_writer::end_tag('div');
+       //    echo "<meta http-equiv='refresh' content='3; url=view.php?id={$cm->id}&page=$page'>";
     
         }
               
@@ -280,7 +320,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
         }
        
     }
-     //updating serial numbers of each record into table
+     
+    //updating serial numbers of each record into table
         $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
         if(!$isadmin){
           $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
@@ -320,11 +361,13 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
       
    if(!$query || !$queryall){
             if(!$isadmin){
-              echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','testimonial'),'id'=>'backbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
+              echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
             }
+            if($isadmin){
               echo html_writer::start_tag('div', array('class'=>'itemidprint'));
               echo get_string('existprint', 'testimonial');
                echo html_writer::end_tag('div');
+            }
     }
             
   else { 
@@ -374,9 +417,11 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                      $lastcol1=$value->username;
                  }
                  //attempted testimonial
+                  $count=0;
                  foreach ($totalreplyperstu as $value) {
-                      $lastcol2=$value->rowscount;
+                     $lastcol2=$count++;
                  }
+                   $lastcol2=round($lastcol2/2);
                  //percentage ratio per student
                   $percentperstu= round(($lastcol2*100)/$totaltesti);
                   $row= $row.$lastcol1." | ".$lastcol2." | ".$percentperstu.'%'.' , ';
@@ -541,18 +586,18 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','testimonial'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
            }
         } 
-         //pagination bar, total 100 pages and each of have 10 records  
+         //pagination bar, dynamically arranged pages and each of have 10 records  
         $totalpages=floor($totaltesti/10)+1;
       // echo $totalpages;
-      echo $OUTPUT->paging_bar($totalpages+10, $page, 10, "view.php?id={$cm->id}&page=$page");
+       echo $OUTPUT->paging_bar($totalpages*10, $page, 10, "view.php?id={$cm->id}&page=$page");
        echo html_writer::end_tag('div');
           
       //button for new testimonial recording   
-      if(!$isadmin){
-          echo html_writer::tag('form',html_writer::empty_tag('input', 
-               array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','testimonial'),'id'=>'backbutton')),
-               array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
-      }
+    //  if(!$isadmin){
+    //      echo html_writer::tag('form',html_writer::empty_tag('input', 
+    //           array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','testimonial'),'id'=>'backbutton')),
+    //           array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
+   //  }
      //close form       
    echo html_writer::end_tag('form');  
         
