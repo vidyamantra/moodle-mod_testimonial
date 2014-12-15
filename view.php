@@ -85,6 +85,8 @@ else{
 echo $question;
 
 $studenttime = $testimonial->studenttime;
+$studenttimemin = $testimonial->studenttimemin;
+
 $teacherdelete = $testimonial->teacherdelete;
 $totalpages='';
 
@@ -139,8 +141,12 @@ $admins = get_admins();
 
 //display the testimonial live recording page
 if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) || isset($id))) && $_SESSION['flip']==1){
+
+//message for browser compatibility    
+$message=get_string('usechrome','testimonial');
+echo $message;
+
 //create new table
-    
 $table = new html_table();
 
      $table->align=array();
@@ -187,9 +193,11 @@ $table = new html_table();
 
           $recpaneltable=array();
           //testimonial recording container
-          $recbox= html_writer::start_tag('video', array('id' => 'preview','class'=>'videopreview','controls'=>'controls'));echo html_writer::end_tag('video');
+          $recbox= html_writer::start_tag('video', array('id' => 'preview','class'=>'videopreview','controls'=>'controls'));
+          $endtag= html_writer::end_tag('video');
+          
           $recpaneltable[]='';
-          $recpaneltable[]=$recbox;
+          $recpaneltable[]=$recbox.$endtag;
           $recpaneltable[]='';
 
           $table->data[]=$recpaneltable;
@@ -253,8 +261,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
       //code block for deletion either multiple or single deletion
      if(isset($postdelete) || isset($getvidname)) {   
           
-              if(isset($_POST['videoarr'])){
-               $names=$_POST['videoarr'];
+         $postvideoarr= optional_param_array('videoarr', null, PARAM_RAW);
+         
+              if(isset($postvideoarr)){
+               $names=$postvideoarr;
               }
               
               else if(isset($getvidname)){
@@ -263,7 +273,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                $names=$getvidarr;
               }
                
-        if(isset($_POST['videoarr']) || isset($names)){
+        if(isset($postvideoarr) || isset($names)){
            foreach($names as $value){
                $idarr=array();
                if(isset($value)){
@@ -361,8 +371,11 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
       
    if(!$query || !$queryall){
             if(!$isadmin){
-              echo html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
-            }
+              echo html_writer::start_tag('form', array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
+              echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton'));
+              echo get_string('printrecordtestimoniallikeque', 'testimonial');
+              echo html_writer::end_tag('form');
+           }
             if($isadmin){
               echo html_writer::start_tag('div', array('class'=>'itemidprint'));
               echo get_string('existprint', 'testimonial');
@@ -390,9 +403,14 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              $row='';
              
              $stattable[]=get_string('totaltestimonials', 'testimonial');
-             foreach ($queryall as $value){
-                 $totaltesti=  $value->rowscount;
-             }
+             
+             $sqlc='SELECT * FROM {testimonial_videos} WHERE testimonial_id = ?';
+             $totaltesti = $DB->get_records_sql($sqlc, array($testimonial->id));
+             $c=0;
+             foreach ($totaltesti as $value) {
+                 $tt=$c++;
+              }
+             $totaltesti=round($tt/2);
              $stattable[]= $totaltesti;
             
           if($isadmin){
@@ -437,7 +455,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                
               $stattable=array();
               $stattable[]=get_string('studentimetext', 'testimonial');
-              $stattable[]=$studenttime." hours";
+              $stattable[]=$studenttime." hours ".$studenttimemin." minutes";
               $table->data[] =$stattable;        
            }
          
@@ -496,12 +514,13 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
               $table->head[] = 'Select';
               $table->align[] = 'center';
            }
-           if(!$isadmin && isset($studenttime)){ 
+           if(!$isadmin && (isset($studenttime) || isset($studenttimemin))){ 
+             if(!$studenttime==0 || !$studenttimemin==0){  
               $table->head[] = 'Delete';
               $table->align[] = 'center';
+             }
            }
      
-        date_default_timezone_set("Asia/Calcutta");
            
       //retrieve all values from query   
       foreach ($query as $value) { 
@@ -519,10 +538,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             $videoids=$vid.'/'.$name;
                
                 if($vid%2!=0 ){
-                    $mouseover="style.backgroundColor='#f5f5f5'";
-                    $mouseout="style.backgroundColor='#FFFFFF'";
+                   // $mouseover="style.backgroundColor='#f5f5f5'";
+                 //   $mouseout="style.backgroundColor='#FFFFFF'";
                     //table hover effect
-                    $table->rowclasses = "onMouseover=$mouseover onMouseout=$mouseout";
+                 //   $table->rowclasses = "onMouseover=$mouseover onMouseout=$mouseout";
                     $dataarr[]=$rowscount;
                 }
                 
@@ -541,11 +560,13 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                 }
                
             
-                $timelimit= $datetime+$studenttime*60*60;
-                $expire = date("Y-m-d H:i:s", $timelimit);
-                $current = date("Y-m-d H:i:s");
+                $timelimit= $datetime+$studenttime*60*60+$studenttimemin*60;
+               // $expire = date("Y-m-d H:i:s", $timelimit);
+                $expire = date($timelimit);
+                $current = date(time());
+                //$current = date("Y-m-d H:i:s");
                
-                if(!$isadmin  && $vid%2!=0 && isset($studenttime)){ 
+                if(!$isadmin  && $vid%2!=0 && (isset($studenttime) || isset($studenttimemin))){ 
                      
 
                     if(($expire > $current)){  
@@ -587,17 +608,11 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
            }
         } 
          //pagination bar, dynamically arranged pages and each of have 10 records  
-        $totalpages=floor($totaltesti/10)+1;
+        $totalpages=floor(($totaltesti-1)/10)+1;
       // echo $totalpages;
        echo $OUTPUT->paging_bar($totalpages*10, $page, 10, "view.php?id={$cm->id}&page=$page");
        echo html_writer::end_tag('div');
           
-      //button for new testimonial recording   
-    //  if(!$isadmin){
-    //      echo html_writer::tag('form',html_writer::empty_tag('input', 
-    //           array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton','testimonial'),'id'=>'backbutton')),
-    //           array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
-   //  }
      //close form       
    echo html_writer::end_tag('form');  
         

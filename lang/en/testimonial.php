@@ -48,8 +48,8 @@ $string['completionwatch'] = 'Student must watch the watch the testimonial ';
 $string['eventvideocreated'] = 'Recorded video has been submitted';
 $string['eventvideorevealed'] = 'Recorded video has been watched';
 $string['record'] = "Record ";
-$string['stop'] = "Stop ";
-$string['deletefiles'] = "Del Recent files";
+$string['stop'] = "Stop/Save ";
+$string['deletefiles'] = "Delete Recent files";
 $string['store'] = " Previous testimonials ";
 $string['backbutton2'] = " Record Testimonials ";
 $string['backbutton'] = " Make new testimonial ";
@@ -69,11 +69,9 @@ $string['closewindowwatch'] = "Close this Window";
 $string['pausewatch'] = "Pause";
 $string['mutewatch'] = "Mute";
 $string['pausewatch'] = "Pause";
-$string['selectfile']= "<font color='red'> Please Select the File!!! </font>";
+$string['selectfile']= "<font color='gray'> Please Select the File!!! </font>";
 $string['additional']= "Additional setting";
-$string['studenttime']= " Student's duration for deletion ";
 $string['studenttime2']= "";
-$string['teacherdelete']= " Teacher can delete ";
 $string['totaltestimonials']= " Total testimonials  ";
 $string['totalstudents']= " Student statistics ";
 $string['videotitle']= "Testimonial title ";
@@ -86,8 +84,16 @@ $string['uploading']=" Uploading process ";
 $string['successdelrecent']=" Successfully deleted all consecutive recent files ";
 $string['refreshhint']="<font size='2px' color='grey'> * Refresh page after deleting recent files </font>";
 $string['youwatching']="<font color='gray'><b> * Click on play button for watching testimonial : </b></font>";
-$string['surefordelete']=" Are you sure to delete testimonials ";
-$string['confirm']=" Confirm ";
-$string['cancel']=" Cancel ";
+//$string['surefordelete']=" Are you sure to delete testimonials ";
+$string['introeditor']=" write description/question ";
+$string['introeditor_help']=" Here you can write any testimonial question or description to student ";
+$string['studenttime']=" Student's duration for deletion ";
+$string['studenttime_help']=" Select the time duration in hours and minutes so it will bound the student for deleting the testimonial files under the time limit constraints ";
+$string['teacherdelete']=" Teacher can delete testimonials ";
+$string['teacherdelete_help']=" check/uncheck the box can provides the permission for deleting testimonial or not by teacher ";
+$string['printrecordtestimoniallikeque']=" <font color='gray'> * Record testimonials based on provided questions </font>";
+$string['usechrome']=" <font color='gray'> * Use chrome browser for recording </font>";
+
+
 
 

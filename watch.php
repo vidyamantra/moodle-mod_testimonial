@@ -26,10 +26,13 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
-$PAGE->requires->css('/mod/testimonial/style.css');
-
+require_once ($CFG->dirroot.'/lib/pagelib.php');
 global $DB,$USER,$PAGE;
+//$page =optional_param('page', 0, PARAM_INT);
+
 $cmid = optional_param('cmid', 0, PARAM_INT);
+ $avid = optional_param('id', 0, PARAM_INT);
+ 
 if ($cmid) {
     $cm         = get_coursemodule_from_id('testimonial', $cmid, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -38,21 +41,29 @@ if ($cmid) {
 
  require_login($course, true, $cm);
 $context = context_module::instance($cm->id);
+$id2='';$url='';$url2='';$testimonialid='';
 
 $PAGE->set_url('/mod/testimonial/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($testimonial->name));
 $PAGE->set_heading(format_string($course->fullname));
-$PAGE->set_context($context);
+
+//var_dump($PAGE->require->css('/mod/testimonial/style.css'));
+
+//$PAGE->requires->css('/mod/testimonial/style.css');
+//add some required .js and .css file     
+echo '<script src="js/need.js"> </script>';
+echo '<link href="style.css" type="text/css" rel="stylesheet"></link>';
+
 
     $completion = new completion_info($course);
     if($completion->is_enabled($cm) && $testimonial->completionwatch) {
          $completion->update_state($cm,COMPLETION_COMPLETE);
      }
      
-$id2='';$url='';$url2='';$testimonialid='';
- $avid = optional_param('id', 0, PARAM_INT);
+
+
     
-    if(isset($avid)){
+  if(isset($avid)){
    $testimonialid=$testimonial->id;
        //fetching video from database
        $query = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE id = ? AND testimonial_id = ?', array($avid,$testimonial->id));
@@ -107,9 +118,7 @@ $id2='';$url='';$url2='';$testimonialid='';
                  $lastinsertid2 = $DB->insert_record('testimonial_watching', $record2, false);
                }
             }
-        //add some required .js and .css file     
-        echo '<script src="js/need.js"> </script>';
-        echo '<link href="style.css" type="text/css" rel="stylesheet"></link>';
+        
         echo html_writer::start_tag('div', array('class'=>'youwatching','align'=>'center'));
            
             $table = new html_table();
@@ -195,7 +204,7 @@ $id2='';$url='';$url2='';$testimonialid='';
        }
     
     else{
-      echo 'error';     
+      echo 'error! Testimonial not found';     
   }
      
 

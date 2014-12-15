@@ -6,15 +6,15 @@
  */
 
 #page-mod-testimonial-view #record {
- height: 33px; width: 120px; color:#36AE79;font-size:small;
+ height: 33px; width: 130px; color:#36AE79;font-size:small;
 }
 
 #page-mod-testimonial-view #stop {
-height: 33px; width: 120px;font-size: small;
+height: 33px; width: 125px;font-size: small;
 }
 
 #page-mod-testimonial-view #delete {
-height: 33px; width: 130px;font-size: small;
+height: 33px; width: 125px;font-size:x-small;
 }
 
 #page-mod-testimonial-view #videotitle {
@@ -57,7 +57,7 @@ margin-left:0px;margin-top:25px;text-align: center;height:510px;width:680px;floa
 }
 
 #controlbutton{
-display: inline;margin-left: 40%;
+margin-left: 40%;
 }
 
 #page-mod-testimonial-view  #preview{
@@ -104,6 +104,8 @@ height: 10px; width: 100px;
 border: 1px solid rgb(15, 158, 238); height: 510px; width: 680px;
 }
 
+/*
+
 #page-mod-testimonial-view  table.datatable {
 	font-family: verdana,arial,sans-serif;
 	font-size:13px;
@@ -137,6 +139,5 @@ border: 1px solid rgb(15, 158, 238); height: 510px; width: 680px;
         
 }
 
-
-
+*/
 

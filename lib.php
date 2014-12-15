@@ -88,8 +88,7 @@ function testimonial_add_instance(stdClass $testimonial, mod_testimonial_mod_for
 
     $testimonial->timecreated = time();
     # You may have to add extra stuff in here #
-
-    return $DB->insert_records('testimonial', $testimonial);
+    return $DB->insert_record('testimonial', $testimonial);
 }
 
 /**
@@ -105,14 +104,10 @@ function testimonial_add_instance(stdClass $testimonial, mod_testimonial_mod_for
  */
 function testimonial_update_instance(stdClass $testimonial, mod_testimonial_mod_form $mform=null) {
     global $DB;
-
-    
    
     $testimonial->timemodified = time();
     $testimonial->id = $testimonial->instance;
-
     # You may have to add extra stuff in here #
-  //  echo $DB->update_record('testimonial', $testimonial);
     return $DB->update_record('testimonial', $testimonial);
 }
 
