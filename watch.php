@@ -26,47 +26,42 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
-require_once ($CFG->dirroot.'/lib/pagelib.php');
-global $DB,$USER,$PAGE;
-//$page =optional_param('page', 0, PARAM_INT);
+$PAGE->requires->js('/mod/testimonial/js/need.js');
 
-$cmid = optional_param('cmid', 0, PARAM_INT);
- $avid = optional_param('id', 0, PARAM_INT);
- 
-if ($cmid) {
-    $cm         = get_coursemodule_from_id('testimonial', $cmid, 0, false, MUST_EXIST);
+$id = optional_param('cmid', 0, PARAM_INT); // course_module ID, or
+$avid  = optional_param('id', 0, PARAM_INT);  // testimonial instance ID - it should be named as the first character of the module
+
+if ($id) {
+    $cm         = get_coursemodule_from_id('testimonial', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
     $testimonial  = $DB->get_record('testimonial', array('id' => $cm->instance), '*', MUST_EXIST);
-} 
+}  
+else {
+    error('You must specify a course_module ID or an instance ID');
+}
 
- require_login($course, true, $cm);
+require_login($course, true, $cm);
 $context = context_module::instance($cm->id);
-$id2='';$url='';$url2='';$testimonialid='';
 
+/// Print the page header
+$PAGE->set_pagelayout('popup');
 $PAGE->set_url('/mod/testimonial/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($testimonial->name));
 $PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_context($context);
 
-//var_dump($PAGE->require->css('/mod/testimonial/style.css'));
-
-//$PAGE->requires->css('/mod/testimonial/style.css');
-//add some required .js and .css file     
-echo '<script src="js/need.js"> </script>';
-echo '<link href="style.css" type="text/css" rel="stylesheet"></link>';
-
-
-    $completion = new completion_info($course);
+ $completion = new completion_info($course);
     if($completion->is_enabled($cm) && $testimonial->completionwatch) {
          $completion->update_state($cm,COMPLETION_COMPLETE);
-     }
-     
+}
 
+// Output starts here                         
+echo $OUTPUT->header();
 
-    
-  if(isset($avid)){
+ if(isset($avid)){
    $testimonialid=$testimonial->id;
        //fetching video from database
-       $query = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE id = ? AND testimonial_id = ?', array($avid,$testimonial->id));
+       $query = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE rowscount = ? AND testimonial_id = ?', array($avid,$testimonial->id));
 
        foreach ($query as $value) { 
                 $name=$value->name;
@@ -126,20 +121,24 @@ echo '<link href="style.css" type="text/css" rel="stylesheet"></link>';
                  $table->rowclasses = array();
                  $table->size=array();
 
-                  $table->size[] = '100px';
-                  $table->align[] = 'left';
-
-                  $table->size[] = '680px';
-                  $table->align[] = 'left';
-
                   $table->size[] = '150px';
+                  $table->align[] = 'right';
+
+                  $table->size[] = '600px';
+                  $table->align[] = 'left';
+
+                  $table->size[] = '120px';
                   $table->align[] = 'left';
              
                   $watchtable=array();
 
+                  $closewindow = html_writer::link("javascript:window.close()",
+                                     html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/dockclose'),'class'=>'icon'),
+                                     array('class'=>'watch','id' => 'close')));
+                  
                   $watchtable[]='';
                   $watchtable[]=get_string('youwatching','testimonial').$title;
-                  $watchtable[]='';
+                  $watchtable[]='close '.$closewindow;
 
                   $table->data[]=$watchtable;
                   $watchtable=array();
@@ -163,33 +162,18 @@ echo '<link href="style.css" type="text/css" rel="stylesheet"></link>';
                           $mutebutt= html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('mutewatch','testimonial'),'id'=>'mute', 'class'=>'watch2'));
                           $muterange= html_writer::empty_tag('input', array('type' => 'range', 'id'=>'volume-bar', 'class'=>'watchbarmute', 'min'=>'0', 'max'=>'1','step'=>'0.1', 'value'=>'1'));
                      echo html_writer::end_tag('div');
-                     
-                     $watchtable[]=''; 
-                     $watchtable[]=$playbutt.' '.$playrange.' '.$mutebutt.' '.$muterange;
-                     $watchtable[]='';
-                     $table->data[]=$watchtable;
-                      
-                     $watchtable=array();
-                     
-                     $startdivbutt=html_writer::start_tag('div', array('id' => 'controlbutton'));
-                       $replay = html_writer::link("javascript:history.go(0)",
+                     $replay = html_writer::link("",
                                      html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('a/refresh'),'class'=>'icon'),
                                      array('class'=>'watch','id' => 'replaywatch')));
-                        
-                       $closewindow = html_writer::link("javascript:window.close()",
-                                     html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/dockclose'),'class'=>'icon'),
-                                     array('class'=>'watch','id' => 'close')));
-                     $enddivbutt= html_writer::end_tag('div');
                      
-                      $watchtable[]='';
-                      $watchtable[]=$startdivbutt.' Refresh '.$replay.'&nbsp&nbsp  Exit'.$closewindow.' '.$enddivbutt;
-                      $watchtable[]='';
-                           
+                     $watchtable[]=''; 
+                     $watchtable[]=$playbutt.' '.$playrange.' '.$replay.' '.$mutebutt.' '.$muterange;
+                     $watchtable[]='';
                      $table->data[]=$watchtable;
+                     
                 echo html_writer::table($table); 
              echo html_writer::end_tag('div');
            
-                         
                      
             $eventdata = array();
             $eventdata['context'] = $context;
@@ -200,13 +184,11 @@ echo '<link href="style.css" type="text/css" rel="stylesheet"></link>';
             $event = \mod_testimonial\event\video_revealed::create($eventdata);
             $event->add_record_snapshot('course', $course);
             $event->add_record_snapshot('course_modules', $cm);
-            $event->trigger();  
+            $event->trigger();
        }
     
     else{
       echo 'error! Testimonial not found';     
-  }
-     
-
-
-   
+    }
+// Finish the page
+echo $OUTPUT->footer();

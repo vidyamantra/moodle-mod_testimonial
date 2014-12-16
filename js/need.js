@@ -36,6 +36,8 @@ window.onload = function() {
   // Sliders
   var seekBar = document.getElementById("seek-bar");
   var volumeBar = document.getElementById("volume-bar");
+  
+  var replay = document.getElementById("replaywatch");
 
 
 // Event listener for the play/pause button
@@ -43,7 +45,6 @@ playButton.addEventListener("click", function() {
   
     if (video.paused === true && audio.paused === true) {
     // Play the video
-    
     video.play();
     audio.play();
     // Update the button text to 'Pause'
@@ -59,13 +60,13 @@ playButton.addEventListener("click", function() {
 });
 
 
+
 // Event listener for the mute button
 muteButton.addEventListener("click", function() {
     
   if (video.muted === false && audio.muted === false) {
     // Mute the video
     audio.muted=true;
-
     // Update the button text
     muteButton.value = "Unmute";
   } 
@@ -73,7 +74,6 @@ muteButton.addEventListener("click", function() {
     else {
     // Unmute the video
     audio.muted=false;
-
     // Update the button text
     muteButton.value = "Mute";
   }
@@ -100,6 +100,7 @@ seekBar.addEventListener("change", function() {
   // Update the video time
   video.currentTime = time;
   audio.currentTime = timea;
+  
 });
 
 // Update the seek bar as the video plays
@@ -131,4 +132,13 @@ volumeBar.addEventListener("change", function() {
   audio.volume=volumeBar.value;
 });
 
-}
+
+replay.addEventListener("click", function() {
+  
+       video.autoplay = true;
+       audio.autoplay = true;
+       audio.load();video.load();
+  
+});
+
+};

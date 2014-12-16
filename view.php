@@ -27,7 +27,7 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 require_once(dirname(__FILE__).'/locallib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
-$PAGE->requires->css('/mod/testimonial/style.css');
+//$PAGE->requires->css('/mod/testimonial/style.css');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
 $n  = optional_param('n', 0, PARAM_INT);  // testimonial instance ID - it should be named as the first character of the module
@@ -210,23 +210,14 @@ $table = new html_table();
 
           $table->data[]=$recpaneltable;
           echo html_writer::table($table);
-        //  $recpaneltable=array();
-       //   $recpaneltable[]='';
           if (has_capability('mod/testimonial:godatabase', $context)) {
                $url = new moodle_url('');
                //button for previous testimonial store page
                $backtostore= html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','testimonial'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
            }
-           
-           
            echo $backtostore;
-       //   $recpaneltable[]= $backtostore;
-        //  $recpaneltable[]='';
-
-        //  $table->data[]=$recpaneltable;
-            
            
-        echo html_writer::end_tag('form');
+      echo html_writer::end_tag('form');
       echo '<script>window.uniqueId ='.$id.'; </script>';
       $PAGE->requires->js('/mod/testimonial/js/record2.js');		
       
@@ -290,18 +281,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
 
                    $sql='SELECT videotitle FROM {testimonial_videos} WHERE id = ? AND testimonial_id = ?';    
                    $vtitle = $DB->get_field_sql($sql, array((int)$itemid,$testimonial->id));
-
-               //display deleted file
-              //  echo html_writer::start_tag('div', array('class'=>'itemidprint'));
-              //      echo $vtitle.' |';
-             //   echo html_writer::end_tag('div');  
                 
                 if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$itemid)))){  
                        $DB->delete_records('testimonial_videos', array ('id'=> $itemid));
                        $DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
-                      // echo html_writer::start_tag('div', array('class'=>'curruptprint'));
-                     //  echo get_string('curruptprint', 'testimonial');
-                     //  echo html_writer::end_tag('div');  
                 }
 
                  else{
@@ -317,11 +300,6 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              
                 }
            }
-
-         //  echo html_writer::start_tag('div', array('class'=>'curruptprint'));
-        //   echo get_string('deleteprint', 'testimonial');
-        //   echo html_writer::end_tag('div');
-       //    echo "<meta http-equiv='refresh' content='3; url=view.php?id={$cm->id}&page=$page'>";
     
         }
               
@@ -540,10 +518,6 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             $videoids=$vid.'/'.$name;
                
                 if($vid%2!=0 ){
-                   // $mouseover="style.backgroundColor='#f5f5f5'";
-                 //   $mouseout="style.backgroundColor='#FFFFFF'";
-                    //table hover effect
-                 //   $table->rowclasses = "onMouseover=$mouseover onMouseout=$mouseout";
                     $dataarr[]=$rowscount;
                 }
                 
@@ -556,7 +530,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                         $dataarr[]=$username;
                      }
                    //here open the popup window for testimonial recording then you can watch  
-                   $dataarr[]="<a  href=\"javascript:create_window('watch.php?id=$vid&cmid=$id')\">$videotitle</a><br />";
+                   $dataarr[]="<a  href=\"javascript:create_window('watch.php?id=$rowscount&cmid=$id')\">$videotitle</a><br />";
+                
                    $datetimeformat=date("Y-m-d H:i:s", $datetime);
                    $dataarr[]=$datetimeformat;
                 }

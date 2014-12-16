@@ -156,6 +156,7 @@
         stop.onclick = function() {
             record.disabled = false;
             stop.disabled = true;
+            preview.controls = false;
 
             preview.src = '';
 

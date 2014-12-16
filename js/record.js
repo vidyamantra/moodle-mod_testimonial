@@ -1583,7 +1583,7 @@ function bytesToSize(bytes) {
        }
         var url = image;
         // Create the pop-up window:
-        popup = window.open(url, "ImageWindow","width=1200, height=800, left=400, top=200");
+        popup = window.open(url, "ImageWindow","width=1100, height=860, left=450, top=150");
         popup.focus( );
     } // End of function
   

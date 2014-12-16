@@ -18,15 +18,11 @@ height: 33px; width: 125px;font-size:x-small;
 }
 
 #page-mod-testimonial-view #videotitle {
-    width: 250px;height: 15px;
+  width: 250px;
 }
 
 #page-mod-testimonial-view #store {
 height: 35px; width: 150px; font-size:12px;margin-left: 25%;
-}
-
-#page-mod-testimonial-view .databaseimage {
- height:42px; width:60px;
 }
 
 #page-mod-testimonial-view  #backbutton {
@@ -39,25 +35,6 @@ margin-left:12%; height: 35px; width: 160px;font-size: small;
 
 #page-mod-testimonial-view #deleteselected {
  height: 40px; width: 180px;color:red;font-size: small;
-}
-#page-mod-testimonial-view #firstdiv{
-    border-bottom:1px solid #0070a8; height:0px; width:1200px;
-}
-
-#page-mod-testimonial-view  #firstpara{
-text-align:justify;font-size:12px;color: #333333;font-family: Century Gothic, sans-serif;
-}
-
-.youwatching{
-background: url(pix/bg2.png) repeat-x;padding: 50px;
-}
-
-#video-container{
-margin-left:0px;margin-top:25px;text-align: center;height:510px;width:680px;float: right;
-}
-
-#controlbutton{
-margin-left: 40%;
 }
 
 #page-mod-testimonial-view  #preview{
@@ -80,27 +57,27 @@ height: 35px; width: 70px;margin-left:90%;font-size: small;
  width: 700px; height: 500px;margin-left:10%;overflow: visible;
 }
 
-.watch{
+#page-mod-testimonial-view .watch{
 height: 30px; width: 50px;font-size: small;
 }
 
-.icon{
-height: 30px; width: 30px;font-size: small;
+#page-mod-testimonial-view .icon{
+height: 25px; width: 25px;font-size: small;
 }
 
-.watch2{
+#page-mod-testimonial-view .watch2{
 height: 30px; width: 55px;font-size:x-small;color:#36AE79;
 }
 
-.watchbar{
-height: 10px; width: 400px;
+#page-mod-testimonial-view .watchbar{
+height: 10px; width: 380px;
 }
 
-.watchbarmute{
+#page-mod-testimonial-view .watchbarmute{
 height: 10px; width: 100px;
 }
 
-.videowatch{
+#page-mod-testimonial-view .videowatch{
 border: 1px solid rgb(15, 158, 238); height: 510px; width: 680px;
 }
 

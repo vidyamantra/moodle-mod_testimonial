@@ -46,7 +46,6 @@ function testimonial_supports($feature) {
 
 function testimonial_get_completion_state($course, $cm, $userid, $type) {
     global $CFG,$DB,$USER;
-    echo $USER->id;
      $testimonial = $DB->get_record('testimonial', array('id'=>$cm->instance), '*', MUST_EXIST);
 
     // If completion option is enabled, evaluate it and return true/false
