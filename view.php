@@ -356,6 +356,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
 
      //query for admin  
       if($isadmin){
+          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
         if(isset($page) && $page>0){
             $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage AND testimonial_id=$testimonial->id");
          }
@@ -366,6 +367,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
     //for student  
      else{
         $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND rowscount>=$pagestart AND rowscount<=$endpage AND testimonial_id=$testimonial->id");
+        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
       }
       
       
@@ -404,10 +406,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              
              $stattable[]=get_string('totaltestimonials', 'testimonial');
              
-             $sqlc='SELECT * FROM {testimonial_videos} WHERE testimonial_id = ?';
-             $totaltesti = $DB->get_records_sql($sqlc, array($testimonial->id));
+           //  $sqlc='SELECT * FROM {testimonial_videos} WHERE testimonial_id = ?';
+          //   $totaltesti = $DB->get_records_sql($sqlc, array($testimonial->id));
              $c=0;
-             foreach ($totaltesti as $value) {
+             foreach ($queryall as $value) {
                  $tt=$c++;
               }
              $totaltesti=round($tt/2);
