@@ -50,7 +50,7 @@ $string['eventvideorevealed'] = 'Recorded video has been watched';
 $string['record'] = "Record ";
 $string['stop'] = "Stop/Save ";
 $string['deletefiles'] = "Delete Recent files";
-$string['store'] = " Previous testimonials ";
+$string['store'] = " Recorded testimonials ";
 $string['backbutton2'] = " Record Testimonials ";
 $string['backbutton'] = " Make new testimonial ";
 $string['deleteselected'] = "Delete Selected";
@@ -59,7 +59,7 @@ $string['recheading'] = "Testimonial recording";
 $string['subheading'] = "Testimonial submissions";
 $string['testimoniallegend'] = "FEED CAM";
 $string['curruptprint'] = "Sorry, Currupted Testimonial and did not store on server";
-$string['deleteprint']= "<font color='green'> Successfully Deleted </font>";
+$string['deleteprint']= " Successfully Deleted ";
 $string['existprint']= " No Testimonial File Exist";
 $string['deletemultiple'] = "Delete ";
 $string['storeheader'] = " RECORDINGS ";
@@ -69,13 +69,13 @@ $string['closewindowwatch'] = "Close this Window";
 $string['pausewatch'] = "Pause";
 $string['mutewatch'] = "Mute";
 $string['pausewatch'] = "Pause";
-$string['selectfile']= "<font color='gray'> Please Select the File!!! </font>";
+$string['selectfile']= " Please Select the File!!! ";
 $string['additional']= "Additional setting";
 $string['studenttime2']= "";
 $string['totaltestimonials']= " Total testimonials  ";
 $string['totalstudents']= " Student statistics ";
 $string['videotitle']= "Testimonial title ";
-$string['testimonialstore']= "<b> Previous testimonials <b>";
+$string['testimonialstore']= "<b> Recorded testimonials <b>";
 $string['selectall']= "<b> check/uncheck all : <b>";
 $string['newtestitext']= " For new testimonial ";
 $string['studentimetext']= " Bounded time for deletion ";
@@ -92,7 +92,7 @@ $string['studenttime_help']=" Select the time duration in hours and minutes so i
 $string['teacherdelete']=" Teacher can delete testimonials ";
 $string['teacherdelete_help']=" check/uncheck the box can provides the permission for deleting testimonial or not by teacher ";
 $string['printrecordtestimoniallikeque']=" <font color='gray'> * Record testimonials based on provided questions </font>";
-$string['usechrome']=" <font color='gray'> * Use chrome browser for recording </font>";
+$string['usechrome']=" <font color='gray'> * Use chrome browser for recording and watching </font>";
 
 
 

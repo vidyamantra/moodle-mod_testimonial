@@ -37,7 +37,7 @@ window.onload = function() {
   var seekBar = document.getElementById("seek-bar");
   var volumeBar = document.getElementById("volume-bar");
   
-  var replay = document.getElementById("replaywatch");
+  var replay = document.getElementById("replay");
 
 
 // Event listener for the play/pause button
@@ -107,9 +107,15 @@ seekBar.addEventListener("change", function() {
 video.addEventListener("timeupdate", function() {
   // Calculate the slider value
   var value = (100 / video.duration) * video.currentTime;
-
+  
+   //make play/pause button to play when testimonial finish
+   if(video.duration === video.currentTime){
+      playButton.value = "Play";
+    }
   // Update the slider value
   seekBar.value = value;
+  
+  
 });
 
 // Pause the video when the slider handle is being dragged
@@ -132,13 +138,14 @@ volumeBar.addEventListener("change", function() {
   audio.volume=volumeBar.value;
 });
 
-
+//Event listener for the replay button
 replay.addEventListener("click", function() {
+  video.currentTime = 0;
+  audio.currentTime = 0;
   
-       video.autoplay = true;
-       audio.autoplay = true;
-       audio.load();video.load();
-  
+    video.play();
+    audio.play();
+    playButton.value = "Pause";
 });
 
 };

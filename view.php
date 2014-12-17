@@ -111,6 +111,7 @@ if(isset($postback)){
 }
 
 //check the user is admin or not
+/*
 $admins = get_admins();
   $isadmin = false;
   foreach($admins as $admin) {
@@ -119,10 +120,10 @@ $admins = get_admins();
         break;
       }
   }
-
+*/
    //updating serial numbers of each record into table
         $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
-        if(!$isadmin){
+        if (has_capability('mod/testimonial:isstudent', $context)) {
           $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
         }
             $sno=0;
@@ -210,20 +211,19 @@ $table = new html_table();
 
           $table->data[]=$recpaneltable;
           echo html_writer::table($table);
-          if (has_capability('mod/testimonial:godatabase', $context)) {
                $url = new moodle_url('');
                //button for previous testimonial store page
                $backtostore= html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','testimonial'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
-           }
+          
            echo $backtostore;
            
       echo html_writer::end_tag('form');
       echo '<script>window.uniqueId ='.$id.'; </script>';
       $PAGE->requires->js('/mod/testimonial/js/record2.js');		
       
-      //updating serial numbers of each record into table
+        //updating serial numbers of each record into table
         $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
-        if(!$isadmin){
+        if (has_capability('mod/testimonial:isstudent', $context)) {
           $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
         }
             $sno=0;
@@ -264,7 +264,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                $names=$getvidarr;
               }
                
-        if(isset($postvideoarr) || isset($names)){
+       if(isset($postvideoarr) || isset($names)){
            foreach($names as $value){
                $idarr=array();
                if(isset($value)){
@@ -282,10 +282,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                    $sql='SELECT videotitle FROM {testimonial_videos} WHERE id = ? AND testimonial_id = ?';    
                    $vtitle = $DB->get_field_sql($sql, array((int)$itemid,$testimonial->id));
                 
-                if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$itemid)))){  
+                 if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$itemid)))){  
                        $DB->delete_records('testimonial_videos', array ('id'=> $itemid));
                        $DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
-                }
+                    }
 
                  else{
                      //deletion from moodle directory structure
@@ -297,21 +297,28 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                        $vid=$DB->delete_records('testimonial_videos', array ('id'=> $itemid));
                         $aid=$DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
                     }
-             
-                }
+                    
+                    if (has_capability('mod/testimonial:isadmin', $context)) {
+                     echo html_writer::start_tag('div', array('class'=>'alert alert-success'));
+                      echo get_string('deleteprint', 'testimonial');
+                     echo html_writer::end_tag('div');
+                    }
+               }
            }
     
         }
               
        else{
-           echo get_string('selectfile', 'testimonial');
+           echo html_writer::start_tag('div', array('class'=>'alert alert-error'));
+            echo get_string('selectfile', 'testimonial');
+           echo html_writer::end_tag('div');
         }
        
     }
      
     //updating serial numbers of each record into table
         $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
-        if(!$isadmin){
+        if (has_capability('mod/testimonial:isstudent', $context)) {
           $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
         }
             $sno=0;
@@ -333,7 +340,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
        $endpage= $pagestart+10-1;
 
      //query for admin  
-      if($isadmin){
+      if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {
           $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
         if(isset($page) && $page>0){
             $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage AND testimonial_id=$testimonial->id");
@@ -350,22 +357,23 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
       
       
    if(!$query || !$queryall){
-            if(!$isadmin){
+            if (has_capability('mod/testimonial:isstudent', $context)) {
               echo html_writer::start_tag('form', array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
               echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton'));
               echo get_string('printrecordtestimoniallikeque', 'testimonial');
               echo html_writer::end_tag('form');
            }
-            if($isadmin){
-              echo html_writer::start_tag('div', array('class'=>'itemidprint'));
+            if ((has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) && !has_capability('mod/testimonial:isstudent', $context) ) {
+              echo html_writer::start_tag('div', array('class'=>'alert alert-error'));
               echo get_string('existprint', 'testimonial');
-               echo html_writer::end_tag('div');
+              echo html_writer::end_tag('div');
             }
     }
             
   else { 
             //table for student stats
              $table = new html_table();
+             
          
              $table->align=array();
              $table->rowclasses = array();
@@ -383,9 +391,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              $row='';
              
              $stattable[]=get_string('totaltestimonials', 'testimonial');
-             
-           //  $sqlc='SELECT * FROM {testimonial_videos} WHERE testimonial_id = ?';
-          //   $totaltesti = $DB->get_records_sql($sqlc, array($testimonial->id));
+          
              $c=0;
              foreach ($queryall as $value) {
                  $tt=$c++;
@@ -393,7 +399,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              $totaltesti=round($tt/2);
              $stattable[]= $totaltesti;
             
-          if($isadmin){
+          if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {
              $table->data[] =$stattable;
               
              $stattable=array();
@@ -421,7 +427,12 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                  }
                    $lastcol2=round($lastcol2/2);
                  //percentage ratio per student
+                 if(isset($totaltesti)){  
                   $percentperstu= round(($lastcol2*100)/$totaltesti);
+                 }
+                 else{
+                  $percentperstu='insufficient data';
+                 }
                   $row= $row.$lastcol1." | ".$lastcol2." | ".$percentperstu.'%'.' , ';
                   
                }
@@ -431,7 +442,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             
           $table->data[] =$stattable;
              
-           if(!$isadmin){ 
+           if (has_capability('mod/testimonial:isstudent', $context)) { 
                
               $stattable=array();
               $stattable[]=get_string('studentimetext', 'testimonial');
@@ -442,7 +453,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              $stattable=array();
              $stattable[]=get_string('testimonialstore', 'testimonial');
              
-             if(!$isadmin){
+             if (has_capability('mod/testimonial:isstudent', $context)) {
                  //button for new testimonial recording
                 $stattable[]= html_writer::tag('form',html_writer::empty_tag('input', 
                 array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton2')),
@@ -461,9 +472,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             
      //display testimonial database in table format       
      $table = new html_table();
-       if(!$admin){  
-          $table->attributes['class'] = 'datatable';
-        }
+    // if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context) || has_capability('mod/testimonial:isstudent', $context)) {
+        ////  $table->attributes['class'] = 'datatable';
+    // }
              $table->head = array ();
              $table->align=array();
              $table->rowclasses = array();
@@ -476,7 +487,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             $table->size[] = '70px';
             $table->align[] = 'center';
 
-             if($isadmin){
+             if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {
                  $table->head[] = 'Student Name';
                  $table->size[] = '180px';
                  $table->align[] = 'left';
@@ -490,17 +501,18 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             $table->size[] = '200px';
             $table->align[] = 'left';
             
-           if($isadmin && $teacherdelete){ 
+           if((has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) && $teacherdelete){ 
               $table->head[] = 'Select';
               $table->align[] = 'center';
            }
-           if(!$isadmin && (isset($studenttime) || isset($studenttimemin))){ 
+           if(has_capability('mod/testimonial:isstudent', $context) && (isset($studenttime) || isset($studenttimemin))){ 
              if(!$studenttime==0 || !$studenttimemin==0){  
               $table->head[] = 'Delete';
               $table->align[] = 'center';
              }
            }
      
+      
            
       //retrieve all values from query   
       foreach ($query as $value) { 
@@ -517,7 +529,12 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             $rowscount = $value->rowscount;
             $videoids=$vid.'/'.$name;
                
-                if($vid%2!=0 ){
+                $revitem= strrev($name);
+                $str = $revitem;
+                $char=substr( $str, 0, 4 );
+                
+            
+                if($char=='mbew') {
                     $dataarr[]=$rowscount;
                 }
                 
@@ -525,12 +542,15 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                 $sql='SELECT username FROM {user} WHERE id = ?';    
                 $username = $DB->get_field_sql($sql, array($userid));
                 
-                if($vid%2 !=0 ){
-                    if($isadmin){   
+                if($char=='mbew') {
+                    if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {  
                         $dataarr[]=$username;
-                     }
+                    }
                    //here open the popup window for testimonial recording then you can watch  
-                   $dataarr[]="<a  href=\"javascript:create_window('watch.php?id=$rowscount&cmid=$id')\">$videotitle</a><br />";
+                   $cropeditem= substr($revitem,4);
+                   $videofile=  trim(strrev($cropeditem).'webm');
+                   $audiofile=  trim(strrev($cropeditem).'wav');
+                   $dataarr[]="<a  href=\"javascript:create_window('watch.php?vf=$videofile&af=$audiofile&cmid=$id')\">$videotitle</a><br />";
                 
                    $datetimeformat=date("Y-m-d H:i:s", $datetime);
                    $dataarr[]=$datetimeformat;
@@ -541,9 +561,8 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                // $expire = date("Y-m-d H:i:s", $timelimit);
                 $expire = date($timelimit);
                 $current = date(time());
-                //$current = date("Y-m-d H:i:s");
                
-                if(!$isadmin  && $vid%2!=0 && (isset($studenttime) || isset($studenttimemin))){ 
+                if(has_capability('mod/testimonial:isstudent', $context) && $char=='mbew' && (isset($studenttime) || isset($studenttimemin))){ 
                      
 
                     if(($expire > $current)){  
@@ -556,32 +575,48 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                     }     
                 }   
                 
-                 if($isadmin && $teacherdelete){
-                    if($vid%2!=0 && !($expire > $current)){
+                 if(has_capability('mod/testimonial:isadmin', $context)){
+                    if($char=='mbew' && !($expire > $current)){
                         //individual check box for each record
                         $dataarr[]="<input type=checkbox name=videoarr[] value='$videoids' />";
                     }
-                }
+                 }
+                 else if(has_capability('mod/testimonial:isteacher', $context) && $teacherdelete){
+                     if($char=='mbew' && !($expire > $current)){
+                        //individual check box for each record
+                        $dataarr[]="<input type=checkbox name=videoarr[] value='$videoids' />";
+                    }
+                 }
                   
-                 if($vid%2!=0 ){
+                 if($char=='mbew') {
                      $table->data[] =$dataarr; 
                  }
                  
         }
              
-      if($isadmin && $teacherdelete){
-        $dataarr=array();
-        $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=get_string('selectall', 'testimonial');;
-        $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall','onclick'=>'checkedAll(frm1)','id'=>'checkall'));//checkbox for select all
-        $table->data[] =$dataarr;
-      }
+        if(has_capability('mod/testimonial:isadmin', $context)){
+            $dataarr=array();
+            $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=get_string('selectall', 'testimonial');;
+            $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall','onclick'=>'checkedAll(frm1)','id'=>'checkall'));//checkbox for select all
+            $table->data[] =$dataarr;
+         }
+       else if(has_capability('mod/testimonial:isteacher', $context) && $teacherdelete){
+           $dataarr=array();
+           $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=get_string('selectall', 'testimonial');;
+           $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall','onclick'=>'checkedAll(frm1)','id'=>'checkall'));//checkbox for select all
+           $table->data[] =$dataarr;
+       }
+     
       //close or write table
      echo html_writer::table($table);
      
        //multiple delete button
        if (has_capability('mod/testimonial:deletemultiple', $context)) {
-            if($isadmin && $teacherdelete){
-             echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','testimonial'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
+            if(has_capability('mod/testimonial:isadmin', $context)){
+              echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','testimonial'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
+            }
+           else if(has_capability('mod/testimonial:isteacher', $context) && $teacherdelete){
+              echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','testimonial'),'id'=>'deletemul', 'class'=>'deletemulbutton' )); 
            }
         } 
          //pagination bar, dynamically arranged pages and each of have 10 records  

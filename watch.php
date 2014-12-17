@@ -29,7 +29,8 @@ require_once ($CFG->dirroot.'/course/moodleform_mod.php');
 $PAGE->requires->js('/mod/testimonial/js/need.js');
 
 $id = optional_param('cmid', 0, PARAM_INT); // course_module ID, or
-$avid  = optional_param('id', 0, PARAM_INT);  // testimonial instance ID - it should be named as the first character of the module
+$videofile  = optional_param('vf', null, PARAM_RAW);  // testimonial instance ID - it should be named as the first character of the module
+$audiofile  = optional_param('af', null, PARAM_RAW);
 
 if ($id) {
     $cm         = get_coursemodule_from_id('testimonial', $id, 0, false, MUST_EXIST);
@@ -58,62 +59,35 @@ $PAGE->set_context($context);
 // Output starts here                         
 echo $OUTPUT->header();
 
- if(isset($avid)){
-   $testimonialid=$testimonial->id;
-       //fetching video from database
-       $query = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE rowscount = ? AND testimonial_id = ?', array($avid,$testimonial->id));
+ if(isset($videofile)){
+   $testimonialid=$testimonial->id;  
+     
+       //fetching video details from database
+       $queryv = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?', array($videofile,$testimonial->id));
 
-       foreach ($query as $value) { 
-                $name=$value->name;
-                $revitem= strrev($name);
-                $str = $revitem;
-
-               $char=substr( $str, 0, 1 );
-                if($char=='m') {
-                   $cropeditem= substr($revitem,4);
-                   $audioname=  trim(strrev($cropeditem).'wav');
-                   $url=$value->url;
-
-                 }
-               else{
-                   $cropeditem= substr($revitem,3);
-                   $audioname=  trim(strrev($cropeditem).'webm');
-                   $url2=$value->url;
-               } 
-
+       foreach ($queryv as $value) { 
+                $vid=$value->id;
+                $url=$value->url;
                 $title=$value->videotitle;
-
-              if(!($DB->record_exists('testimonial_watching', array('user_id' =>$USER->id, 'testimonial_id'=>$testimonialid, 'video_id'=>$avid)))){  
+                
+             
+              if(!($DB->record_exists('testimonial_watching', array('user_id' =>$USER->id, 'testimonial_id'=>$testimonialid, 'video_id'=>$vid)))){  
                  $record1 = new stdClass();
                  $record1->user_id = $USER->id;
                  $record1->testimonial_id = $testimonialid;
-                 $record1->video_id=$avid;
+                 $record1->video_id=$vid;
                  $lastinsertid1 = $DB->insert_record('testimonial_watching', $record1, false);
               }
            }
+           
+         //fetching audio details from database  
+       $querya = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?', array($audiofile,$testimonial->id));
+            foreach ($querya as $value) { 
+                $aid=$value->id;
+                $url2=$value->url;
+           }
 
-          //getting id of second a/v file with unique name
-        $query2 = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?', array($audioname,$testimonial->id));
-            
-            foreach ($query2 as $value2) { 
-              if($char=='m') {
-                $id2=$value2->id;
-                $url2=$value2->url;
-              }
-              else{
-                $id2=$value2->id;
-                $url=$value2->url;
-              }
-              //check record exist or not
-               if(!($DB->record_exists('testimonial_watching', array('user_id' =>$USER->id, 'testimonial_id'=>$testimonialid, 'video_id'=>$id2)))){
-                 $record2 = new stdClass();
-                 $record2->user_id = $USER->id;
-                 $record2->testimonial_id = $testimonialid;
-                 $record2->video_id=$id2;
-                 $lastinsertid2 = $DB->insert_record('testimonial_watching', $record2, false);
-               }
-            }
-        
+           
         echo html_writer::start_tag('div', array('class'=>'youwatching','align'=>'center'));
            
             $table = new html_table();
@@ -127,11 +101,11 @@ echo $OUTPUT->header();
                   $table->size[] = '600px';
                   $table->align[] = 'left';
 
-                  $table->size[] = '120px';
+                  $table->size[] = '100px';
                   $table->align[] = 'left';
              
                   $watchtable=array();
-
+                  //close window icon
                   $closewindow = html_writer::link("javascript:window.close()",
                                      html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/dockclose'),'class'=>'icon'),
                                      array('class'=>'watch','id' => 'close')));
@@ -144,8 +118,8 @@ echo $OUTPUT->header();
                   $watchtable=array();
                      
                      $startdiv=html_writer::start_tag('div', array('id' => 'video-container'));
-                     $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch'));echo html_writer::end_tag('audio');
-                     $videobuff=html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch')).html_writer::end_tag('video');
+                     $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch','preload'=>'auto'));echo html_writer::end_tag('audio');//audio player
+                     $videobuff=html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch','preload'=>'auto')).html_writer::end_tag('video');//video player
                      $enddiv= html_writer::end_tag('div');
                      
                     
@@ -157,14 +131,13 @@ echo $OUTPUT->header();
                      $watchtable=array();
                      
                      echo html_writer::start_tag('div', array('id' => 'video-controls'));
-                          $playbutt= html_writer::empty_tag('input', array('type' => 'button','value' => 'Play','id'=>'play-pause', 'class'=>'watch2'));
-                          $playrange= html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar'));
-                          $mutebutt= html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('mutewatch','testimonial'),'id'=>'mute', 'class'=>'watch2'));
-                          $muterange= html_writer::empty_tag('input', array('type' => 'range', 'id'=>'volume-bar', 'class'=>'watchbarmute', 'min'=>'0', 'max'=>'1','step'=>'0.1', 'value'=>'1'));
+                          $playbutt= html_writer::empty_tag('input', array('type' => 'button','value' => 'Play','id'=>'play-pause', 'class'=>'watch2'));//play button
+                          $playrange= html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar'));//play seek bar
+                          $mutebutt= html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('mutewatch','testimonial'),'id'=>'mute', 'class'=>'watch2'));//mute button
+                          $muterange= html_writer::empty_tag('input', array('type' => 'range', 'id'=>'volume-bar', 'class'=>'watchbarmute', 'min'=>'0', 'max'=>'1','step'=>'0.1', 'value'=>'1'));//mute bar
                      echo html_writer::end_tag('div');
-                     $replay = html_writer::link("",
-                                     html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('a/refresh'),'class'=>'icon'),
-                                     array('class'=>'watch','id' => 'replaywatch')));
+                     
+                     $replay=html_writer::empty_tag('input', array('type' => 'button','value' => 'Replay','id'=>'replay', 'class'=>'watch2'));//replay button
                      
                      $watchtable[]=''; 
                      $watchtable[]=$playbutt.' '.$playrange.' '.$replay.' '.$mutebutt.' '.$muterange;
@@ -177,7 +150,7 @@ echo $OUTPUT->header();
                      
             $eventdata = array();
             $eventdata['context'] = $context;
-            $eventdata['objectid'] = $avid;
+            $eventdata['objectid'] = $vid;
             $eventdata['userid'] = $USER->id;
             $eventdata['courseid'] = $course->id;
 
@@ -185,6 +158,7 @@ echo $OUTPUT->header();
             $event->add_record_snapshot('course', $course);
             $event->add_record_snapshot('course_modules', $cm);
             $event->trigger();
+            
        }
     
     else{
