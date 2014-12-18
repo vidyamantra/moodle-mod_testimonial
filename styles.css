@@ -33,28 +33,16 @@ margin-left:30%; height: 35px; width: 150px;font-size: small;
 margin-left:12%; height: 35px; width: 160px;font-size: small;
 }
 
-//#page-mod-testimonial-view #deleteselected {
-// height: 40px; width: 180px;color:red;font-size: small;
-//}
-
 #page-mod-testimonial-view  #preview{
 border:1px solid #0070a8;height: 300px; width: 400px;
 }
 
-//#page-mod-testimonial-view  .itemidprint{
-//color:green; font-weight:300;
-//}
-
-//#page-mod-testimonial-view  .curruptprint{
-//margin-left: 25%;
-//}
-
 #page-mod-testimonial-view  #deletemul{
-height: 35px; width: 70px;margin-left:90%;font-size: small;
+height: 35px; width: 65px;margin-left:93%;font-size: small;
 }
 
 #page-mod-testimonial-view  #storetable{
- width: 700px; height: 500px;margin-left:10%;overflow: visible;
+ width: 80%; height: 500px;margin-left:5%;overflow: visible;
 }
 
 #page-mod-testimonial-view .watch{
@@ -66,7 +54,7 @@ height: 25px; width: 25px;font-size: small;
 }
 
 #page-mod-testimonial-view .watch2{
-height: 30px; width: 55px;font-size:x-small;color:#36AE79;
+height: 30px; width: 55px;font-size:x-small;
 }
 
 #page-mod-testimonial-view .watchbar{

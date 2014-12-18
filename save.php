@@ -63,8 +63,6 @@ foreach(array('video', 'audio') as $type) {
         
        $uploaded_file_path = $_FILES["${type}-blob"]["tmp_name"];  // temp path to the actual file
         $filename = $_POST["${type}-filename"];                // the original (human readable) filename
-       //set asian time zone
-       date_default_timezone_set("Asia/Calcutta");
         
           //insert record into videos table except url
            $record = new stdClass();
@@ -111,6 +109,7 @@ foreach(array('video', 'audio') as $type) {
             $update->url = $url1;
             $update->replycount = $replycount;
             $update->rowscount = $rowscount;
+            
          $lastupdate=$DB->update_record('testimonial_videos', $update);
      }
  }

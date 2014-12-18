@@ -32,24 +32,19 @@ class backup_testimonial_activity_structure_step extends backup_activity_structu
         $userinfo = $this->get_setting_value('userinfo');
         
         // Define each element separated
-        $testimonial = new backup_nested_element('testimonial', array('id'), array('course', 'name', 'intro','introformat', 'timecreated', 'timemodified', 'completionrecord', 'completionwatch'));
+        $testimonial = new backup_nested_element('testimonial', array('id'), array('course', 'name', 'intro','introformat', 'timecreated', 'timemodified', 'completionrecord'));
         $video = new backup_nested_element('videos', array('id'), array('user_id','name','url'));
-        $watching = new backup_nested_element('watching', array('id'), array('user_id','video_id'));
 
         // Build the tree
         $testimonial->add_child($video);
-        $testimonial->add_child($watching);
  
         // Define sources
         $testimonial->set_source_table('testimonial', array('id' => backup::VAR_ACTIVITYID));
-
          $video->set_source_sql('SELECT * FROM {testimonial_videos} WHERE testimonial_id = ?', array(backup::VAR_PARENTID));
-         if ($userinfo) {
-           $watching->set_source_table('testimonial_watching', array('testimonial_id' => backup::VAR_PARENTID));
-         }
+        
  
         // Define file annotations
-         $watching->annotate_ids('user', 'user_id');
+         $video->annotate_ids('user', 'user_id');
          $testimonial->annotate_files('mod_testimonial', 'intro', null); // This file area does not have an itemid
  
         // Return the root element (testimonial), wrapped into standard activity structure

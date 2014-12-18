@@ -148,7 +148,7 @@
 
                     stop.disabled = false;
                 }, function(error) {
-                    alert( JSON.stringify (error, null, '\t') );
+                   // alert( JSON.stringify (error, null, '\t') );
                 });
         };
 

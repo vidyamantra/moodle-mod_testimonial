@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $string['modulename'] = 'Testimonial';
 $string['pluginname'] = 'Testimonial';
 $string['modulenameplural'] = 'testimonials';
-$string['modulename_help'] = '<b>Testimonial</b> is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video testimonials.<br><ul><li>
+$string['modulename_help'] = 'Testimonial is newly generated plugin for moodle. This provides the real interface for recording and uploading audio-video testimonials.<br><ul><li>
                                                    Testimonial is based on webRTC technology therefore, its truly efficient. Here we provide many options and privileges for different type of users.</li><li> Teacher can makes constraints for student. You can delete your recently 
                                                   recorded testimonial as well multiple deletion feature for previously recorded testimonials.</li><li> This is one of the powerful plugin that can automatically upload the lectures on server side therefore local space does not required.</li></ul>';
 $string['testimonialfieldset'] = 'Custom example fieldset';
@@ -38,19 +38,19 @@ $string['testimonial'] = 'testimonial';
 $string['pluginadministration'] = 'testimonial administration';
 $string['testimonial:addinstance'] = 'instances';
 $string['testimonial:view'] = 'view';
-$string['testimonial:submit'] = 'submit';
 $string['testimonial:record'] = 'record';
-$string['testimonial:godatabase'] = 'godatabase';
 $string['testimonial:deleterecent'] = 'deleterecent';
 $string['testimonial:deletemultiple'] = 'deletemultiple';
+$string['testimonial:isadmin'] = 'Admin permissions';
+$string['testimonial:isstudent'] = 'Student permissions';
+$string['testimonial:isteacher'] = 'Teacher permissions';
 $string['completionrecord'] = 'Student must record the testimonial ';
-$string['completionwatch'] = 'Student must watch the watch the testimonial ';
 $string['eventvideocreated'] = 'Recorded video has been submitted';
 $string['eventvideorevealed'] = 'Recorded video has been watched';
 $string['record'] = "Record ";
 $string['stop'] = "Stop/Save ";
 $string['deletefiles'] = "Delete Recent files";
-$string['store'] = " Recorded testimonials ";
+$string['store'] = " Back to testimonials ";
 $string['backbutton2'] = " Record Testimonials ";
 $string['backbutton'] = " Make new testimonial ";
 $string['deleteselected'] = "Delete Selected";
@@ -75,24 +75,22 @@ $string['studenttime2']= "";
 $string['totaltestimonials']= " Total testimonials  ";
 $string['totalstudents']= " Student statistics ";
 $string['videotitle']= "Testimonial title ";
-$string['testimonialstore']= "<b> Recorded testimonials <b>";
-$string['selectall']= "<b> check/uncheck all : <b>";
+$string['testimonialstore']= " Recorded testimonials ";
+$string['selectall']= " check/uncheck all : ";
 $string['newtestitext']= " For new testimonial ";
 $string['studentimetext']= " Bounded time for deletion ";
-$string['testirecording']="<b> Testimonial recording </b>";
+$string['testirecording']=" Testimonial recording ";
 $string['uploading']=" Uploading process ";
 $string['successdelrecent']=" Successfully deleted all consecutive recent files ";
-$string['refreshhint']="<font size='2px' color='grey'> * Refresh page after deleting recent files </font>";
-$string['youwatching']="<font color='gray'><b> * Click on play button for watching testimonial : </b></font>";
-//$string['surefordelete']=" Are you sure to delete testimonials ";
+$string['youwatching']=" * Click on play button for watching testimonial : ";
 $string['introeditor']=" write description/question ";
-$string['introeditor_help']=" Here you can write any testimonial question or description to student ";
+$string['introeditor_help']=" You can write testimonial question/description for student ";
 $string['studenttime']=" Student's duration for deletion ";
-$string['studenttime_help']=" Select the time duration in hours and minutes so it will bound the student for deleting the testimonial files under the time limit constraints ";
+$string['studenttime_help']=" Select the time duration in hours/minutes so it will bound the student for deleting the testimonial files under the time limit constraints ";
 $string['teacherdelete']=" Teacher can delete testimonials ";
-$string['teacherdelete_help']=" check/uncheck the box can provides the permission for deleting testimonial or not by teacher ";
-$string['printrecordtestimoniallikeque']=" <font color='gray'> * Record testimonials based on provided questions </font>";
-$string['usechrome']=" <font color='gray'> * Use chrome browser for recording and watching </font>";
+$string['teacherdelete_help']=" check/uncheck the box provides the permission to teacher for deleting testimonials ";
+$string['printrecordtestimoniallikeque']=" * Record testimonials based on provided questions ";
+$string['usechrome']=" * Please use chrome browser for recording and watching ";
 
 
 

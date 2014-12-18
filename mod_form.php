@@ -61,38 +61,42 @@ class mod_testimonial_mod_form extends moodleform_mod {
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         
-        
         // Adding the standard "intro" and "introformat" fields
-         $this->add_intro_editor($config->requiremodintro);
+         $this->add_intro_editor();
          $mform->addHelpButton('introeditor', 'introeditor', 'testimonial');
         //-------------------------------------------------------------------------------
         // Adding the "additional" fieldset, where all the additional settings are showed   
          $mform->addElement('header', 'additional', get_string('additional', 'testimonial'));
         // Adding the standard "select" field
          
-         $hours=array();
-         $hours[0]="Time in hours";
-          for($counthr=1;$counthr<=24;$counthr++){
-             $hours[$counthr]="$counthr";
-          }
-        $options = $hours;
+     //    $hours=array();
+     //    $hours[0]="Time in hours";
+     //     for($counthr=1;$counthr<=24;$counthr++){
+     //        $hours[$counthr]="$counthr";
+     //     }
+     //   $options = $hours;
         
         
-        $minutes=array();
-         $minutes[0]="Time in minutes";
-          for($countmin=1;$countmin<=60;$countmin++){
-             $minutes[$countmin]="$countmin";
-          }
-        $optionsmin = $minutes;
+     //   $minutes=array();
+     //    $minutes[0]="Time in minutes";
+      //    for($countmin=1;$countmin<=60;$countmin++){
+     //       $minutes[$countmin]="$countmin";
+      //    }
+     //   $optionsmin = $minutes;
             
          
-        $select = $mform->addElement('select', 'studenttime', get_string('studenttime', 'testimonial'), $options);
-        $select = $mform->addElement('select', 'studenttimemin', get_string('studenttime2', 'testimonial'), $optionsmin);
+       // $select = $mform->addElement('select', 'studenttime', get_string('studenttime', 'testimonial'), $options);
+      //  $select = $mform->addElement('select', 'studenttimemin', get_string('studenttime2', 'testimonial'), $optionsmin);
+        
+        $select = $mform->addElement('duration', 'studenttime', get_string('studenttime', 'testimonial'),
+                                                         array('optional' => true));
+        
+        
         $mform->addHelpButton('studenttime','studenttime', 'testimonial');
        //  $mform->addHelpButton('introeditor', 'introeditor', 'testimonial');
         // This will select the time in hours.
         $mform->addElement('advcheckbox', 'teacherdelete', get_string('teacherdelete', 'testimonial'), 'Yes', array('group' => 1), array(0, 1));
-         $mform->addHelpButton('teacherdelete','teacherdelete', 'testimonial');
+        $mform->addHelpButton('teacherdelete','teacherdelete', 'testimonial');
         //-------------------------------------------------------------------------------
         // Adding the rest of testimonial settings, spreeading all them into this fieldset
         // or adding more fieldsets ('header' elements) if needed for better logic
@@ -118,9 +122,6 @@ class mod_testimonial_mod_form extends moodleform_mod {
             if (empty($data->completionrecord)) {
                 $data->completionrecord = 0;
             }
-            if (empty($data->completionwatch)) {
-                $data->completionwatch = 0;
-            }
        }
     return $data;
   }
@@ -128,8 +129,7 @@ class mod_testimonial_mod_form extends moodleform_mod {
    function add_completion_rules() {
         $mform =& $this->_form;
         $mform->addElement('checkbox', 'completionrecord', '', get_string('completionrecord', 'testimonial'));
-        $mform->addElement('checkbox', 'completionwatch', '', get_string('completionwatch', 'testimonial'));
-        return array('completionrecord','completionwatch');
+        return array('completionrecord');
    }
 
     
@@ -137,9 +137,6 @@ class mod_testimonial_mod_form extends moodleform_mod {
     if(!empty($data['completionrecord'])){
         return $data['completionrecord'];
     }
-    else {
-        return $data['completionwatch'];
-     }
   }
   
 }

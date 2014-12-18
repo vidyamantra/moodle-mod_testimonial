@@ -24,22 +24,8 @@
 
 
 defined('MOODLE_INTERNAL') || die;
-
-if ($ADMIN->fulltree) {
-    require_once("$CFG->libdir/resourcelib.php");
-
-    $displayoptions = resourcelib_get_displayoptions(array(RESOURCELIB_DISPLAY_OPEN, RESOURCELIB_DISPLAY_POPUP));
-    $defaultdisplayoptions = array(RESOURCELIB_DISPLAY_OPEN);
-
+/*
     //--- general settings -----------------------------------------------------------------------------------
-    $settings->add(new admin_setting_configcheckbox('testimonial/requiremodintro',
-        get_string('requiremodintro', 'admin'), get_string('configrequiremodintro', 'admin'), 1));
-    $settings->add(new admin_setting_configmultiselect('testimonial/displayoptions',
-        get_string('displayoptions', 'testimonial'), get_string('configdisplayoptions', 'testimonial'),
-        $defaultdisplayoptions, $displayoptions));
-
     //--- modedit defaults -----------------------------------------------------------------------------------defined('MOODLE_INTERNAL') || die;
-
-}
   
     

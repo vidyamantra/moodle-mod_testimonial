@@ -38,9 +38,7 @@ class restore_testimonial_activity_structure_step extends restore_activity_struc
         $userinfo = $this->get_setting_value('userinfo');
         $paths[] = new restore_path_element('testimonial', '/activity/testimonial/testimonial');
         $paths[] = new restore_path_element('testimonial_videos', '/activity/testimonial/testimonial_videos');
-        if ($userinfo) {
-         $paths[] = new restore_path_element('testimonial_watching', '/activity/testimonial/testimonial_watching');
-        }
+       
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
     }
@@ -74,19 +72,6 @@ class restore_testimonial_activity_structure_step extends restore_activity_struc
         $this->set_mapping('testimonial_videos', $oldid, $newitemid);
     }
 
-    protected function process_testimonial_watching($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->testimonial_id = $this->get_new_parentid('testimonial');
-        $data->video_id = $this->get_mappingid('testimonial_videos', $data->id);
-        $data->user_id = $this->get_mappingid('user', $data->userid);
-
-        $newitemid = $DB->insert_record('testimonial_watching', $data);
-        // No need to save this mapping as far as nothing depend on it
-        // (child paths, file areas nor links decoder)
-    }
 
     protected function after_execute() {
         // Add choice related files, no need to match by itemname (just internally handled context)

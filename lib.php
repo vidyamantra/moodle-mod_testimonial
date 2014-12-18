@@ -37,7 +37,7 @@ function testimonial_supports($feature) {
         case FEATURE_GRADE_HAS_GRADE:         return false;
         case FEATURE_GRADE_OUTCOMES:          return false;
         case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_SHOW_DESCRIPTION:        return false;
+        case FEATURE_SHOW_DESCRIPTION:        return true;
         default: return null;
     }
 }
@@ -49,22 +49,9 @@ function testimonial_get_completion_state($course, $cm, $userid, $type) {
      $testimonial = $DB->get_record('testimonial', array('id'=>$cm->instance), '*', MUST_EXIST);
 
     // If completion option is enabled, evaluate it and return true/false
-    if($testimonial->completionrecord && (!($testimonial->completionrecord && $testimonial->completionwatch))) {
-        echo $DB->record_exists('testimonial_videos', array('testimonial_id'=>$cm->instance, 'user_id'=>$USER->id));
+    if($testimonial->completionrecord) {
         return $DB->record_exists('testimonial_videos', array('testimonial_id'=>$cm->instance, 'user_id'=>$USER->id));
     } 
-    
-    if($testimonial->completionwatch && (!($testimonial->completionrecord && $testimonial->completionwatch))) {
-        return $DB->record_exists('testimonial_watching', array('user_id'=>$USER->id, 'testimonial_id'=>$cm->instance));
-    } 
-    
-    if(($testimonial->completionrecord && $testimonial->completionwatch)) {
-        $rec=$DB->record_exists('testimonial_videos', array('testimonial_id'=>$cm->instance, 'user_id'=>$USER->id));
-        $wat=$DB->record_exists('testimonial_watching', array('user_id'=>$USER->id, 'testimonial_id'=>$cm->instance));
-        
-        return ($rec && $wat);
-    }
-    
     else {
         return $type;
     }
@@ -372,6 +359,7 @@ function testimonial_pluginfile($course, $cm, $context, $filearea, array $args, 
 
 
 function testimonial_extend_navigation(navigation_node $navref, stdclass $course, stdclass $module, cm_info $cm) {
+    
 }
 
 /**

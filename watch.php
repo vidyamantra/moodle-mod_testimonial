@@ -51,10 +51,6 @@ $PAGE->set_title(format_string($testimonial->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
- $completion = new completion_info($course);
-    if($completion->is_enabled($cm) && $testimonial->completionwatch) {
-         $completion->update_state($cm,COMPLETION_COMPLETE);
-}
 
 // Output starts here                         
 echo $OUTPUT->header();
@@ -69,15 +65,6 @@ echo $OUTPUT->header();
                 $vid=$value->id;
                 $url=$value->url;
                 $title=$value->videotitle;
-                
-             
-              if(!($DB->record_exists('testimonial_watching', array('user_id' =>$USER->id, 'testimonial_id'=>$testimonialid, 'video_id'=>$vid)))){  
-                 $record1 = new stdClass();
-                 $record1->user_id = $USER->id;
-                 $record1->testimonial_id = $testimonialid;
-                 $record1->video_id=$vid;
-                 $lastinsertid1 = $DB->insert_record('testimonial_watching', $record1, false);
-              }
            }
            
          //fetching audio details from database  
@@ -106,13 +93,13 @@ echo $OUTPUT->header();
              
                   $watchtable=array();
                   //close window icon
-                  $closewindow = html_writer::link("javascript:window.close()",
-                                     html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/dockclose'),'class'=>'icon'),
-                                     array('class'=>'watch','id' => 'close')));
+                 // $closewindow = html_writer::link("javascript:window.close()",
+                 //                    html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/close'),'class'=>'icon'),
+                 //                    array('class'=>'watch','id' => 'close')));
                   
                   $watchtable[]='';
                   $watchtable[]=get_string('youwatching','testimonial').$title;
-                  $watchtable[]='close '.$closewindow;
+                  $watchtable[]='';
 
                   $table->data[]=$watchtable;
                   $watchtable=array();
