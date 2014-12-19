@@ -29,8 +29,9 @@ require_once ($CFG->dirroot.'/course/moodleform_mod.php');
 $PAGE->requires->js('/mod/testimonial/js/need.js');
 
 $id = optional_param('cmid', 0, PARAM_INT); // course_module ID, or
-$videofile  = optional_param('vf', null, PARAM_RAW);  // testimonial instance ID - it should be named as the first character of the module
-$audiofile  = optional_param('af', null, PARAM_RAW);
+$videofile  = optional_param('vf', null, PARAM_RAW); //video file
+$audiofile  = optional_param('af', null, PARAM_RAW); //audio file
+$url='';$url2='';
 
 if ($id) {
     $cm         = get_coursemodule_from_id('testimonial', $id, 0, false, MUST_EXIST);
@@ -55,7 +56,7 @@ $PAGE->set_context($context);
 // Output starts here                         
 echo $OUTPUT->header();
 
- if(isset($videofile)){
+ if(isset($videofile) && isset($audiofile)){
    $testimonialid=$testimonial->id;  
      
        //fetching video details from database

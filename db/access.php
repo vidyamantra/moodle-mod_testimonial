@@ -56,36 +56,6 @@ $capabilities = array(
     ),
    
     /**
-     * define capability for record new testimonial
-     */
-    'mod/testimonial:record' => array(
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'student' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
-  
-    
-    /**
-     * define capability for recent deletion
-     */
-    'mod/testimonial:deleterecent' => array(
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'student' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
-    /**
      * define capability for multiple deletion
      */
     'mod/testimonial:deletemultiple' => array(
@@ -136,34 +106,38 @@ $capabilities = array(
         )
     ),
     /**
-    'mod/testimonial:submit' => array(
+     * define capability for record new testimonial
+     */
+    /*
+    'mod/testimonial:record' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
-            'student' => CAP_ALLOW
+        'archetypes' => array(
+            'student' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
         )
     ),
+  
     
-    
-    'mod/testimonial:submit' => array(
+    /**
+     * define capability for recent deletion
+     */
+    /*
+    'mod/testimonial:deleterecent' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
-            'student' => CAP_ALLOW
+        'archetypes' => array(
+            'student' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
         )
-    ),
+    ), 
     
-    
-    'mod/testimonial:submit' => array(
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
-            'student' => CAP_ALLOW
-        )
-    ),*/
 //******************************/
 );
 
