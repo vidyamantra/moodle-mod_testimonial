@@ -44,6 +44,7 @@ defined('MOODLE_INTERNAL') || die();
     }
  }
  
+ // function for check current browser and return the name of browser
  function checkBrowser(){
       $u_agent = $_SERVER['HTTP_USER_AGENT'];
         $ub = '';
@@ -65,3 +66,27 @@ defined('MOODLE_INTERNAL') || die();
         
         return $ub;
  }
+ 
+ //update the serial numbers of testimonials 
+  function updateserialnum($testimonialid,$context){
+      global $DB,$USER;
+      
+      $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonialid");
+        if (has_capability('mod/testimonial:isstudent', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
+          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonialid");
+        }
+            $sno=0;
+            
+          foreach ($queryall as $value) { 
+             $vid = $value->id;
+             $rowscount = $value->rowscount;
+                if($vid%2!=0){
+                    $sno++;
+                }
+             $update = new stdclass;
+                  $update->id = $vid;
+                  $update->rowscount = $sno;
+             $lastupdate=$DB->update_record('testimonial_videos', $update);
+          }
+      
+  }

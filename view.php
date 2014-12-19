@@ -108,24 +108,9 @@ if(isset($postback)){
     $_SESSION['flip']=1;
 }
 
- //updating serial numbers of each record into table
-        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
-        if (has_capability('mod/testimonial:isstudent', $context) && !has_capability('mod/testimonial:isadmin', $context)) {
-          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
-        }
-            $sno=0;
-            
-          foreach ($queryall as $value) { 
-             $vid = $value->id;
-             $rowscount = $value->rowscount;
-                if($vid%2!=0){
-                    $sno++;
-                }
-             $update = new stdclass;
-                  $update->id = $vid;
-                  $update->rowscount = $sno;
-             $lastupdate=$DB->update_record('testimonial_videos', $update);
-          }
+  //calling function for updating serial numbers of each record into table
+  updateserialnum($testimonial->id,$context);
+
 
 //display the testimonial live recording page
 if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) || isset($id))) && $_SESSION['flip']==1){
@@ -169,12 +154,18 @@ $table = new html_table();
           if (has_capability('mod/testimonial:record', $context)) {
             $recordbutt= html_writer::empty_tag('input', array('type' => 'submit','name'=>'record', 'value' => get_string('record','testimonial'),'id'=>'record', 'class'=>'recordbutton'));
           }
+          else{
+              $recordbutt='';
+          }
           //stop button
             $stopbutt= html_writer::empty_tag('input', array('type' => 'button','name'=>'stop', 'value' => get_string('stop','testimonial'),'id'=>'stop', 'class'=>'stopbutton','disabled'=>'disabled' ));
 
            //recent testimonial deletion button
           if (has_capability('mod/testimonial:deleterecent', $context)) {
              $deleterecent= html_writer::empty_tag('input', array('type' => 'button','name'=>'delete', 'value' => get_string('deletefiles','testimonial'),'id'=>'delete', 'class'=>'deletefilesbutton','disabled'=>'disabled' ));
+          }
+          else{
+             $deleterecent=''; 
           }
 
           $recpaneltable[]= $recordbutt.$stopbutt.$deleterecent;
@@ -210,24 +201,9 @@ $table = new html_table();
       echo '<script>window.uniqueId ='.$id.'; </script>';
       $PAGE->requires->js('/mod/testimonial/js/record2.js');		
       
-        //updating serial numbers of each record into table
-        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
-        if (has_capability('mod/testimonial:isstudent', $context) && !has_capability('mod/testimonial:isadmin', $context)) {
-          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
-        }
-            $sno=0;
-            
-          foreach ($queryall as $value) { 
-             $vid = $value->id;
-             $rowscount = $value->rowscount;
-                if($vid%2!=0){
-                    $sno++;
-                }
-             $update = new stdclass;
-                  $update->id = $vid;
-                  $update->rowscount = $sno;
-             $lastupdate=$DB->update_record('testimonial_videos', $update);
-          }
+        //calling function for updating serial numbers of each record into table
+        updateserialnum($testimonial->id,$context);
+        
    
  }
 
@@ -306,26 +282,9 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
         }
        
     }
-     
-    //updating serial numbers of each record into table
-        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
-        if (has_capability('mod/testimonial:isstudent', $context) && !has_capability('mod/testimonial:isadmin', $context)) {
-          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
-        }
-            $sno=0;
-            
-          foreach ($queryall as $value) { 
-             $vid = $value->id;
-             $rowscount = $value->rowscount;
-                if($vid%2!=0){
-                    $sno++;
-                }
-             $update = new stdclass;
-                  $update->id = $vid;
-                  $update->rowscount = $sno;
-             $lastupdate=$DB->update_record('testimonial_videos', $update);
-          }
-         
+     //calling function for updating serial numbers of each record into table
+        updateserialnum($testimonial->id,$context);
+        
       //select no. of records per page    
        $pagestart= ($page*10)+1;
        $endpage= $pagestart+10-1;
@@ -348,7 +307,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
       
       
    if(!$query || !$queryall){
-            if (has_capability('mod/testimonial:isstudent', $context) && !has_capability('mod/testimonial:isadmin', $context)) {
+            if (has_capability('mod/testimonial:isstudent', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
               echo html_writer::start_tag('form', array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
               echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton'));
               echo get_string('printrecordtestimoniallikeque', 'testimonial');
@@ -370,7 +329,6 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              $table->rowclasses = array();
              $table->size=array();
              $table->data = array();
-            
 
              $table->size[] = '180px';
              $table->align[] = 'left';
@@ -433,7 +391,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             
           $table->data[] =$stattable;
              
-           if (has_capability('mod/testimonial:isstudent', $context) && !has_capability('mod/testimonial:isadmin', $context)) { 
+           if (has_capability('mod/testimonial:isstudent', $context) && !(has_capability('mod/testimonial:isadmin', $context))) { 
                
               $stattable=array();
               $stattable[]=get_string('studentimetext', 'testimonial');
@@ -452,7 +410,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              
              $stattable[]=get_string('testimonialstore', 'testimonial');
              
-             if (has_capability('mod/testimonial:isstudent', $context) && !has_capability('mod/testimonial:isadmin', $context)) {
+             if (has_capability('mod/testimonial:isstudent', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
                  //button for new testimonial recording
                 $stattable[]= html_writer::tag('form',html_writer::empty_tag('input', 
                 array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton2')),
@@ -465,6 +423,25 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             
         echo html_writer::table($table);
         
+       //delete/select heading display till time limit 
+        $showdelete=false;
+        $showselect=false;
+        foreach ($query as $value) { 
+            $datetime = $value->datetime;
+
+            $timelimit= $datetime+$studenttime;
+            $expire = date($timelimit);
+            $current = date(time());
+            
+           if(($expire > $current)){  
+              if(has_capability('mod/testimonial:isstudent', $context) && (isset($studenttime)) && !(has_capability('mod/testimonial:isadmin', $context))){  
+               $showdelete=TRUE;
+              }
+            }
+           else{
+              $showselect=TRUE;
+           }
+        }
      
     echo html_writer::start_tag('form', array('method' => 'post', 'action' => '','id'=>'frm1'));
     echo html_writer::start_tag('div', array('id'=>'storetable'));
@@ -498,12 +475,14 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
             $table->size[] = '400px';
             $table->align[] = 'left';
             
-           if(has_capability('mod/testimonial:isadmin', $context) || (has_capability('mod/testimonial:isteacher', $context) && $teacherdelete)){ 
+           
+           if(has_capability('mod/testimonial:isadmin', $context) || (has_capability('mod/testimonial:isteacher', $context) && $teacherdelete && $showselect)){ 
               $table->head[] = 'Select';
               $table->align[] = 'center';
+           
            }
-           if(has_capability('mod/testimonial:isstudent', $context) && (isset($studenttime)) && !has_capability('mod/testimonial:isadmin', $context)){ 
-             if(!$studenttime==0){  
+           if(has_capability('mod/testimonial:isstudent', $context) && (isset($studenttime)) && !(has_capability('mod/testimonial:isadmin', $context))){ 
+             if($showdelete){  
               $table->head[] = 'Delete';
               $table->align[] = 'center';
              }
@@ -553,12 +532,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                
             
                 $timelimit= $datetime+$studenttime;
-               // $expire = date("Y-m-d H:i:s", $timelimit);
                 $expire = date($timelimit);
                 $current = date(time());
                
-                if(has_capability('mod/testimonial:isstudent', $context) && $char=='mbew' && (isset($studenttime)) && !has_capability('mod/testimonial:isadmin', $context)){ 
-                     
+                if(has_capability('mod/testimonial:isstudent', $context) && $char=='mbew' && (isset($studenttime)) && !(has_capability('mod/testimonial:isadmin', $context))){ 
                     if(($expire > $current)){  
                         //individual deletion for student only
                         $delurl = new moodle_url("view.php?id={$cm->id}&vidname=$videoids");
@@ -588,7 +565,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                  
         }
              
-        if(has_capability('mod/testimonial:isadmin', $context) || (has_capability('mod/testimonial:isteacher', $context) && $teacherdelete) ){
+        if(has_capability('mod/testimonial:isadmin', $context) || (has_capability('mod/testimonial:isteacher', $context) && $teacherdelete && $showselect) ){
             $dataarr=array();
             $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=get_string('selectall', 'testimonial');;
             $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall','onclick'=>'checkedAll(frm1)','id'=>'checkall'));//checkbox for select all
@@ -600,7 +577,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
      
        //multiple delete button
        if (has_capability('mod/testimonial:deletemultiple', $context)) {
-            if(has_capability('mod/testimonial:isadmin', $context) || (has_capability('mod/testimonial:isteacher', $context) && $teacherdelete)){
+            if(has_capability('mod/testimonial:isadmin', $context) || (has_capability('mod/testimonial:isteacher', $context) && $teacherdelete && $showselect)){
               echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','testimonial'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
             }
         } 
