@@ -126,7 +126,7 @@
                      var legalBufferValues = [256, 512, 1024, 2048, 4096, 8192, 16384];
                     // sample-rates in at least the range 22050 to 96000.
                     recordAudio = RecordRTC(stream, {
-                        bufferSize: 1024,
+                        bufferSize: 4096,
                         sampleRate: 45000,
                         onAudioProcessStarted: function() {
                             if(!isFirefox) {
