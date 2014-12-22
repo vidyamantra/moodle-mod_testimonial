@@ -113,7 +113,7 @@ if(isset($postback)){
 
 
 //display the testimonial live recording page
-if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($_POST['back'])) || isset($id))) && $_SESSION['flip']==1){
+if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($postback)) || isset($id))) && $_SESSION['flip']==1){
 
   if(checkBrowser()!='chrome'){
       echo html_writer::start_tag('div', array('class'=>'alert alert-error'));
