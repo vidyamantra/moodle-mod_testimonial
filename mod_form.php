@@ -37,7 +37,7 @@ class mod_testimonial_mod_form extends moodleform_mod {
      */
     public function definition() {
         
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
         
         $mform = $this->_form;
         $config = get_config('page');
@@ -54,9 +54,6 @@ class mod_testimonial_mod_form extends moodleform_mod {
             $mform->setType('name', PARAM_CLEAN);
          }
          
-       //  $mform->addRule('name', null, 'required', null, 'client');
-      //  $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-     //   $this->add_intro_editor($config->requiremodintro);
          
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
@@ -65,38 +62,17 @@ class mod_testimonial_mod_form extends moodleform_mod {
          $this->add_intro_editor();
          $mform->addHelpButton('introeditor', 'introeditor', 'testimonial');
         //-------------------------------------------------------------------------------
-        // Adding the "additional" fieldset, where all the additional settings are showed   
-         $mform->addElement('header', 'additional', get_string('additional', 'testimonial'));
-        // Adding the standard "select" field
-         
-     //    $hours=array();
-     //    $hours[0]="Time in hours";
-     //     for($counthr=1;$counthr<=24;$counthr++){
-     //        $hours[$counthr]="$counthr";
-     //     }
-     //   $options = $hours;
-        
-        
-     //   $minutes=array();
-     //    $minutes[0]="Time in minutes";
-      //    for($countmin=1;$countmin<=60;$countmin++){
-     //       $minutes[$countmin]="$countmin";
-      //    }
-     //   $optionsmin = $minutes;
-            
-         
-       // $select = $mform->addElement('select', 'studenttime', get_string('studenttime', 'testimonial'), $options);
-      //  $select = $mform->addElement('select', 'studenttimemin', get_string('studenttime2', 'testimonial'), $optionsmin);
-        
-        $select = $mform->addElement('duration', 'studenttime', get_string('studenttime', 'testimonial'),
-                                                         array('optional' => true));
-        
-        
+       
+       if (isadmin()) {  
+       // Adding the "additional" fieldset, where all the additional settings are showed   
+        $mform->addElement('header', 'additional', get_string('additional', 'testimonial'));
+        //Additional settings  
+        $select = $mform->addElement('duration', 'studenttime', get_string('studenttime', 'testimonial'), array('optional' => true));
         $mform->addHelpButton('studenttime','studenttime', 'testimonial');
-       //  $mform->addHelpButton('introeditor', 'introeditor', 'testimonial');
         // This will select the time in hours.
         $mform->addElement('advcheckbox', 'teacherdelete', get_string('teacherdelete', 'testimonial'), 'Yes', array('group' => 1), array(0, 1));
         $mform->addHelpButton('teacherdelete','teacherdelete', 'testimonial');
+       }
         //-------------------------------------------------------------------------------
         // Adding the rest of testimonial settings, spreeading all them into this fieldset
         // or adding more fieldsets ('header' elements) if needed for better logic

@@ -151,22 +151,22 @@ $table = new html_table();
           $recpaneltable[]=get_string('testirecording','testimonial');
 
           //record button
-         // if (has_capability('mod/testimonial:record', $context)) {
+          if (has_capability('mod/testimonial:record', $context)) {
             $recordbutt= html_writer::empty_tag('input', array('type' => 'submit','name'=>'record', 'value' => get_string('record','testimonial'),'id'=>'record', 'class'=>'recordbutton'));
-        //  }
-        //  else{
-        //      $recordbutt='';
-        //  }
+          }
+          else{
+              $recordbutt='';
+          }
           //stop button
             $stopbutt= html_writer::empty_tag('input', array('type' => 'button','name'=>'stop', 'value' => get_string('stop','testimonial'),'id'=>'stop', 'class'=>'stopbutton','disabled'=>'disabled' ));
 
            //recent testimonial deletion button
-         // if (has_capability('mod/testimonial:deleterecent', $context)) {
+          if (has_capability('mod/testimonial:deleterecent', $context)) {
              $deleterecent= html_writer::empty_tag('input', array('type' => 'button','name'=>'delete', 'value' => get_string('deletefiles','testimonial'),'id'=>'delete', 'class'=>'deletefilesbutton','disabled'=>'disabled' ));
-         // }
-        //  else{
-         //    $deleterecent=''; 
-         // }
+          }
+          else{
+            $deleterecent=''; 
+         }
 
           $recpaneltable[]= $recordbutt.$stopbutt.$deleterecent;
           $recpaneltable[]='';

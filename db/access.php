@@ -109,7 +109,7 @@ $capabilities = array(
     /**
      * define capability for record new testimonial
      */
-    /*
+    
     'mod/testimonial:record' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
@@ -126,7 +126,7 @@ $capabilities = array(
     /**
      * define capability for recent deletion
      */
-    /*
+    
     'mod/testimonial:deleterecent' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
