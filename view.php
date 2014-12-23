@@ -309,8 +309,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
    if(!$query || !$queryall){
             if (has_capability('mod/testimonial:isstudent', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
               echo html_writer::start_tag('form', array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
+              echo html_writer::start_tag('div', array('class'=>'alert alert-success'));
+                echo get_string('printrecordtestimoniallikeque', 'testimonial');
+              echo html_writer::end_tag('div');
               echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton'));
-              echo get_string('printrecordtestimoniallikeque', 'testimonial');
               echo html_writer::end_tag('form');
            }
            else if ((has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) ) {

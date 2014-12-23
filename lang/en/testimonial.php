@@ -89,7 +89,7 @@ $string['studenttime']=" Student's duration for deletion ";
 $string['studenttime_help']=" Select the time duration in hours/minutes so it will bound the student for deleting the testimonial files under the time limit constraints ";
 $string['teacherdelete']=" Teacher can delete testimonials ";
 $string['teacherdelete_help']=" check/uncheck the box provides the permission to teacher for deleting testimonials ";
-$string['printrecordtestimoniallikeque']=" * Record testimonials based on provided questions ";
+$string['printrecordtestimoniallikeque']=" * Please record new testimonials based on provided questions ";
 $string['usechrome']=" * Please use chrome browser for recording and watching ";
 
 
