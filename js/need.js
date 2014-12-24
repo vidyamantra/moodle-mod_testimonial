@@ -69,6 +69,7 @@ muteButton.addEventListener("click", function() {
     audio.muted=true;
     // Update the button text
     muteButton.value = "Unmute";
+    volumeBar.disabled = true;
   } 
   
     else {
@@ -76,6 +77,7 @@ muteButton.addEventListener("click", function() {
     audio.muted=false;
     // Update the button text
     muteButton.value = "Mute";
+    volumeBar.disabled = false;
   }
 });
 
