@@ -27,12 +27,8 @@ defined('MOODLE_INTERNAL') || die();
 
 global $DB;
 $logs = array(
-    array('module'=>'testimonial', 'action'=>'add', 'mtable'=>'testimonial', 'field'=>'name'),
-    array('module'=>'testimonial', 'action'=>'update', 'mtable'=>'testimonial', 'field'=>'name'),
     array('module'=>'testimonial', 'action'=>'view', 'mtable'=>'testimonial', 'field'=>'name'),
     array('module'=>'testimonial', 'action'=>'view all', 'mtable'=>'testimonial', 'field'=>'name'),
-    array('module'=>'testimonial', 'action'=>'add', 'mtable'=>'testimonial_videos', 'field'=>'name'),
-    array('module'=>'testimonial', 'action'=>'update', 'mtable'=>'testimonial_videos', 'field'=>'name'),
-    array('module'=>'testimonial', 'action'=>'view', 'mtable'=>'testimonial_videos', 'field'=>'name'),
-    array('module'=>'testimonial', 'action'=>'view all', 'mtable'=>'testimonial_videos', 'field'=>'name')
+    array('module'=>'testimonial', 'action'=>'add', 'mtable'=>'testimonial', 'field'=>'name'),
+    array('module'=>'testimonial', 'action'=>'update', 'mtable'=>'testimonial', 'field'=>'name')
 );

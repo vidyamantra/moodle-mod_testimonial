@@ -64,10 +64,41 @@ class restore_testimonial_activity_task extends restore_activity_task {
 
         $rules[] = new restore_decode_rule('TESTIMONIALVIEWBYID', '/mod/testimonial/view.php?id=$1', 'course_module');
         $rules[] = new restore_decode_rule('TESTIMONIALINDEX', '/mod/testimonial/index.php?id=$1', 'course');
+        $rules[] = new restore_decode_rule('TESTIMONIALVIEWBYU', '/mod/testimonial/view.php?u=$1', 'testimonial');
 
         return $rules;
 
     }
+    
+      /**
+     * Define the restore log rules that will be applied
+     * by the {@link restore_logs_processor} when restoring
+     * url logs. It must return one array
+     * of {@link restore_log_rule} objects
+     */
+    static public function define_restore_log_rules() {
+        $rules = array();
+
+        $rules[] = new restore_log_rule('testimonial', 'view', 'view.php?id={course_module}', '{testimonial}');
+        $rules[] = new restore_log_rule('testimonial', 'viewall', 'view.php?id={course_module}', '{testimonial}');
+        $rules[] = new restore_log_rule('testimonial', 'add', 'view.php?id={course_module}', '{testimonial}');
+        $rules[] = new restore_log_rule('testimonial', 'update', 'view.php?id={course_module}', '{testimonial}');
+        
+
+        return $rules;
+    }
+    
+    
+    /**
+     * Define the restore log rules that will be applied
+     * by the {@link restore_logs_processor} when restoring
+     * course logs. It must return one array
+     * of {@link restore_log_rule} objects
+     *
+     * Note this rules are applied when restoring course logs
+     * by the restore final task, but are defined here at
+     * activity level. All them are rules not linked to any module instance (cmid = 0)
+     */
     static public function define_restore_log_rules_for_course() {
         $rules = array();
 

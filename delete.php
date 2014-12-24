@@ -51,7 +51,6 @@ if (isset($_POST['delete-file'])) {
       
             if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$fileid)))){  
                  $DB->delete_records('testimonial_videos', array ('id'=> $fileid));
-                 echo "Sorry, Video had been currupted and did not store on server<br /><br/>";
              }
             else{
                 //delete files from moodle database
@@ -61,7 +60,6 @@ if (isset($_POST['delete-file'])) {
                 $vid=$DB->delete_records('testimonial_videos', array ('id'=> $fileid));
              }
      } 
-    
     echo get_string('successdelrecent','testimonial'); 
   }
 ?>

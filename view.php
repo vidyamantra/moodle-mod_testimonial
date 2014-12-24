@@ -151,7 +151,7 @@ $table = new html_table();
           $recpaneltable[]=get_string('testirecording','testimonial');
 
           //record button
-          if (has_capability('mod/testimonial:record', $context)) {
+          if(has_capability('mod/testimonial:record', $context)){
             $recordbutt= html_writer::empty_tag('input', array('type' => 'submit','name'=>'record', 'value' => get_string('record','testimonial'),'id'=>'record', 'class'=>'recordbutton'));
           }
           else{
@@ -267,10 +267,10 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                }
            }
            
-            if (has_capability('mod/testimonial:isadmin', $context)) {
-                     echo html_writer::start_tag('div', array('class'=>'alert alert-success'));
-                      echo get_string('deleteprint', 'testimonial');
-                     echo html_writer::end_tag('div');
+            if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {
+                  echo html_writer::start_tag('div', array('class'=>'alert alert-success'));
+                  echo get_string('deleteprint', 'testimonial');
+                  echo html_writer::end_tag('div');
              }
     
         }
@@ -307,7 +307,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
       
       
    if(!$query || !$queryall){
-            if (has_capability('mod/testimonial:isstudent', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
+           if (has_capability('mod/testimonial:record', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
               echo html_writer::start_tag('form', array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
               echo html_writer::start_tag('div', array('class'=>'alert alert-success'));
                 echo get_string('printrecordtestimoniallikeque', 'testimonial');
@@ -350,7 +350,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
              $totaltesti=round($tt/2);
              $stattable[]= $totaltesti;
             
-          if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {
+          if ((has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context))) {
              $table->data[] =$stattable;
               
              $stattable=array();

@@ -24,7 +24,12 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
+/**
+ * 
+ * @param type $itemid
+ * @param type $filename
+ * @param type $contextid
+ */
  function fileDeletion($itemid,$filename,$contextid){
     $fs = get_file_storage();
     // Prepare file record object

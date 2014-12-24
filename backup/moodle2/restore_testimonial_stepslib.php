@@ -36,8 +36,8 @@ class restore_testimonial_activity_structure_step extends restore_activity_struc
 
         $paths = array();
         $userinfo = $this->get_setting_value('userinfo');
-        $paths[] = new restore_path_element('testimonial', '/activity/testimonial/testimonial');
-        $paths[] = new restore_path_element('testimonial_videos', '/activity/testimonial/testimonial_videos');
+        $paths[] = new restore_path_element('testimonial', '/activity/testimonial');
+        $paths[] = new restore_path_element('testimonial_video', '/activity/testimonial/videos/video');
        
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
@@ -60,16 +60,17 @@ class restore_testimonial_activity_structure_step extends restore_activity_struc
         $this->apply_activity_instance($newitemid);
     }
 
-    protected function process_testimonial_videos($data) {
+    protected function process_testimonial_video($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->user_id = $this->get_new_parentid('testimonial');
+        $data->testimonial_id = $this->get_new_parentid('testimonial');
+       // $data->user_id = $this->get_mappingid('user', $data->userid);
 
         $newitemid = $DB->insert_record('testimonial_videos', $data);
-        $this->set_mapping('testimonial_videos', $oldid, $newitemid);
+        $this->set_mapping('testimonial_video', $oldid, $newitemid);
     }
 
 
