@@ -37,8 +37,9 @@ class restore_testimonial_activity_structure_step extends restore_activity_struc
         $paths = array();
         $userinfo = $this->get_setting_value('userinfo');
         $paths[] = new restore_path_element('testimonial', '/activity/testimonial');
-        $paths[] = new restore_path_element('testimonial_video', '/activity/testimonial/videos/video');
-       
+        if ($userinfo) {
+         $paths[] = new restore_path_element('testimonial_video', '/activity/testimonial/videos/video');
+        }
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
     }

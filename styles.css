@@ -69,6 +69,10 @@ height: 10px; width: 15%;
 border: 1px solid rgb(15, 158, 238); height: 90%; width: 95%;
 }
 
+#page-mod-testimonial-view .paging{
+width: 80%;
+}
+
 /*
 
 #page-mod-testimonial-view  table.datatable {

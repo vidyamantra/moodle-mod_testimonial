@@ -72,48 +72,45 @@ $completion->set_module_viewed($cm);
 
 // Output starts here                         
 echo $OUTPUT->header();
-
-$heading = $OUTPUT->heading(format_string($testimonial->name), 3, null);
+//Heading display
+$heading=$OUTPUT->heading(format_string($testimonial->name), 3, null);
 echo $heading;
 
-if ($testimonial->intro) { // Conditions to show the intro can change to look for own settings or whatever
- $question= $OUTPUT->box(format_module_intro('testimonial', $testimonial, $cm->id), 'generalbox mod_introbox', 'testimonialintro'); 
-}
-else{
- $question = " Sorry no question/dscription "; 
-}
+//Question/description asked by teacher/admin
+$question= $OUTPUT->box(format_module_intro('testimonial', $testimonial, $cm->id), 'generalbox mod_introbox', 'testimonialintro'); 
 echo $question;
-$studenttime = $testimonial->studenttime;
 
+//student time duration for deletion
+$studenttime = $testimonial->studenttime;
+//teacher can delete
 $teacherdelete = $testimonial->teacherdelete;
 $totalpages='';
 
 $PAGE->requires->js('/mod/testimonial/js/record.js');
 
-$_SESSION['flip']=0;
-
 //get all submit values into variables
 $postdatabase= optional_param('database', null, PARAM_RAW);
-$postdelete= optional_param('delete', null, PARAM_RAW);
-$postback= optional_param('back', null, PARAM_RAW);
+//$postdelete= optional_param('delete', null, PARAM_RAW);
+//$postback= optional_param('back', null, PARAM_RAW);
 $getvidname= optional_param('vidname', null, PARAM_RAW);
+$getrecord= optional_param('action', null, PARAM_TEXT);
 
-if(isset($postdatabase)){
-    $_SESSION['flip']=0;
-}
-if(isset($postdelete)){
-    $_SESSION['flip']=0;
-}
-if(isset($postback)){
-    $_SESSION['flip']=1;
-}
+//if(isset($postdatabase)){
+//    $_SESSION['flip']=0;
+//}
+//if(isset($postdelete)){
+//    $_SESSION['flip']=0;
+//}
+//if(isset($postback)){
+//    $_SESSION['flip']=1;
+//}
 
   //calling function for updating serial numbers of each record into table
   updateserialnum($testimonial->id,$context);
 
 
 //display the testimonial live recording page
-if(((!isset($postdatabse)) && (!isset($postdelete)) && ((isset($postback)) || isset($id))) && $_SESSION['flip']==1){
+if(!isset($postdatabse) && isset($getrecord)){
 
   if(checkBrowser()!='chrome'){
       echo html_writer::start_tag('div', array('class'=>'alert alert-error'));
@@ -193,7 +190,7 @@ $table = new html_table();
           echo html_writer::table($table);
                $url = new moodle_url('');
                //button for previous testimonial store page
-               $backtostore= html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','testimonial'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => ''));
+               $backtostore= html_writer::tag('form',html_writer::empty_tag('input', array('type' => 'submit','name'=>'database', 'value' => get_string('store','testimonial'),'id'=>'store', 'class'=>'databasesbutton')), array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
           
            echo $backtostore;
            
@@ -202,13 +199,11 @@ $table = new html_table();
       $PAGE->requires->js('/mod/testimonial/js/record2.js');		
       
         //calling function for updating serial numbers of each record into table
-        updateserialnum($testimonial->id,$context);
-        
-   
+      updateserialnum($testimonial->id,$context);
  }
 
 //display main page or testimonial records page, firstly 
-if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !isset($postback)) && ($_SESSION['flip']==0)){
+if((isset($postdatabase) || (isset($getvidname)))  || (isset($id) && !isset($getrecord))){
     
      echo $OUTPUT->heading(get_string('subheading', 'testimonial'), 4, null);
         $page = optional_param('page', 0, PARAM_INT); 
@@ -251,7 +246,6 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                        $DB->delete_records('testimonial_videos', array ('id'=> $itemid));
                        $DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
                     }
-
                  else{
                      //deletion from moodle directory structure
                        fileDeletion($itemid,$itemname,$context->id);
@@ -262,25 +256,19 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                        $vid=$DB->delete_records('testimonial_videos', array ('id'=> $itemid));
                         $aid=$DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
                     }
-                    
-                   
                }
            }
-           
             if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {
                   echo html_writer::start_tag('div', array('class'=>'alert alert-success'));
                   echo get_string('deleteprint', 'testimonial');
                   echo html_writer::end_tag('div');
              }
-    
         }
-              
        else{
            echo html_writer::start_tag('div', array('class'=>'alert alert-error'));
             echo get_string('selectfile', 'testimonial');
            echo html_writer::end_tag('div');
         }
-       
     }
      //calling function for updating serial numbers of each record into table
         updateserialnum($testimonial->id,$context);
@@ -308,7 +296,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
       
    if(!$query || !$queryall){
            if (has_capability('mod/testimonial:record', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
-              echo html_writer::start_tag('form', array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
+              echo html_writer::start_tag('form', array('method' => 'post', 'action' => "view.php?id={$cm->id}&action=record"));
               echo html_writer::start_tag('div', array('class'=>'alert alert-success'));
                 echo get_string('printrecordtestimoniallikeque', 'testimonial');
               echo html_writer::end_tag('div');
@@ -416,7 +404,7 @@ if(((isset($postdatabse)) || (isset($postdelete))  || (isset($getvidname))  || !
                  //button for new testimonial recording
                 $stattable[]= html_writer::tag('form',html_writer::empty_tag('input', 
                 array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton2')),
-                array('method' => 'post', 'action' => "view.php?id={$cm->id}"));
+                array('method' => 'post', 'action' => "view.php?id={$cm->id}&action=record"));
               }
              else{
                  $stattable[]='';

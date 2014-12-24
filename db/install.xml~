@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/assign/feedback/poodllme/db" VERSION="20130412" COMMENT="XMLDB file for Moodle mod/assign/feedback/poodllme"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="assignfeedback_poodllme" COMMENT="Stores info about the number of files submitted by a student.">
+      <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="name"/>
+            <FIELD NAME="name" TYPE="text" LENGTH="30" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="url"/>
+            <FIELD NAME="url" TYPE="text" LENGTH="100" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="name"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Unique id for this feedback value."/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
+
