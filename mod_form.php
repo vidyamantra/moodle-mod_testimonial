@@ -1,4 +1,4 @@
-<?php
+0<?php
 
 // This file is part of Moodle - http://moodle.org/
 //
@@ -57,7 +57,7 @@ class mod_testimonial_mod_form extends moodleform_mod {
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
        
         // Adding the standard "intro" and "introformat" fields
-         $this->add_intro_editor('required');
+         $this->add_intro_editor('required','Question');
          $mform->addHelpButton('introeditor', 'introeditor', 'testimonial');
         //-------------------------------------------------------------------------------
        

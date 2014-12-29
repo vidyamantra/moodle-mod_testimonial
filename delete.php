@@ -27,7 +27,6 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 require_once(dirname(__FILE__).'/locallib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
-global $DB,$USER;
 
 $id = optional_param('cmid', 0, PARAM_INT);
 if ($id) {
@@ -38,11 +37,11 @@ if ($id) {
 
 $context = context_module::instance($id);
 $files=array();
-if (isset($_POST['delete-file'])) {
-  
+$postfiles=optional_param('delete-file', null, PARAM_TEXT);
+
+if (isset($postfiles)) {
     //get an array of consecutive files for deletion
-    $fiesstr= $_POST['delete-file'];
-    $files=explode(',',$_POST['delete-file']);
+    $files=explode(',',$postfiles);
     
     foreach ($files as $value) {
       $file=$value;

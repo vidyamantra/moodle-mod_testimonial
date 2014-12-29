@@ -82,13 +82,15 @@ $string['uploading']=" Uploading process ";
 $string['successdelrecent']=" Successfully deleted all consecutive recent files ";
 $string['youwatching']=" * Click on play button for watching testimonial : ";
 $string['introeditor']=" write description/question ";
-$string['introeditor_help']=" You can write testimonial question/description for student ";
+$string['introeditor_help']=" Here teacher/admin can ask any question/description to student as testimonial ";
 $string['studenttime']=" Student's duration for deletion ";
 $string['studenttime_help']=" Select the time duration in hours/minutes so it will bound the student for deleting the testimonial files under the time limit constraints ";
 $string['teacherdelete']=" Teacher can delete testimonials ";
 $string['teacherdelete_help']=" check/uncheck the box provides the permission to teacher for deleting testimonials ";
 $string['printrecordtestimoniallikeque']=" * Please record new testimonials based on provided questions ";
-$string['usechrome']=" * Please use chrome browser for recording and watching ";
+$string['usechromerecord']=" * Please use chrome browser for recording ";
+$string['usechromewatch']=" * Please use chrome browser for better controls ";
+$string['untitled']="Untitled testimonial";
 
 
 

@@ -26,31 +26,24 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
-global $DB,$USER;
-$id = optional_param('cmid', 0, PARAM_INT);
 
+$id = optional_param('cmid', 0, PARAM_INT);
 if ($id) {
     $cm         = get_coursemodule_from_id('testimonial', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
     $testimonial  = $DB->get_record('testimonial', array('id' => $cm->instance), '*', MUST_EXIST);
 } 
-
 $context = context_module::instance($cm->id);
 
-if($testimonial->intro) { // Conditions to show the intro can change to look for own settings or whatever
-   $question= $testimonial->intro;
-}
-else{
-   $question = " Sorry no question/dscription "; 
-}
+ // Conditions to show the intro can change to look for own settings or whatever
+ $question= $testimonial->intro;
 
  $videotitle= optional_param('vtitle', null, PARAM_RAW);
  if(strcmp($videotitle, '[object HTMLInputElement]')==0){
-    $videotitle="Untitled testimonial";
+    $videotitle=get_string('untitled', 'testimonial');;
  }
-   
-  $result=$DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id, 'user_id' =>$USER->id));
-  $replycount=(int)floor($result/2);     
+ $result=$DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id, 'user_id' =>$USER->id));
+ $replycount=(int)floor($result/2);     
   
  $rowscount=$DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id));
   
@@ -60,7 +53,6 @@ else{
 foreach(array('video', 'audio') as $type) {
     if (isset($_FILES["${type}-blob"])) {
     
-        
        $uploaded_file_path = $_FILES["${type}-blob"]["tmp_name"];  // temp path to the actual file
         $filename = $_POST["${type}-filename"];                // the original (human readable) filename
         
@@ -73,8 +65,7 @@ foreach(array('video', 'audio') as $type) {
            $record->question = $question;
            $record->datetime = time();
          
-           $lastinsertid = $DB->insert_record('testimonial_videos', $record, false);
-
+         $lastinsertid = $DB->insert_record('testimonial_videos', $record, false);
 
          $sql='SELECT id FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?';    
          $mediaid = $DB->get_field_sql($sql, array($filename,$testimonial->id));
@@ -89,7 +80,7 @@ foreach(array('video', 'audio') as $type) {
             'filename' => "$filename");       // virtual filename
 
         $file_storage = get_file_storage();
-        //chaeck file exist or not
+        //check file exist or not
         if ($file_storage->file_exists($fileinfo['contextid'],
                              $fileinfo['component'],
                              $fileinfo['filearea'],
@@ -99,22 +90,19 @@ foreach(array('video', 'audio') as $type) {
 
         $file = $file_storage->create_file_from_pathname($fileinfo, $uploaded_file_path);
 
-         $midint= (int)$mediaid;
-         $url=get_testimonial_doc_url($midint);
-         $url1="$url";
+         $url=get_testimonial_doc_url((int)$mediaid);
+       // $url1="$url";
 
          //update the testimonial_videos table with url
          $update = new stdclass;
             $update->id = $mediaid;
-            $update->url = $url1;
+            $update->url = "$url";
             $update->replycount = $replycount;
             $update->rowscount = $rowscount;
             
          $lastupdate=$DB->update_record('testimonial_videos', $update);
      }
  }
-
-
     $eventdata1 = array();
     $eventdata1['context'] = $context;
     $eventdata1['objectid'] = $mediaid;
@@ -126,7 +114,6 @@ foreach(array('video', 'audio') as $type) {
     $event->add_record_snapshot('course_modules', $cm);
     $event->trigger();  
 
-  
       if($completion->is_enabled($cm) && $testimonial->completionrecord) {
          $completion->update_state($cm,COMPLETION_COMPLETE);
      }
