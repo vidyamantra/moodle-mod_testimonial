@@ -36,7 +36,6 @@ $capabilities = array(
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         ),
         'clonepermissionsfrom' => 'moodle/course:manageactivities'
@@ -54,25 +53,10 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
-   
-    /**
-     * define capability for multiple deletion
-     */
-    'mod/testimonial:deletemultiple' => array(
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'student' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
      /**
      * define capability for admin queries
      */
-    'mod/testimonial:isadmin' => array(
+    'mod/testimonial:manage' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -80,11 +64,10 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
-    
     /**
      * define capability for student queries
      */
-    'mod/testimonial:isstudent' => array(
+    'mod/testimonial:preview' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -93,11 +76,10 @@ $capabilities = array(
             'teacher' => CAP_ALLOW
         )
     ),
-    
      /**
      * define capability for teacher queries
      */
-    'mod/testimonial:isteacher' => array(
+    'mod/testimonial:multipledelete' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -108,7 +90,6 @@ $capabilities = array(
     /**
      * define capability for record new testimonial
      */
-    
     'mod/testimonial:record' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
@@ -117,23 +98,18 @@ $capabilities = array(
             'student' => CAP_ALLOW
         )
     ),
-  
     
     /**
      * define capability for recent deletion
      */
-    
     'mod/testimonial:deleterecent' => array(
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
-            'student' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
+            'student' => CAP_ALLOW
         )
-    ), 
+    ),
     
 //******************************/
 );

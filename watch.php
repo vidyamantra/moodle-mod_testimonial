@@ -73,18 +73,18 @@ echo $OUTPUT->header();
            }
         echo html_writer::start_tag('div', array('class'=>'youwatching','align'=>'center'));
            
-            $table=createtable();
+            $table=create_table();
                   $table->size[] = '150px';
                   $table->size[] = '600px';
                   $table->size[] = '100px';
              
-                  $watchtable=array();
+                   $watchtable=array();
                   //close window icon
                  // $closewindow = html_writer::link("javascript:window.close()",
                  //                    html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/close'),'class'=>'icon'),
                  //                    array('class'=>'watch','id' => 'close')));
                   
-                   $watchtable[]=''; $watchtable[]=get_string('youwatching','testimonial').$title; $watchtable[]='';
+                    $watchtable[]=''; $watchtable[]=get_string('youwatching','testimonial').html_writer::start_tag('span', array('class'=>'mainheading')).$title.html_writer::end_tag('span'); $watchtable[]='';
 
                     $table->data[]=$watchtable;
                     $watchtable=array();
@@ -100,7 +100,7 @@ echo $OUTPUT->header();
                      $watchtable=array();
                      
                          $controls= html_writer::empty_tag('input', array('type' => 'button','value' => 'Play','id'=>'play-pause', 'class'=>'watch2'));//play button
-                         $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar'));//play seek bar
+                         $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar','value'=>0));//play seek bar
                          $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'button','value' => 'Replay','id'=>'replay', 'class'=>'watch2'));//replay button
                          $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('mutewatch','testimonial'),'id'=>'mute', 'class'=>'watch2'));//mute button
                          $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'range', 'id'=>'volume-bar', 'class'=>'watchbarmute', 'min'=>'0', 'max'=>'1','step'=>'0.1', 'value'=>'1'));//mute bar

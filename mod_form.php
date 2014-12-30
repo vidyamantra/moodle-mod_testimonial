@@ -1,4 +1,4 @@
-0<?php
+<?php
 
 // This file is part of Moodle - http://moodle.org/
 //
@@ -61,7 +61,8 @@ class mod_testimonial_mod_form extends moodleform_mod {
          $mform->addHelpButton('introeditor', 'introeditor', 'testimonial');
         //-------------------------------------------------------------------------------
        
-       if (isadmin()) {  
+         
+      if (isadmin()) {  
        // Adding the "additional" fieldset, where all the additional settings are showed   
         $mform->addElement('header', 'additional', get_string('additional', 'testimonial'));
         //Additional settings  

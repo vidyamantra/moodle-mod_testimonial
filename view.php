@@ -105,7 +105,7 @@ $getrecord= optional_param('action', null, PARAM_TEXT);
 //}
 
   //calling function for updating serial numbers of each record into table
-  updateserialnum();
+  update_serial_num();
   
 //display the testimonial live recording page
 if(!isset($postdatabse) && isset($getrecord)){
@@ -117,7 +117,7 @@ if(!isset($postdatabse) && isset($getrecord)){
    }
     
    //create new table
-   $table=createtable();
+   $table=create_table();
     $table->size[] = '250px';
 
        $OUTPUT->heading(get_string('recheading', 'testimonial'), 4, null);
@@ -148,7 +148,7 @@ if(!isset($postdatabse) && isset($getrecord)){
           }
           else{
             $recordingbutton= $recordingbutton.''; 
-         }
+          }
 
           $recordingtable[]= $recordingbutton; $recordingtable[]='';
           
@@ -177,7 +177,7 @@ if(!isset($postdatabse) && isset($getrecord)){
       $PAGE->requires->js('/mod/testimonial/js/record2.js');		
       
         //calling function for updating serial numbers of each record into table
-      updateserialnum();
+      update_serial_num();
  }
 
 //display main page or testimonial records page, firstly 
@@ -201,9 +201,9 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
 
           if(!empty($postvideoarr) || !empty($names)){
            //calling funtion for deleting testimonials
-            testimonialdeletion($names);
+            testimonial_deletion($names);
             
-              if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {
+              if (has_capability('mod/testimonial:manage', $context) || has_capability('mod/testimonial:multipledelete', $context)) {
                  echo html_writer::start_tag('div', array('class'=>'alert alert-success')); echo get_string('deleteprint', 'testimonial');echo html_writer::end_tag('div');
               }
           }
@@ -212,16 +212,16 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
          }
      }
      //calling function for updating serial numbers of each record into table
-        updateserialnum();
+        update_serial_num();
         
       //select no. of records per page    
        $pagestart= ($page*10)+1;
        $endpage= $pagestart+10-1;
 
-     //query for admin  
-      if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {
+     //query for admin/teacher  
+      if (has_capability('mod/testimonial:manage', $context) || has_capability('mod/testimonial:multipledelete', $context)) {
             $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
-        if(isset($page) && $page>0){
+        if(!empty($page)){
             $query= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE rowscount>=$pagestart AND rowscount<=$endpage AND testimonial_id=$testimonial->id");
          }
         else{
@@ -236,7 +236,7 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
       
       
    if(!$query || !$queryall){
-           if (has_capability('mod/testimonial:record', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
+           if (has_capability('mod/testimonial:record', $context) && !(has_capability('mod/testimonial:manage', $context))) {
               echo html_writer::start_tag('form', array('method' => 'post', 'action' => "view.php?id={$cm->id}&action=record"));
               
               echo html_writer::start_tag('div', array('class'=>'alert alert-success')); echo get_string('printrecordtestimoniallikeque', 'testimonial'); echo html_writer::end_tag('div');
@@ -244,16 +244,17 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
               
               echo html_writer::end_tag('form');
            }
-           else if ((has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) ) {
+           else if (has_capability('mod/testimonial:manage', $context) || (has_capability('mod/testimonial:multipledelete', $context) && !has_capability('mod/testimonial:preview', $context)) ) {
               echo html_writer::start_tag('div', array('class'=>'alert alert-error')); echo get_string('existprint', 'testimonial'); echo html_writer::end_tag('div');
             }
     }
             
   else { 
             //table for student stats
-            $table=createtable();
+            $table=create_table();
             $table->size[] = '180px';
-            $table->size[] = '800px';
+            $table->size[] = '80%';
+           
           
              $stattable=array();
              $row='';
@@ -266,19 +267,24 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
               }
              $totaltestimonial=round($testimonialcount/2);
              $stattable[]= $totaltestimonial;
-            
-          if ((has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context))) {
              $table->data[] =$stattable;
+             
+          if ((has_capability('mod/testimonial:manage', $context) || has_capability('mod/testimonial:multipledelete', $context))) {
+            
              $stattable=array();
              $stattable[]=get_string('totalstudents', 'testimonial');
              
+             $statbox =html_writer::start_tag('div', array('class'=>'statbox','title'=>get_string('stathint', 'testimonial')));
+             $statbox =$statbox.student_stats($totaltestimonial);
+             $statbox =$statbox.html_writer::end_tag('div');
              //calling function for student statistics
-             $stattable[]=studentstats($totaltestimonial);
+             $stattable[]=$statbox; 
+             $table->data[] =$stattable;
            }
          
-          $table->data[] =$stattable;
+          
              
-           if (has_capability('mod/testimonial:isstudent', $context) && !(has_capability('mod/testimonial:isadmin', $context))) { 
+           if (has_capability('mod/testimonial:preview', $context) && !(has_capability('mod/testimonial:manage', $context))) { 
               $stattable=array();
               $stattable[]=get_string('studentimetext', 'testimonial');
               //time in minutes or seconds
@@ -294,8 +300,8 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
          
              $stattable=array();
              
-             $stattable[]=get_string('testimonialstore', 'testimonial');
-             if (has_capability('mod/testimonial:isstudent', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
+             $stattable[]=html_writer::start_tag('div', array('class'=>'mainheading')).get_string('testimonialstore', 'testimonial').html_writer::end_tag('div');
+             if (has_capability('mod/testimonial:preview', $context) && !(has_capability('mod/testimonial:manage', $context))) {
                  //button for new testimonial recording
                 $stattable[]= html_writer::tag('form',html_writer::empty_tag('input', 
                 array('type' => 'submit','name'=>'back', 'value' => get_string('backbutton2','testimonial'),'id'=>'backbutton2')),
@@ -317,7 +323,7 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
             $current = date(time());
             
            if(($expire > $current)){  
-              if(has_capability('mod/testimonial:isstudent', $context) && $studenttime && !(has_capability('mod/testimonial:isadmin', $context))){  
+              if(has_capability('mod/testimonial:preview', $context) && $studenttime && !(has_capability('mod/testimonial:manage', $context))){  
                $showdelete=TRUE;
               }
             }
@@ -330,21 +336,21 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
     echo html_writer::start_tag('div', array('id'=>'storetable'));
             
      //display testimonial database in table format       
-     $table=createtable();
+     $table=create_table();
 
            $table->head[] = 'S No.'; $table->size[] = '90px'; $table->align[] = 'center';
 
-           if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {
+           if (has_capability('mod/testimonial:manage', $context) || has_capability('mod/testimonial:multipledelete', $context)) {
                  $table->head[] = 'Student Name';$table->size[] = '250px';//$table->align[] = 'left';
            }
            $table->head[] = 'Title of Testimonial';$table->size[] = '300px';//$table->align[] = 'left';
            $table->head[] = 'Date/Time';$table->size[] = '400px';//$table->align[] = 'left';
             
-           if(has_capability('mod/testimonial:isadmin', $context) || (has_capability('mod/testimonial:isteacher', $context) && $teacherdelete && $showselect)){ 
+           if(has_capability('mod/testimonial:manage', $context) || (has_capability('mod/testimonial:multipledelete', $context) && $teacherdelete && $showselect)){ 
               $table->head[] = 'Select'; $table->align[] = 'center';
            }
            
-           if(has_capability('mod/testimonial:isstudent', $context) && $studenttime && !(has_capability('mod/testimonial:isadmin', $context))){ 
+           if(has_capability('mod/testimonial:preview', $context) && $studenttime && !(has_capability('mod/testimonial:manage', $context))){ 
              if($showdelete){  
               $table->head[] = 'Delete';$table->align[] = 'center';
              }
@@ -377,7 +383,7 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
                // $username = $DB->get_field_sql($sql, array($userid));
                 
                 if($char=='mbew') {
-                    if (has_capability('mod/testimonial:isadmin', $context) || has_capability('mod/testimonial:isteacher', $context)) {  
+                    if (has_capability('mod/testimonial:manage', $context) || has_capability('mod/testimonial:multipledelete', $context)) {  
                         $dataarr[]=$username->firstname.' '.$username->lastname;
                     }
                    //here open the popup window for testimonial recording then you can watch  
@@ -396,7 +402,7 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
                 $expire = date($timelimit);
                 $current = date(time());
                
-                if(has_capability('mod/testimonial:isstudent', $context) && $char=='mbew' && $studenttime && !(has_capability('mod/testimonial:isadmin', $context))){ 
+                if(has_capability('mod/testimonial:preview', $context) && $char=='mbew' && $studenttime && !(has_capability('mod/testimonial:manage', $context))){ 
                     if(($expire > $current)){  
                         //individual deletion for student only
                         $delurl = new moodle_url("view.php?id={$cm->id}&page=$page&vidname=$videoids");
@@ -407,13 +413,13 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
                     }     
                 }   
                 
-                 if(has_capability('mod/testimonial:isadmin', $context)){
+                 if(has_capability('mod/testimonial:manage', $context)){
                     if($char=='mbew'){
                         //individual check box for each record
                         $dataarr[]="<input type=checkbox name=videoarr[] value='$videoids' />";
                     }
                  }
-                 else if(has_capability('mod/testimonial:isteacher', $context) && $teacherdelete){
+                 else if(has_capability('mod/testimonial:multipledelete', $context) && $teacherdelete){
                      if($char=='mbew' && !($expire > $current)){
                         //individual check box for each record
                         $dataarr[]="<input type=checkbox name=videoarr[] value='$videoids' />";
@@ -426,9 +432,9 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
                  
         }
              
-        if(has_capability('mod/testimonial:isadmin', $context) || (has_capability('mod/testimonial:isteacher', $context) && $teacherdelete && $showselect) ){
+        if(has_capability('mod/testimonial:manage', $context) || (has_capability('mod/testimonial:multipledelete', $context) && $teacherdelete && $showselect) ){
             $dataarr=array();
-            $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=get_string('selectall', 'testimonial');;
+            $dataarr[]='';$dataarr[]='';$dataarr[]='';$dataarr[]=html_writer::start_tag('div', array('class'=>'mainheading')).get_string('selectall', 'testimonial').html_writer::end_tag('div');
             $dataarr[]= html_writer::empty_tag('input', array('type' => 'checkbox','name'=>'checkall','onclick'=>'checkedAll(frm1)','id'=>'checkall'));//checkbox for select all
             $table->data[] =$dataarr;
          }
@@ -437,11 +443,10 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
      echo html_writer::table($table);
      
        //multiple delete button
-       if (has_capability('mod/testimonial:deletemultiple', $context)) {
-            if(has_capability('mod/testimonial:isadmin', $context) || (has_capability('mod/testimonial:isteacher', $context) && $teacherdelete && $showselect)){
-              echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','testimonial'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
-            }
-        } 
+         if(has_capability('mod/testimonial:manage', $context) || (has_capability('mod/testimonial:multipledelete', $context) && $teacherdelete && $showselect)){
+            echo html_writer::empty_tag('input', array('type' => 'submit','name'=>'delete', 'value' => get_string('deletemultiple','testimonial'),'id'=>'deletemul', 'class'=>'deletemulbutton' ));
+         }
+        
          //pagination bar, dynamically arranged pages and each of have 10 records  
         $totalpages=floor(($totaltestimonial-1)/10)+1;
       // echo $totalpages;

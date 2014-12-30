@@ -53,87 +53,27 @@ function xmldb_testimonial_upgrade($oldversion) {
     // and to play with the XMLDB Editor (in the admin menu) and its
     // PHP generation posibilities.
 
-    // First example, some fields were added to install.xml on 2007/04/01
-    if ($oldversion < 2007040100) {
-
-        // Define field course to be added to testimonial
-        $table = new xmldb_table('testimonial');
-        $field = new xmldb_field('course', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'id');
-
-        // Add field course
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Define field intro to be added to testimonial
-        $table = new xmldb_table('testimonial');
-        $field = new xmldb_field('intro', XMLDB_TYPE_TEXT, 'medium', null, null, null, null,'name');
-
-        // Add field intro
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Define field introformat to be added to testimonial
-        $table = new xmldb_table('testimonial');
-        $field = new xmldb_field('introformat', XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0',
-            'intro');
-
-        // Add field introformat
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
+    // some fields were added to install.xml on 2014/12/22
+    if ($oldversion < 2014122200) {
         // Once we reach this point, we can store the new version and consider the module
         // upgraded to the version 2007040100 so the next time this block is skipped
-        upgrade_mod_savepoint(true, 2007040100, 'testimonial');
+        upgrade_mod_savepoint(true, 2014122200, 'testimonial');
     }
 
-    // Second example, some hours later, the same day 2007/04/01
+    // some hours later, the same day 2014/12/22
     // two more fields and one index were added to install.xml (note the micro increment
     // "01" in the last two digits of the version
-    if ($oldversion < 2007040101) {
-
-        // Define field timecreated to be added to testimonial
-        $table = new xmldb_table('testimonial');
-        $field = new xmldb_field('timecreated', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0',
-            'introformat');
-
-        // Add field timecreated
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Define field timemodified to be added to testimonial
-        $table = new xmldb_table('testimonial');
-        $field = new xmldb_field('timemodified', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0',
-            'timecreated');
-
-        // Add field timemodified
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Define index course (not unique) to be added to testimonial
-        $table = new xmldb_table('testimonial');
-        $index = new xmldb_index('courseindex', XMLDB_INDEX_NOTUNIQUE, array('course'));
-
-        // Add index to course field
-        if (!$dbman->index_exists($table, $index)) {
-            $dbman->add_index($table, $index);
-        }
-
+    if ($oldversion < 2014122201) {
         // Another save point reached
-        upgrade_mod_savepoint(true, 2007040101, 'testimonial');
+        upgrade_mod_savepoint(true, 2014122201, 'testimonial');
     }
 
-    // Third example, the next day, 2007/04/02 (with the trailing 00), some actions were performed to install.php,
+    // the next day, 2014/12/23 (with the trailing 00), some actions were performed to install.php,
     // related with the module
-    if ($oldversion < 2007040200) {
+    if ($oldversion < 2014122300) {
 
         // insert here code to perform some actions (same as in install.php)
-
-        upgrade_mod_savepoint(true, 2007040200, 'testimonial');
+        upgrade_mod_savepoint(true, 2014122300, 'testimonial');
     }
 
     // And that's all. Please, examine and understand the 3 example blocks above. Also

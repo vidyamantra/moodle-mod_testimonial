@@ -39,11 +39,10 @@ $string['pluginadministration'] = 'testimonial administration';
 $string['testimonial:addinstance'] = 'instances';
 $string['testimonial:view'] = 'View';
 $string['testimonial:record'] = 'Record new testimonial';
-$string['testimonial:deleterecent'] = 'Can delete recent testimonials';
-$string['testimonial:deletemultiple'] = 'Delete multiple testimonials';
-$string['testimonial:isadmin'] = 'Assign all authority to';
-$string['testimonial:isstudent'] = 'Assign student permissions to';
-$string['testimonial:isteacher'] = 'Assign teacher permissions to';
+$string['testimonial:manage'] = 'Manage testimonials';
+$string['testimonial:preview'] = 'Preview testimonials';
+$string['testimonial:multipledelete'] = 'Delete multiple testimonials';
+$string['testimonial:deleterecent'] = 'Delete recently recorded testimonials';
 $string['completionrecord'] = 'Student must record the testimonial ';
 $string['eventvideocreated'] = 'Recorded video has been submitted';
 $string['eventvideorevealed'] = 'Recorded video has been watched';
@@ -91,6 +90,7 @@ $string['printrecordtestimoniallikeque']=" * Please record new testimonials base
 $string['usechromerecord']=" * Please use chrome browser for recording ";
 $string['usechromewatch']=" * Please use chrome browser for better controls ";
 $string['untitled']="Untitled testimonial";
+$string['stathint']="Name of student | Attempted testimonials | No. of attempts percent";
 
 
 

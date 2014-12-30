@@ -17,15 +17,9 @@ height: 33px; width: 125px;font-size: small;
 height: 33px; width: 125px;font-size:x-small;
 }
 
-#page-mod-testimonial-view #id_name{
- width: 250px;height:30px;
+#page-mod-testimonial-view #videotitle{
+ width: 250px;
 }
-
-
-//select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
-  
- //       height: 35px;
- //   }
 
 #page-mod-testimonial-view #store {
 height: 35px; width: 150px; font-size:12px;margin-left: 25%;
@@ -79,6 +73,31 @@ border: 1px solid rgb(15, 158, 238); height: 90%; width: 95%;
 width: 80%;
 }
 
+#page-mod-testimonial-view .statbox{
+    overflow-y: auto; height: 40px;
+}
+
+#page-mod-testimonial-view .mainheading{
+    font-weight: bold;
+}
+
+/*
+#page-mod-testimonial-view  table.datatable tr.statoverflow {
+	background-color:#FFFFFF;
+        width: auto;
+}
+
+/*
+#page-mod-testimonial-view  table.statoverflow tr{
+	background-color:red;
+	border-width: 0px;
+        border-bottom-width: 1px;
+	padding: 10px;
+	border-style: solid;
+	border-color: #a9c6c9;
+        width: auto;
+}
+
 /*
 
 #page-mod-testimonial-view  table.datatable {
@@ -90,15 +109,7 @@ width: 80%;
 	border-collapse: collapse;
         table-layout: auto;
 }
-#page-mod-testimonial-view  table.datatable th {
-	background-color:#fafafa;
-	border-width: 0px;
-        border-bottom-width: 1px;
-	padding: 10px;
-	border-style: solid;
-	border-color: #a9c6c9;
-        width: auto;
-}
+
 #page-mod-testimonial-view  table.datatable tr {
 	background-color:#FFFFFF;
         width: auto;

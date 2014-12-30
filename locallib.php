@@ -37,7 +37,6 @@ if ($id) {
     
     $context = context_module::instance($cm->id);
 }
-
 /**
  * 
  * @param type $itemid
@@ -96,11 +95,11 @@ if ($id) {
   * @param type $testimonialid
   * @param type $context
   */ 
-  function updateserialnum(){
+  function update_serial_num(){
       global $DB,$USER,$context,$testimonial;
       
       $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
-        if (has_capability('mod/testimonial:isstudent', $context) && !(has_capability('mod/testimonial:isadmin', $context))) {
+        if (has_capability('mod/testimonial:preview', $context) && !(has_capability('mod/testimonial:manage', $context))) {
           $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
         }
             $sno=0;
@@ -116,7 +115,6 @@ if ($id) {
                   $update->rowscount = $sno;
              $lastupdate=$DB->update_record('testimonial_videos', $update);
           }
-      
   }
   /**
    * 
@@ -138,7 +136,7 @@ if ($id) {
   * 
   * @return \html_table
   */
-  function createtable(){
+  function create_table(){
     $table = new html_table();
     
      $table->head = array ();
@@ -149,7 +147,6 @@ if ($id) {
      
     return $table; 
   }
-  
   /**
    * 
    * @global type $DB
@@ -158,7 +155,7 @@ if ($id) {
    * @global type $testimonial
    * @param type $names
    */
- function testimonialdeletion($names){
+ function testimonial_deletion($names){
    global $DB,$sql,$context,$testimonial;
    
    foreach($names as $value){
@@ -187,7 +184,7 @@ if ($id) {
             //delete data from videos table
             $vid=$DB->delete_records('testimonial_videos', array ('id'=> $itemid));
             $aid=$DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
-           }
+          }
      }
  }
 }
@@ -201,9 +198,9 @@ if ($id) {
  * @param type $totaltestimonial
  * @return string
  */
- function studentstats($totaltestimonial){
+ function student_stats($totaltestimonial){
      global $DB,$sql,$context,$testimonial;
-     $row='';
+     $row='';$statbox='';
 
       $sql='SELECT DISTINCT user_id FROM {testimonial_videos} WHERE testimonial_id = ?';    
       $totalstudent = $DB->get_records_sql($sql, array($testimonial->id));
@@ -232,7 +229,12 @@ if ($id) {
          else{
           $uservalues=$uservalues.' | insufficient data';
          }
-          $row= $row.' ['.$uservalues.'] ';
+       if(!empty($row)){
+         $row= $row.' , ['.$uservalues.'] ';  
+        }
+       else{ 
+        $row= $row.' ['.$uservalues.'] ';
+       }
       }
     return $row;  
  } 
