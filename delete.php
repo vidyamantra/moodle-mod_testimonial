@@ -53,8 +53,8 @@ if (isset($postfiles)) {
              }
             else{
                 //delete files from moodle database
-                fileDeletion($fileid,$file,$context->id);
-                fileDeletion($fileid,".",$context->id);
+                fileDeletion($fileid,$file);
+                fileDeletion($fileid,".");
                 //delete data from testimonial_videos table
                 $vid=$DB->delete_records('testimonial_videos', array ('id'=> $fileid));
              }

@@ -41,16 +41,16 @@ if ($id) {
  * 
  * @param type $itemid
  * @param type $filename
- * @param type $contextid
  */
- function fileDeletion($itemid,$filename,$contextid){
+ function fileDeletion($itemid,$filename){
+    global $context;
     $fs = get_file_storage();
     // Prepare file record object
     $fileinfo = array(
         'component' => 'mod_testimonial',
         'filearea' => 'testimonial_docs',     // usually = table name
         'itemid' =>  $itemid,        // usually = ID of row in table
-        'contextid' => $contextid,      // ID of context
+        'contextid' => $context,      // ID of context
         'filepath' => '/',               // any path beginning and ending in /
         'filename' => $filename);    // any filename
     // Get file
@@ -61,15 +61,13 @@ if ($id) {
         $file->delete();
     }
  }
- 
  /**
   * 
-  * @return string
+  * @return string $ub
   */
  function checkBrowser(){
-      $u_agent = $_SERVER['HTTP_USER_AGENT'];
-        $ub = '';
-        
+    $u_agent = $_SERVER['HTTP_USER_AGENT'];
+       $ub = '';
         if(preg_match('/MSIE/i',$u_agent)){
             $ub = "ie";}
         elseif(preg_match('/Firefox/i',$u_agent)){
@@ -85,7 +83,7 @@ if ($id) {
         elseif(preg_match('/Netscape/i',$u_agent)){
             $ub = "netscape";}
         
-        return $ub;
+    return $ub;
  }
  
  /**
@@ -95,26 +93,25 @@ if ($id) {
   * @param type $testimonialid
   * @param type $context
   */ 
-  function update_serial_num(){
-      global $DB,$USER,$context,$testimonial;
+ function update_serial_num(){
+    global $DB,$USER,$context,$testimonial;
       
-      $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
-        if (has_capability('mod/testimonial:preview', $context) && !(has_capability('mod/testimonial:manage', $context))) {
-          $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
+    $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id");
+     if (has_capability('mod/testimonial:preview', $context) && !(has_capability('mod/testimonial:manage', $context))) {
+       $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
+     }
+     $sno=0;
+     foreach ($queryall as $value) { 
+        $vid = $value->id;
+        $rowscount = $value->rowscount;
+        if($vid%2!=0){
+          $sno++;
         }
-            $sno=0;
-            
-          foreach ($queryall as $value) { 
-             $vid = $value->id;
-             $rowscount = $value->rowscount;
-                if($vid%2!=0){
-                    $sno++;
-                }
-             $update = new stdclass;
-                  $update->id = $vid;
-                  $update->rowscount = $sno;
-             $lastupdate=$DB->update_record('testimonial_videos', $update);
-          }
+        $update = new stdclass;
+        $update->id = $vid;
+        $update->rowscount = $sno;
+        $lastupdate=$DB->update_record('testimonial_videos', $update);
+     }
   }
   /**
    * 
@@ -122,15 +119,15 @@ if ($id) {
    * @return boolean
    */
   function isadmin(){
-      global $USER;
-      $admins = get_admins();
-         $isadmin = false;
-         foreach ($admins as $admin) {
-             if ($USER->id == $admin->id) { 
-                 $isadmin = true; break; 
-             }
-        }
-      return $isadmin;  
+    global $USER;
+    $admins = get_admins();
+      $isadmin = false;
+       foreach ($admins as $admin) {
+         if ($USER->id == $admin->id) { 
+             $isadmin = true; break; 
+         }
+       }
+    return $isadmin;  
   }
  /**
   * 
@@ -186,7 +183,7 @@ if ($id) {
             $aid=$DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
           }
      }
- }
+  }
 }
 
 /**
@@ -230,7 +227,7 @@ if ($id) {
           $uservalues=$uservalues.' | insufficient data';
          }
        if(!empty($row)){
-         $row= $row.' , ['.$uservalues.'] ';  
+         $row= $row.' , ['.$uservalues.'] '.' , ['.$uservalues.'] '.' , ['.$uservalues.'] ';  
         }
        else{ 
         $row= $row.' ['.$uservalues.'] ';

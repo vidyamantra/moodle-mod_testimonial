@@ -90,7 +90,7 @@ $string['printrecordtestimoniallikeque']=" * Please record new testimonials base
 $string['usechromerecord']=" * Please use chrome browser for recording ";
 $string['usechromewatch']=" * Please use chrome browser for better controls ";
 $string['untitled']="Untitled testimonial";
-$string['stathint']="Name of student | Attempted testimonials | No. of attempts percent";
+$string['stathint']="[Name of student | No. of attempted testimonials | Percentage ratio ]";
 
 
 

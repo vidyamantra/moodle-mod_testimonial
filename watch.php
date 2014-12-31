@@ -57,81 +57,78 @@ echo $OUTPUT->header();
 
  if(isset($videofile) && isset($audiofile)){
      
-       //fetching video details from database
+        //fetching video details from database
        $queryv = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?', array($videofile,$testimonial->id));
-
        foreach ($queryv as $value) { 
                 $vid=$value->id;
                 $url=$value->url;
                 $title=$value->videotitle;
-           }
+        }
          //fetching audio details from database  
        $querya = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?', array($audiofile,$testimonial->id));
-            foreach ($querya as $value) { 
+       foreach ($querya as $value) { 
                 $aid=$value->id;
                 $url2=$value->url;
-           }
+        }
+        
         echo html_writer::start_tag('div', array('class'=>'youwatching','align'=>'center'));
-           
-            $table=create_table();
-                  $table->size[] = '150px';
-                  $table->size[] = '600px';
-                  $table->size[] = '100px';
-             
-                   $watchtable=array();
-                  //close window icon
-                 // $closewindow = html_writer::link("javascript:window.close()",
-                 //                    html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/close'),'class'=>'icon'),
-                 //                    array('class'=>'watch','id' => 'close')));
-                  
-                    $watchtable[]=''; $watchtable[]=get_string('youwatching','testimonial').html_writer::start_tag('span', array('class'=>'mainheading')).$title.html_writer::end_tag('span'); $watchtable[]='';
+          $table=create_table();
+              $table->size[] = '150px';
+              $table->size[] = '600px';
+              $table->size[] = '100px';
 
-                    $table->data[]=$watchtable;
-                    $watchtable=array();
-                     
-                     $videobuff=html_writer::start_tag('div', array('id' => 'video-container'));
-                     $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch','preload'=>'auto'));echo html_writer::end_tag('audio');//audio player
-                     $videobuff=$videobuff.html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch','preload'=>'auto')).html_writer::end_tag('video');//video player
-                     $videobuff= $videobuff.html_writer::end_tag('div');
-                     
-                     $watchtable[]=''; $watchtable[]=$videobuff; $watchtable[]=$audiobuff;
-                         
-                     $table->data[]=$watchtable;
-                     $watchtable=array();
-                     
-                         $controls= html_writer::empty_tag('input', array('type' => 'button','value' => 'Play','id'=>'play-pause', 'class'=>'watch2'));//play button
-                         $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar','value'=>0));//play seek bar
-                         $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'button','value' => 'Replay','id'=>'replay', 'class'=>'watch2'));//replay button
-                         $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('mutewatch','testimonial'),'id'=>'mute', 'class'=>'watch2'));//mute button
-                         $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'range', 'id'=>'volume-bar', 'class'=>'watchbarmute', 'min'=>'0', 'max'=>'1','step'=>'0.1', 'value'=>'1'));//mute bar
-            
-                     $watchtable[]=''; $watchtable[]=$controls; $watchtable[]='';
-                     $table->data[]=$watchtable;
-                     
-                     if(checkBrowser()!='chrome'){
-                         $watchtable=array();
-                          $ischrome= html_writer::start_tag('div', array('class'=>'alert alert-error'));
-                          $ischrome= $ischrome.get_string('usechromewatch','testimonial');
-                          $ischrome= $ischrome.html_writer::end_tag('div');
-                          
-                          $watchtable[]=''; $watchtable[]=$ischrome; $watchtable[]='';
-                          $table->data[]=$watchtable;
-                      }
-                     
-                echo html_writer::table($table); 
-             echo html_writer::end_tag('div');
-                     
-            $eventdata = array();
-            $eventdata['context'] = $context;
-            $eventdata['objectid'] = $vid;
-            $eventdata['userid'] = $USER->id;
-            $eventdata['courseid'] = $course->id;
+               $watchtable=array();
+              //close window icon
+              // $closewindow = html_writer::link("javascript:window.close()", html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/close'),'class'=>'icon'),array('class'=>'watch','id' => 'close')));
+                //testimonial title display
+                $watchtable[]=''; $watchtable[]=get_string('youwatching','testimonial').html_writer::start_tag('span', array('class'=>'mainheading')).$title.html_writer::end_tag('span'); $watchtable[]='';
 
-            $event = \mod_testimonial\event\video_revealed::create($eventdata);
-            $event->add_record_snapshot('course', $course);
-            $event->add_record_snapshot('course_modules', $cm);
-            $event->trigger();
-       }
+                $table->data[]=$watchtable;
+                $watchtable=array();
+                 //audio video display block
+                  $videobuff=html_writer::start_tag('div', array('id' => 'video-container'));
+                  $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch','preload'=>'auto'));echo html_writer::end_tag('audio');//audio player
+                  $videobuff=$videobuff.html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch','preload'=>'auto')).html_writer::end_tag('video');//video player
+                  $videobuff= $videobuff.html_writer::end_tag('div');
+
+                 $watchtable[]=''; $watchtable[]=$videobuff; $watchtable[]=$audiobuff;
+
+                 $table->data[]=$watchtable;
+                 $watchtable=array();
+                 // play/pause,seek bar,replay,mute/unmute,volume bar controls
+                  $controls= html_writer::empty_tag('input', array('type' => 'button','value' => 'Play','id'=>'play-pause', 'class'=>'watch2'));//play button
+                  $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar','value'=>0));//play seek bar
+                  $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'button','value' => 'Replay','id'=>'replay', 'class'=>'watch2'));//replay button
+                  $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('mutewatch','testimonial'),'id'=>'mute', 'class'=>'watch2'));//mute button
+                  $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'range', 'id'=>'volume-bar', 'class'=>'watchbarmute', 'min'=>'0', 'max'=>'1','step'=>'0.1', 'value'=>'1'));//mute bar
+
+                 $watchtable[]=''; $watchtable[]=$controls; $watchtable[]='';
+                 $table->data[]=$watchtable;
+
+                if(checkBrowser()!='chrome'){
+                  $watchtable=array();
+                  $ischrome= html_writer::start_tag('div', array('class'=>'alert alert-error'));
+                  $ischrome= $ischrome.get_string('usechromewatch','testimonial');
+                  $ischrome= $ischrome.html_writer::end_tag('div');
+
+                  $watchtable[]=''; $watchtable[]=$ischrome; $watchtable[]='';
+                  $table->data[]=$watchtable;
+                }
+
+            echo html_writer::table($table); 
+         echo html_writer::end_tag('div');
+
+        $eventdata = array();
+        $eventdata['context'] = $context;
+        $eventdata['objectid'] = $vid;
+        $eventdata['userid'] = $USER->id;
+        $eventdata['courseid'] = $course->id;
+
+        $event = \mod_testimonial\event\video_revealed::create($eventdata);
+        $event->add_record_snapshot('course', $course);
+        $event->add_record_snapshot('course_modules', $cm);
+        $event->trigger();
+     }
     else{
       echo 'error! Testimonial not found';     
     }
