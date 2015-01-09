@@ -37,18 +37,28 @@ window.onload = function() {
   var seekBar = document.getElementById("seek-bar");
   var volumeBar = document.getElementById("volume-bar");
   
-  var replay = document.getElementById("replay");
-
+  var replayvid = document.getElementById("replayvid");
+  var currenttime = document.getElementById("currenttime");
+  var durationtime = document.getElementById("durationtime");
+  seekBar.value=0;
+  
 
 // Event listener for the play/pause button
 playButton.addEventListener("click", function() {
   
     if (video.paused === true && audio.paused === true) {
+        
+       if(video.duration === video.currentTime){
+         video.load();
+         audio.load();
+       }  
     // Play the video
     video.play();
     audio.play();
     // Update the button text to 'Pause'
     playButton.value = "Pause";
+    audio.currentTime = video.currentTime;
+    durationtime.value = video.currentTime;
     
   } else {
     // Pause the video
@@ -56,6 +66,8 @@ playButton.addEventListener("click", function() {
     audio.pause();
     // Update the button text to 'Play'
     playButton.value = "Play";
+    audio.currentTime = video.currentTime;
+    durationtime.value = video.currentTime;
   }
 });
 
@@ -99,11 +111,11 @@ fullScreenButton.addEventListener("click", function() {
 seekBar.addEventListener("change", function() {
   // Calculate the new time
   var time = video.duration * (seekBar.value / 100);
-  var timea = audio.duration * (seekBar.value / 100);
+//  var timea = audio.duration * (seekBar.value / 100);
 
   // Update the video time
   video.currentTime = time;
-  audio.currentTime = timea;
+  audio.currentTime = video.currentTime;
   
 });
 
@@ -111,22 +123,42 @@ seekBar.addEventListener("change", function() {
 video.addEventListener("timeupdate", function() {
   // Calculate the slider value
   var value = (100 / video.duration) * video.currentTime;
-  
    //make play/pause button to play when testimonial finish
    if(video.duration === video.currentTime){
       playButton.value = "Play";
     }
   // Update the slider value
   seekBar.value = value;
+  audio.currentTime = video.currentTime;
   
+  var curmins = Math.floor(video.currentTime / 60);
+  var cursecs = Math.floor(video.currentTime - curmins * 60);
+  var durmins = Math.floor(video.duration / 60); 
+  var dursecs = Math.floor(video.duration - durmins * 60);
+  if(cursecs < 10){ 
+      cursecs = "0"+cursecs;
+  }
+  if(dursecs < 10){ 
+      dursecs = "0"+dursecs;
+  }
+  if(curmins < 10){
+      curmins = "0"+curmins;
+  }
+  if(durmins < 10){
+      durmins = "0"+durmins; 
+  } 
+  currenttime.innerHTML = curmins+":"+cursecs;
+  durationtime.innerHTML = "|"+durmins+":"+dursecs;
   
 });
+
 
 // Pause the video when the slider handle is being dragged
 seekBar.addEventListener("mousedown", function() {
   video.pause();
   audio.pause();
 });
+
 
 // Play the video when the slider handle is dropped
 seekBar.addEventListener("mouseup", function() {
@@ -143,9 +175,12 @@ volumeBar.addEventListener("change", function() {
 });
 
 //Event listener for the replay button
-replay.addEventListener("click", function() {
-  video.currentTime = 0;
-  audio.currentTime = 0;
+replayvid.addEventListener("click", function() {
+    
+    //alert('done');
+    seekBar.value=0;
+    video.load();
+    audio.load();
   
     video.play();
     audio.play();

@@ -227,7 +227,7 @@ if ($id) {
           $uservalues=$uservalues.' | insufficient data';
          }
        if(!empty($row)){
-         $row= $row.' , ['.$uservalues.'] '.' , ['.$uservalues.'] '.' , ['.$uservalues.'] ';  
+         $row= $row.' , ['.$uservalues.'] ';  
         }
        else{ 
         $row= $row.' ['.$uservalues.'] ';

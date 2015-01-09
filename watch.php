@@ -74,8 +74,8 @@ echo $OUTPUT->header();
         echo html_writer::start_tag('div', array('class'=>'youwatching','align'=>'center'));
           $table=create_table();
               $table->size[] = '150px';
-              $table->size[] = '600px';
-              $table->size[] = '100px';
+              $table->size[] = '550px';
+              $table->size[] = '150px';
 
                $watchtable=array();
               //close window icon
@@ -86,22 +86,31 @@ echo $OUTPUT->header();
                 $table->data[]=$watchtable;
                 $watchtable=array();
                  //audio video display block
-                  $videobuff=html_writer::start_tag('div', array('id' => 'video-container'));
-                  $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch','preload'=>'auto'));echo html_writer::end_tag('audio');//audio player
-                  $videobuff=$videobuff.html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch','preload'=>'auto')).html_writer::end_tag('video');//video player
-                  $videobuff= $videobuff.html_writer::end_tag('div');
+                  $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch')).html_writer::end_tag('audio');//audio player
+                  $videobuff=html_writer::start_tag('div', array('id' => 'video-container')).html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch')).html_writer::end_tag('video').html_writer::end_tag('div');//video player
+                 
+                  $seeking= html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar'));
+                  $seeking= $seeking.' '.html_writer::empty_tag('input', array('type' => 'button','value' => 'Replay','id'=>'replayvid', 'class'=>'watch2'));//replay button
 
-                 $watchtable[]=''; $watchtable[]=$videobuff; $watchtable[]=$audiobuff;
+                 $watchtable[]=''; $watchtable[]=$videobuff.$seeking.$audiobuff; $watchtable[]='';
 
                  $table->data[]=$watchtable;
+                 
+                // $watchtable=array();
+               //  $watchtable[]=''; $watchtable[]=$seeking; $watchtable[]='';
+               //  $table->data[]=$watchtable;
+                 
+                 
                  $watchtable=array();
                  // play/pause,seek bar,replay,mute/unmute,volume bar controls
                   $controls= html_writer::empty_tag('input', array('type' => 'button','value' => 'Play','id'=>'play-pause', 'class'=>'watch2'));//play button
-                  $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar','value'=>0));//play seek bar
-                  $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'button','value' => 'Replay','id'=>'replay', 'class'=>'watch2'));//replay button
                   $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'button', 'value' => get_string('mutewatch','testimonial'),'id'=>'mute', 'class'=>'watch2'));//mute button
                   $controls= $controls.' '.html_writer::empty_tag('input', array('type' => 'range', 'id'=>'volume-bar', 'class'=>'watchbarmute', 'min'=>'0', 'max'=>'1','step'=>'0.1', 'value'=>'1'));//mute bar
-
+                  
+                  $controls= $controls.' '.html_writer::start_tag('span', array('id'=>'durationtime', 'class'=>'duration')).'00:00'.html_writer::end_tag('span');//play duration
+                  $controls= $controls.''.html_writer::start_tag('span', array('id'=>'currenttime', 'class'=>'duration')).'00:00'.html_writer::end_tag('span');//play duration
+                 // <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span>
+                  
                  $watchtable[]=''; $watchtable[]=$controls; $watchtable[]='';
                  $table->data[]=$watchtable;
 
