@@ -25,6 +25,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
+require_once(dirname(__FILE__).'/locallib.php');
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
 
 $id = optional_param('cmid', 0, PARAM_INT);
@@ -42,9 +43,15 @@ $context = context_module::instance($cm->id);
  if(strcmp($videotitle, '[object HTMLInputElement]')==0){
     $videotitle=get_string('untitled', 'testimonial');;
  }
- $result=$DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id, 'user_id' =>$USER->id));
- $replycount=(int)floor($result/2);     
-  
+ 
+ $result = $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
+ 
+ $replycount=0;
+ foreach ($result as $value) {
+  if(isvideofile($value->name)=='mbew'){
+     $replycount++;
+  }
+} 
  $rowscount=$DB->count_records('testimonial_videos', array('testimonial_id'=>$testimonial->id));
   
  $completion = new completion_info($course);

@@ -40,7 +40,6 @@
             function loadvalue() {
                 document.getElementbyId();
             }
-
             // FormData
             var formData = new FormData();
             formData.append(fileType + '-filename', fileName);
@@ -113,6 +112,7 @@
        // isFirefox=true;
       var isFirefox = !!navigator.mozGetUserMedia;
 
+if(!isFirefox){
         var recordAudio, recordVideo;
         record.onclick = function() {
             record.disabled = true;
@@ -135,10 +135,6 @@
                         }
                     });
 
-                    if(isFirefox) {
-                        recordAudio.startRecording();
-                    }
-
                     if(!isFirefox) {
                         recordVideo = RecordRTC(stream, {
                             type: 'video',
@@ -153,7 +149,24 @@
                    // alert( JSON.stringify (error, null, '\t') );
                 });
         };
+      }
+      
+      else{
+       
+        record.onclick = function() {
+            record.disabled = true;
 
+             captureUserMedia(function(stream) {
+                recordVideo = RecordRTC(stream, {
+                    type: 'video' // don't forget this; otherwise you'll get video/webm instead of audio/ogg
+                });
+                recordVideo.startRecording();
+            });
+        };
+
+    }
+    
+    if(!isFirefox){
         var fileName;
         stop.onclick = function() {
             record.disabled = false;
@@ -163,7 +176,16 @@
             preview.src = '';
 
             fileName = Math.round(Math.random() * 99999999) + 99999999;
+            
+                recordAudio.stopRecording(function() {
+                   PostBlob(recordAudio.getBlob(), 'audio', fileName + '.wav');
+                });
+           
+                recordVideo.stopRecording(function() {
+                    PostBlob(recordVideo.getBlob(), 'video', fileName + '.webm');
+                });
 
+/*
             if(isFirefox) {
                 recordAudio.stopRecording();
                 PostBlob(recordAudio.getBlob(), 'audio', fileName + '.wav');
@@ -179,10 +201,33 @@
                 recordVideo.stopRecording();
                 PostBlob(recordVideo.getBlob(), 'video', fileName + '.webm');
             }
-
+*/
             deleteFiles.disabled = false;
         };
+    }
+    
+      else{
+        var fileName;
+        stop.onclick = function() {
+            record.disabled = false;
+            stop.disabled = true;
+            preview.controls = false;
 
+            preview.src = '';
+
+            fileName = Math.round(Math.random() * 99999999) + 99999999;
+
+            
+                recordVideo.stopRecording(function(url) {
+                  // preview.src = url;
+                  PostBlob(recordVideo.getBlob(), 'video', fileName + '.webm');
+                });
+          
+            deleteFiles.disabled = false;
+        };
+    }
+    
+    
         deleteFiles.onclick = function() {
             deleteAudioVideoFiles();
         };
@@ -237,4 +282,22 @@
             request.open('POST', url);
             request.send(data);
        }
+       
+       function captureUserMedia(callback) {
+            navigator.getUserMedia = navigator.mozGetUserMedia;
+            navigator.getUserMedia({
+                audio: true,
+                video: true
+            }, function(stream) {
+                preview.src = URL.createObjectURL(stream);
+                preview.muted = false;
+                preview.controls = true;
+                preview.play();
+
+                callback(stream);
+                stop.disabled = false;
+            }, function(error) {
+                console.error(error);
+            });
+        }
 

@@ -39,8 +39,8 @@ if ($id) {
 }
 /**
  * 
- * @param type $itemid
- * @param type $filename
+ * @param int $itemid
+ * @param string $filename
  */
  function fileDeletion($itemid,$filename){
     global $context;
@@ -50,7 +50,7 @@ if ($id) {
         'component' => 'mod_testimonial',
         'filearea' => 'testimonial_docs',     // usually = table name
         'itemid' =>  $itemid,        // usually = ID of row in table
-        'contextid' => $context,      // ID of context
+        'contextid' => $context->id,      // ID of context
         'filepath' => '/',               // any path beginning and ending in /
         'filename' => $filename);    // any filename
     // Get file
@@ -88,10 +88,10 @@ if ($id) {
  
  /**
   * 
-  * @global type $DB
-  * @global type $USER
-  * @param type $testimonialid
-  * @param type $context
+  * @global object $DB
+  * @global object $USER
+  * @param int $testimonialid
+  * @param object $context
   */ 
  function update_serial_num(){
     global $DB,$USER,$context,$testimonial;
@@ -100,11 +100,15 @@ if ($id) {
      if (has_capability('mod/testimonial:preview', $context) && !(has_capability('mod/testimonial:manage', $context))) {
        $queryall= $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE user_id=$USER->id AND testimonial_id=$testimonial->id");
      }
+     
      $sno=0;
      foreach ($queryall as $value) { 
+       $revitem= strrev($value->name);
+        $str = $revitem;
+        $char=substr( $str, 0, 4 );
         $vid = $value->id;
         $rowscount = $value->rowscount;
-        if($vid%2!=0){
+        if($char=='mbew'){
           $sno++;
         }
         $update = new stdclass;
@@ -115,7 +119,7 @@ if ($id) {
   }
   /**
    * 
-   * @global type $USER
+   * @global object $USER
    * @return boolean
    */
   function isadmin(){
@@ -146,11 +150,11 @@ if ($id) {
   }
   /**
    * 
-   * @global type $DB
-   * @global string $sql
-   * @global type $context
-   * @global type $testimonial
-   * @param type $names
+   * @global object $DB
+   * @global object $sql
+   * @global object $context
+   * @global object $testimonial
+   * @param array $names
    */
  function testimonial_deletion($names){
    global $DB,$sql,$context,$testimonial;
@@ -172,27 +176,34 @@ if ($id) {
 
          if(!($DB->record_exists('files', array('contextid' =>$context->id, 'itemid'=>$itemid)))){  
                $DB->delete_records('testimonial_videos', array ('id'=> $itemid));
-               $DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
+              if($aitemid){ 
+                $DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
+              }
             }
         else{
             //deletion from moodle directory structure
-            fileDeletion($itemid,$itemname,$context->id); fileDeletion($itemid,".",$context->id);
-            fileDeletion($aitemid,$aitemname,$context->id); fileDeletion($aitemid,".",$context->id);
+            fileDeletion($itemid,$itemname,$context->id);fileDeletion($itemid,".",$context->id);
+            
+            if($aitemid){ 
+             fileDeletion($aitemid,$aitemname,$context->id); fileDeletion($aitemid,".",$context->id);
+            }
             //delete data from videos table
             $vid=$DB->delete_records('testimonial_videos', array ('id'=> $itemid));
-            $aid=$DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
-          }
+            if($aitemid){ 
+             $aid=$DB->delete_records('testimonial_videos', array ('id'=> $aitemid));
+            }
+         }
      }
   }
 }
 
 /**
  * 
- * @global type $DB
- * @global string $sql
- * @global type $context
- * @global type $testimonial
- * @param type $totaltestimonial
+ * @global object $DB
+ * @global object $sql
+ * @global object $context
+ * @global object $testimonial
+ * @param int $totaltestimonial
  * @return string
  */
  function student_stats($totaltestimonial){
@@ -213,11 +224,13 @@ if ($id) {
             $uservalues=$value->username;
          }
          //attempted testimonial
-         $count=0;
+         $replyperstudent=0;
          foreach ($totalreplyperstu as $value) {
-             $replyperstudent=$count++;
+            if(isvideofile($value->name)=='mbew'){
+               $replyperstudent++;
+             }
          }
-          $replyperstudent=round($replyperstudent/2);
+      //    $replyperstudent=round($replyperstudent/2);
           $uservalues=$uservalues.' | '.$replyperstudent;
          //percentage ratio per student
          if(isset($totaltestimonial)){  
@@ -235,5 +248,16 @@ if ($id) {
       }
     return $row;  
  } 
+ /**
+  * 
+  * @param string $name
+  * @return string
+  */
+ function isvideofile($name){
+     $revitem= strrev($name);
+     $str = $revitem;
+     $chars=substr( $str, 0, 4 );
+    return $chars;
+ }
   
   

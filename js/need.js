@@ -23,6 +23,7 @@
  */
 
 window.onload = function() {
+    
   // Video
   var video = document.getElementById("video");
   //audio
@@ -45,6 +46,9 @@ window.onload = function() {
 
 // Event listener for the play/pause button
 playButton.addEventListener("click", function() {
+   if(audio===null){
+       alert('no audio');
+   }
   
     if (video.paused === true && audio.paused === true) {
         
@@ -57,16 +61,17 @@ playButton.addEventListener("click", function() {
     audio.play();
     // Update the button text to 'Pause'
     playButton.value = "Pause";
-    audio.currentTime = video.currentTime;
+     audio.currentTime = video.currentTime;
     durationtime.value = video.currentTime;
-    
-  } else {
+    } 
+  else {
     // Pause the video
     video.pause();
     audio.pause();
     // Update the button text to 'Play'
     playButton.value = "Play";
-    audio.currentTime = video.currentTime;
+  
+      audio.currentTime = video.currentTime;
     durationtime.value = video.currentTime;
   }
 });
@@ -78,7 +83,10 @@ muteButton.addEventListener("click", function() {
     
   if (video.muted === false && audio.muted === false) {
     // Mute the video
-    audio.muted=true;
+    
+        audio.muted=true;
+    
+        video.muted=true;
     // Update the button text
     muteButton.value = "Unmute";
     volumeBar.value = 0;
@@ -87,7 +95,10 @@ muteButton.addEventListener("click", function() {
   
     else {
     // Unmute the video
-    audio.muted=false;
+    
+        audio.muted=false;
+    
+        video.muted=false;
     // Update the button text
     muteButton.value = "Mute";
     volumeBar.value = 50;
@@ -112,10 +123,15 @@ seekBar.addEventListener("change", function() {
   // Calculate the new time
   var time = video.duration * (seekBar.value / 100);
 //  var timea = audio.duration * (seekBar.value / 100);
-
   // Update the video time
   video.currentTime = time;
   audio.currentTime = video.currentTime;
+  
+  if (video.paused === true && audio.paused === true) {
+    playButton.value = "Play";
+  } else {
+    playButton.value = "Pause";
+  }
   
 });
 
@@ -129,7 +145,7 @@ video.addEventListener("timeupdate", function() {
     }
   // Update the slider value
   seekBar.value = value;
-  audio.currentTime = video.currentTime;
+   audio.currentTime = video.currentTime;
   
   var curmins = Math.floor(video.currentTime / 60);
   var cursecs = Math.floor(video.currentTime - curmins * 60);
@@ -148,6 +164,7 @@ video.addEventListener("timeupdate", function() {
       durmins = "0"+durmins; 
   } 
   currenttime.innerHTML = curmins+":"+cursecs;
+
   durationtime.innerHTML = "|"+durmins+":"+dursecs;
   
 });
@@ -157,6 +174,7 @@ video.addEventListener("timeupdate", function() {
 seekBar.addEventListener("mousedown", function() {
   video.pause();
   audio.pause();
+  audio.currentTime = video.currentTime;
 });
 
 
@@ -164,6 +182,7 @@ seekBar.addEventListener("mousedown", function() {
 seekBar.addEventListener("mouseup", function() {
   video.play();
   audio.play();
+  audio.currentTime = video.currentTime;
 });
 
 

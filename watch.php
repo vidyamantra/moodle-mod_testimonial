@@ -55,7 +55,7 @@ $PAGE->set_context($context);
 // Output starts here                         
 echo $OUTPUT->header();
 
- if(isset($videofile) && isset($audiofile)){
+ if(isset($videofile)){
      
         //fetching video details from database
        $queryv = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?', array($videofile,$testimonial->id));
@@ -65,10 +65,15 @@ echo $OUTPUT->header();
                 $title=$value->videotitle;
         }
          //fetching audio details from database  
-       $querya = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?', array($audiofile,$testimonial->id));
-       foreach ($querya as $value) { 
+      // $audioexist= $DB->record_exists('testimonial_videos', array('testimonial_id' =>$testimonial->id, 'name'=>$audiofile));
+      //     print_r($audioexist);
+       
+        if($audiofile!='combined'){
+          $querya = $DB->get_records_sql('SELECT * FROM {testimonial_videos} WHERE name = ? AND testimonial_id = ?', array($audiofile,$testimonial->id));
+          foreach ($querya as $value) { 
                 $aid=$value->id;
                 $url2=$value->url;
+          }
         }
         
         echo html_writer::start_tag('div', array('class'=>'youwatching','align'=>'center'));
@@ -86,7 +91,13 @@ echo $OUTPUT->header();
                 $table->data[]=$watchtable;
                 $watchtable=array();
                  //audio video display block
+                 //check brower compatibility
+                if($audiofile!='combined'){
                   $audiobuff=html_writer::start_tag('audio', array('src'=> $url2 , 'id' => 'audio','class'=>'audiowatch')).html_writer::end_tag('audio');//audio player
+                }
+                else{
+                   $audiobuff=''; 
+                }
                   $videobuff=html_writer::start_tag('div', array('id' => 'video-container')).html_writer::start_tag('video', array('src'=> $url, 'id' => 'video','class'=>'videowatch')).html_writer::end_tag('video').html_writer::end_tag('div');//video player
                  
                   $seeking= html_writer::empty_tag('input', array('type' => 'range', 'id'=>'seek-bar', 'class'=>'watchbar'));

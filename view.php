@@ -96,12 +96,6 @@ update_serial_num();
   
 //display the testimonial live recording page
 if(!isset($postdatabse) && isset($getrecord)){
-  //check brower compatibility
-  if(checkBrowser()!='chrome'){
-      echo html_writer::start_tag('div', array('class'=>'alert alert-error'));
-        echo get_string('usechromerecord','testimonial');
-      echo html_writer::end_tag('div');
-   }
     
   //create new table
   $table=create_table();
@@ -228,11 +222,13 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
          $row='';
          $stattable[]=get_string('totaltestimonials', 'testimonial');
          //code for count total testimonials
-         $counter=0;
+         $totaltestimonial=0;
          foreach ($queryall as $value) {
-             $testimonialcount=$counter++;
+          if(isvideofile($value->name)=='mbew'){
+             $totaltestimonial++;
           }
-         $totaltestimonial=round($testimonialcount/2);//end block
+        }
+        // $totaltestimonial=round($testimonialcount);//end block
          $stattable[]= $totaltestimonial;
          $table->data[] =$stattable;
 
@@ -313,6 +309,7 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
             }
            }
     //retrieve all values from query   
+    $consecutive=0;       
     foreach ($query as $value) { 
        $dataarr=array();
        $videoids=$value->id.'/'.$value->name;
@@ -327,7 +324,9 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
             $sql='SELECT firstname,lastname FROM {user} WHERE id = ?';  
             $username = $DB->get_record_sql($sql, array($value->user_id));
 
+            
             if($char=='mbew') {
+                $consecutive++;
               if (has_capability('mod/testimonial:manage', $context) || has_capability('mod/testimonial:multipledelete', $context)) {  
                  $dataarr[]=$username->firstname.' '.$username->lastname;
               }
@@ -335,7 +334,24 @@ if(!empty($getvidname) || (isset($id) && !isset($getrecord))){
               $cropeditem= substr($revitem,4);
               $videofile=  trim(strrev($cropeditem).'webm');
               $audiofile=  trim(strrev($cropeditem).'wav');
-              $dataarr[]="<a  href=\"javascript:create_window('watch.php?vf=$videofile&af=$audiofile&cmid=$id')\">$value->videotitle</a><br />";
+              
+              $merge=0;
+               $result = $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id AND name='$videofile' ");
+                 foreach ($result as $value) {
+                     $merge++;
+                  }
+                 
+              $result = $DB->get_records_sql("SELECT * FROM {testimonial_videos} WHERE testimonial_id=$testimonial->id AND name='$audiofile' ");
+                 foreach ($result as $value) {
+                     $merge++;
+                  }
+                  if($merge==1){
+                      $audiofilename='combined';
+                  }
+                  else{
+                      $audiofilename=  trim(strrev($cropeditem).'wav');
+                  }
+              $dataarr[]="<a  href=\"javascript:create_window('watch.php?vf=$videofile&af=$audiofilename&cmid=$id')\">$value->videotitle</a><br />";
 
               $dataarr[]=userdate($value->datetime);
             }
